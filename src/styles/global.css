@@ -104,6 +104,12 @@ section {
   z-index: 2;
 }
 
+@media (max-width: 968px) {
+  section {
+    padding: 80px 0;
+  }
+}
+
 /* Botões Magnéticos Estilo Pílula */
 .btn-wrapper {
   display: inline-block;

@@ -71,20 +71,16 @@
       );
 
       // Fade content
-      gsap.fromTo('.fade-about',
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.2, ease: 'power2.out', stagger: 0.2,
-          scrollTrigger: { trigger: '.about-chapter', start: 'top 80%' }
-        }
-      );
+      gsap.from('.fade-about', {
+        y: 40, opacity: 0, duration: 1.2, ease: 'power2.out', stagger: 0.2,
+        scrollTrigger: { trigger: '.about-chapter', start: 'top 85%' }
+      });
 
       // Stagger Cards
-      gsap.fromTo('.work-card',
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: 'power3.out', stagger: 0.15,
-          scrollTrigger: { trigger: '.work-cards', start: 'top 85%' }
-        }
-      );
+      gsap.from('.work-card', {
+        y: 50, opacity: 0, duration: 1, ease: 'power3.out', stagger: 0.15,
+        scrollTrigger: { trigger: '.work-cards', start: 'top 85%' }
+      });
     });
     
     // Para prefers-reduced-motion: reduce, não fazemos nada (as coisas já estão visíveis no CSS por padrão, e sem clipPath inicial)

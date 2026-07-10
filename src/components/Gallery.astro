@@ -30,14 +30,14 @@
     </div>
     
     <div class="tile span-4 gallery-item">
-      <div class="img-inner"><img src="https://images.unsplash.com/photo-1532053150531-fa9cb73b3e15?auto=format&fit=crop&q=80&w=500" alt="Criança manipulando números" loading="lazy" decoding="async" /></div>
+      <div class="img-inner"><img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=500" alt="Criança manipulando números" loading="lazy" decoding="async" /></div>
       <div class="overlay">
         <span class="cap">Adaptação e participação</span>
       </div>
     </div>
     
     <div class="tile span-4 gallery-item">
-      <div class="img-inner"><img src="https://images.unsplash.com/photo-1611077544766-3d778fb86b36?auto=format&fit=crop&q=80&w=500" alt="Jogo de madeira" loading="lazy" decoding="async" /></div>
+      <div class="img-inner"><img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80&w=500" alt="Jogo de madeira" loading="lazy" decoding="async" /></div>
       <div class="overlay">
         <span class="cap">Atenção, percepção e planejamento</span>
       </div>
@@ -55,10 +55,10 @@
     
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       // Reveal Title
-      gsap.fromTo('.gallery-title',
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.gallery-title', start: 'top 85%' } }
-      );
+      gsap.from('.gallery-title', {
+        y: 50, opacity: 0, duration: 1, ease: 'power3.out',
+        scrollTrigger: { trigger: '.gallery-title', start: 'top 85%' }
+      });
 
       // Staggered Mask Reveal for Images
       const items = document.querySelectorAll('.gallery-item');
