@@ -1,225 +1,145 @@
----
-// Hero.astro
----
-
 <section id="hero" class="hero-section container">
   <div class="hero-grid">
     <div class="hero-content">
       <h1 class="hero-title">
-        <span class="line-wrap"><span class="line-text">O caminho</span></span>
-        <span class="line-wrap"><span class="line-text">da aprendizagem</span></span>
-        <span class="line-wrap"><span class="line-text"><span class="italic-serif">com propósito.</span></span></span>
+        <span>O caminho</span>
+        <span>da aprendizagem</span>
+        <span class="italic-serif">com propósito.</span>
       </h1>
-      <p class="fade-up-text" style="opacity: 0;">Sou Ana Rita Marques, pedagoga especialista em neurodesenvolvimento e inclusão. Minha missão é traduzir a complexidade da aprendizagem em práticas reais que acolhem e desenvolvem.</p>
-      
-      <div class="actions fade-up-text" style="opacity: 0;">
-        <div class="btn-wrapper magnetic">
-          <a class="btn btn-primary" href="#sobre">Conhecer Trajetória</a>
-        </div>
-        <div class="btn-wrapper magnetic" style="margin-left: 16px;">
-          <a class="btn btn-glass" href="#projetos">Projetos</a>
-        </div>
+      <p>Sou Ana Rita Marques, pedagoga especialista em neurodesenvolvimento e inclusão. Minha missão é traduzir a complexidade da aprendizagem em práticas reais que acolhem e desenvolvem.</p>
+
+      <div class="actions">
+        <a class="btn btn-primary" href="#sobre">Conhecer Trajetória</a>
+        <a class="btn btn-glass" href="#projetos">Projetos</a>
       </div>
     </div>
-    
+
     <div class="hero-visual">
-      <!-- Animated rotating dashed ring -->
-      <svg class="ring-dashed rotating" viewBox="0 0 200 200">
+      <svg class="ring-dashed" viewBox="0 0 200 200" aria-hidden="true">
         <circle cx="100" cy="100" r="95" fill="none" stroke="var(--brand-gold)" stroke-width="1" stroke-dasharray="4 6" />
       </svg>
-      
-      <!-- Solid ring that "draws" itself -->
-      <svg class="ring-solid draw-in" viewBox="0 0 200 200">
+      <svg class="ring-solid" viewBox="0 0 200 200" aria-hidden="true">
         <circle cx="100" cy="100" r="85" fill="none" stroke="var(--brand-purple)" stroke-width="2" />
       </svg>
 
-      <div class="portrait-wrapper mask-reveal">
-        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800&h=1000" alt="Ana Rita Marques - Pedagoga" class="portrait-img" />
+      <div class="portrait-wrapper">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800&h=1000" alt="Ana Rita Marques — Pedagoga" width="800" height="1000" fetchpriority="high" />
       </div>
-      
-      <!-- Overlapping elegant badge -->
-      <div class="badge fade-up-text" style="opacity: 0;">
+
+      <div class="badge">
         <span class="badge-num">10+</span>
-        <span class="badge-text">Anos de <br/> Prática</span>
+        <span class="badge-text">Anos de<br />prática</span>
       </div>
     </div>
   </div>
 </section>
 
-<script>
-  import { gsap } from 'gsap';
-
-  document.addEventListener('DOMContentLoaded', () => {
-    let mm = gsap.matchMedia();
-    
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-
-      // Animate manual Split Lines instead of using split-type library (which breaks HTML spans)
-      tl.from('.line-text', {
-        yPercent: 120,
-        rotationZ: 3,
-        opacity: 0,
-        duration: 1.2,
-        stagger: 0.15,
-        delay: 0.2
-      })
-      
-      .fromTo('.fade-up-text', 
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, stagger: 0.1 },
-        "-=0.8"
-      )
-
-      .fromTo('.mask-reveal', 
-        { clipPath: 'polygon(0 100%, 100% 100%, 100% 100%, 0% 100%)' },
-        { clipPath: 'polygon(0 0%, 100% 0%, 100% 100%, 0% 100%)', duration: 1.5, ease: 'expo.inOut' },
-        "-=1.2"
-      )
-      
-      .fromTo('.portrait-img', 
-        { scale: 1.2 },
-        { scale: 1, duration: 2, ease: 'power3.out' },
-        "-=1.5"
-      );
-
-      const solidCircle = document.querySelector('.ring-solid circle');
-      if(solidCircle) {
-        const length = solidCircle.getTotalLength();
-        gsap.set(solidCircle, { strokeDasharray: length, strokeDashoffset: length });
-        tl.to(solidCircle, { strokeDashoffset: 0, duration: 1.5, ease: 'power3.inOut' }, "-=1.5");
-      }
-    });
-
-    mm.add("(prefers-reduced-motion: reduce)", () => {
-      // Show instantly
-      gsap.set('.line-text, .fade-up-text, .mask-reveal', { opacity: 1, y: 0, yPercent: 0, clipPath: 'none' });
-    });
-  });
-</script>
-
 <style>
   .hero-section {
-    min-height: 100vh;
+    min-height: min(820px, calc(100vh - 76px));
     display: flex;
     align-items: center;
-    padding-top: 100px;
+    padding-top: clamp(40px, 7vw, 88px);
   }
 
   .hero-grid {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 40px;
+    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+    gap: clamp(32px, 5vw, 72px);
     align-items: center;
   }
 
-  /* Manual Split Text */
-  .line-wrap {
+  .hero-title span {
     display: block;
-    overflow: hidden; /* Fix: changed to hidden to properly mask the text reveal animation */
-    padding-bottom: 8px; 
-  }
-
-  .line-text {
-    display: block;
-    transform-origin: left bottom;
+    padding-bottom: 4px;
   }
 
   .hero-content p {
-    font-size: 1.3rem;
-    max-width: 500px;
-    margin: 32px 0 48px;
+    max-width: 39rem;
+    margin: 28px 0 36px;
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
   .hero-visual {
     position: relative;
     width: 100%;
-    aspect-ratio: 1/1; /* Keeps SVG circles perfectly round */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
   }
 
   .portrait-wrapper {
-    width: 75%;
-    aspect-ratio: 4/5;
-    height: auto;
+    width: 76%;
+    aspect-ratio: 4 / 5;
     position: relative;
     z-index: 2;
-    border-radius: var(--radius-xl) var(--radius-xl) 0 var(--radius-xl);
     overflow: hidden;
+    border-radius: 24px 24px 0 24px;
   }
 
   .portrait-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transform-origin: center;
   }
 
-  .ring-dashed {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
-  .rotating {
-    animation: rotateSlowly 30s linear infinite;
-  }
-
+  .ring-dashed,
   .ring-solid {
     position: absolute;
-    width: 110%;
-    height: 110%;
-    z-index: 3;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    inset: 50% auto auto 50%;
     pointer-events: none;
+    transform: translate(-50%, -50%);
   }
+
+  .ring-dashed { width: 100%; height: 100%; z-index: 1; }
+  .ring-solid { width: 108%; height: 108%; z-index: 3; }
 
   .badge {
     position: absolute;
-    bottom: 5%;
-    right: 0%; /* Fix: avoid horizontal overflow from -10% */
-    background: var(--bg-primary);
-    padding: 24px 32px;
-    border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-lg);
+    right: 0;
+    bottom: 7%;
     z-index: 4;
     display: flex;
     align-items: center;
-    gap: 16px;
-    border-left: 4px solid var(--brand-purple);
+    gap: 14px;
+    padding: 18px 22px;
+    background: var(--bg-primary);
+    border: 1px solid var(--line-color);
+    border-radius: var(--radius-sm);
   }
 
   .badge-num {
-    font-family: var(--font-serif);
-    font-size: 3rem;
     color: var(--brand-gold);
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 3vw, 2.75rem);
     line-height: 1;
   }
 
   .badge-text {
-    font-family: var(--font-sans);
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
     color: var(--text-ink);
-    font-weight: 600;
-  }
-
-  @keyframes rotateSlowly {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1.35;
+    text-transform: uppercase;
   }
 
   @media (max-width: 968px) {
+    .hero-section { min-height: auto; padding-top: 56px; }
     .hero-grid { grid-template-columns: 1fr; gap: 40px; }
-    .hero-section { padding-top: 140px; min-height: auto; }
-    .badge { padding: 16px 20px; bottom: -20px; }
-    .badge-num { font-size: 2rem; }
+    .hero-title { font-size: clamp(2.5rem, 11vw, 3.25rem); }
+    .hero-content p { max-width: 34rem; }
+    .hero-visual { max-width: 460px; margin-inline: auto; }
+  }
+
+  @media (max-width: 480px) {
+    .actions .btn { width: 100%; }
+    .badge { right: 4%; bottom: 3%; padding: 14px 16px; }
   }
 </style>

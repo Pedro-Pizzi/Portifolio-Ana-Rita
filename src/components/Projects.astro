@@ -1,279 +1,49 @@
----
-// Projects.astro
----
-
-<section id="projetos" class="container">
-  
-  <!-- Nebula Section -->
-  <div class="project-grid nebula-grid">
-    <div class="visuals">
-      <div class="bg-shape mint-shape"></div>
-      <div class="main-img mask-img">
-        <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=600" alt="Nebula Audio" class="parallax-img" />
-      </div>
+<section id="projetos" class="container projects">
+  <div class="project-grid">
+    <div class="project-image nebula-image">
+      <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=800&h=960" alt="Pessoa utilizando fones de ouvido em ambiente calmo" width="800" height="960" loading="lazy" decoding="async" />
     </div>
-    
-    <div class="content chapter fade-group">
-      <!-- [P1 QUIETER] Kicker removido, usando hierarquia natural -->
-      <h2>Conforto sensorial <br/><span class="italic-serif">também é cuidado.</span></h2>
+    <div class="content">
+      <h2>Conforto sensorial <span class="italic-serif">também é cuidado.</span></h2>
       <p><strong>Embaixadora Nebula Audio:</strong> Essa parceria tem um significado especial para mim, porque também conversa com a minha própria vivência (TDAH e TPS). Sei na prática como ambientes com muitos estímulos impactam a atenção e o bem-estar.</p>
-      
-      <div class="coupon">Cupom: <strong>diariodeumaproinclusiva</strong></div>
-      
-      <div class="btn-wrapper magnetic">
-        <a class="btn btn-primary" href="https://www.nebulaaudio.com.br/" target="_blank" rel="noopener">Acessar Nebula Audio</a>
-      </div>
+      <p class="coupon">Cupom: <strong>diariodeumaproinclusiva</strong></p>
+      <a class="btn btn-primary" href="https://www.nebulaaudio.com.br/" target="_blank" rel="noopener">Acessar Nebula Audio</a>
     </div>
   </div>
 
-  <!-- Sistema ANA Section -->
-  <div class="project-grid system-grid" style="margin-top: 80px;">
-    <div class="content chapter fade-group">
+  <div class="project-grid project-grid-reverse">
+    <div class="content">
       <h2>Sistema A.N.A.</h2>
-      <p><strong>Projeto Idealizado:</strong> Uma plataforma criada a partir da minha vivência na educação e da necessidade de organizar melhor registros, relatórios, planejamentos, PEI, gráficos e acompanhamentos dos aprendizes.</p>
+      <p><strong>Projeto idealizado:</strong> uma plataforma criada a partir da minha vivência na educação e da necessidade de organizar melhor registros, relatórios, planejamentos, PEI, gráficos e acompanhamentos dos aprendizes.</p>
       <p>Transformando dificuldades reais da rotina educacional em ferramentas práticas para profissionais.</p>
-      
-      <div class="btn-wrapper magnetic" style="margin-top:24px;">
-        <a class="btn btn-primary" href="https://anasistema.com.br" target="_blank" rel="noopener">Conhecer o Sistema</a>
-      </div>
+      <a class="btn btn-primary" href="https://anasistema.com.br" target="_blank" rel="noopener">Conhecer o Sistema</a>
     </div>
-
-    <div class="visuals phone-mockups">
-      <div class="bg-shape butter-shape"></div>
-      
-      <div class="phone-wrapper phone-1-wrapper">
-        <div class="phone float-1">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400" alt="Sistema ANA App" />
-        </div>
-      </div>
-      <div class="phone-wrapper phone-2-wrapper">
-        <div class="phone float-2">
-          <img src="https://images.unsplash.com/photo-1607252656733-fd7458bc97dc?auto=format&fit=crop&q=80&w=400" alt="Sistema ANA Dashboard" />
-        </div>
-      </div>
+    <div class="system-preview" aria-label="Prévia visual do Sistema A.N.A.">
+      <img class="phone-back" src="https://images.unsplash.com/photo-1607252656733-fd7458bc97dc?auto=format&fit=crop&q=80&w=480&h=960" alt="Tela de painel do Sistema ANA" width="480" height="960" loading="lazy" decoding="async" />
+      <img class="phone-front" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=480&h=960" alt="Tela de aplicativo do Sistema ANA" width="480" height="960" loading="lazy" decoding="async" />
     </div>
   </div>
-
 </section>
 
-<script>
-  import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-  gsap.registerPlugin(ScrollTrigger);
-
-  document.addEventListener('DOMContentLoaded', () => {
-    let mm = gsap.matchMedia();
-    
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      // Floating Animation for Phones
-      gsap.to('.float-1', {
-        y: -20,
-        rotation: -6,
-        duration: 3,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1
-      });
-
-      gsap.to('.float-2', {
-        y: 20,
-        rotation: 8,
-        duration: 4,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1
-      });
-
-      // Mask Reveals
-      const masks = document.querySelectorAll('.mask-img');
-      masks.forEach(mask => {
-        gsap.fromTo(mask,
-          { clipPath: 'inset(100% 0 0 0)' },
-          { 
-            clipPath: 'inset(0% 0 0 0)', 
-            duration: 1.5, 
-            ease: 'expo.inOut',
-            scrollTrigger: { trigger: mask, start: 'top 85%' }
-          }
-        );
-      });
-
-      // Content Fades
-      const fadeGroups = document.querySelectorAll('.fade-group');
-      fadeGroups.forEach(group => {
-        gsap.from(group.children, {
-          y: 30, opacity: 0, duration: 1, stagger: 0.1, ease: 'power2.out',
-          scrollTrigger: { trigger: group, start: 'top 85%' }
-        });
-      });
-
-      // Shape Parallax
-      gsap.to('.mint-shape', {
-        yPercent: 40,
-        scrollTrigger: { trigger: '.nebula-grid', scrub: true }
-      });
-      
-      gsap.to('.butter-shape', {
-        yPercent: -40,
-        scrollTrigger: { trigger: '.system-grid', scrub: true }
-      });
-    });
-  });
-</script>
-
 <style>
-  .project-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
+  .projects { display: grid; gap: clamp(80px, 12vw, 152px); }
+  .project-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: clamp(40px, 7vw, 88px); }
+  .content h2 { margin-bottom: 24px; font-size: clamp(2.5rem, 4.5vw, 4.5rem); }
+  .content p { margin-bottom: 20px; font-size: 1.08rem; }
+  .project-image { min-height: 560px; overflow: hidden; border-radius: var(--radius-lg) var(--radius-lg) 0 var(--radius-lg); background: var(--accent-mint); }
+  .project-image img { width: 100%; height: 100%; object-fit: cover; }
+  .coupon { display: inline-block; padding: 12px 16px; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--accent-butter) 78%, white); color: var(--text-ink); }
+  .coupon strong { color: var(--brand-purple); }
+  .system-preview { position: relative; min-height: 560px; display: grid; place-items: center; isolation: isolate; }
+  .system-preview::before { content: ''; position: absolute; inset: 8%; z-index: -1; border-radius: 50%; background: var(--accent-mint); }
+  .system-preview img { width: min(48%, 260px); aspect-ratio: 1 / 2; object-fit: cover; border: 10px solid white; border-radius: 26px; box-shadow: 0 8px 20px rgba(43, 34, 48, 0.14); }
+  .phone-back { transform: translateX(22%) rotate(6deg); }
+  .phone-front { transform: translateX(-22%) rotate(-5deg); }
+  @media (max-width: 900px) {
+    .project-grid { grid-template-columns: 1fr; }
+    .project-grid-reverse .content { order: 1; }
+    .project-grid-reverse .system-preview { order: 2; }
+    .project-image, .system-preview { min-height: 420px; }
   }
-
-  .system-grid {
-    grid-template-columns: 1.1fr 1fr;
-  }
-
-  .chapter {
-    padding: 0;
-  }
-
-  .content h2 {
-    margin: 16px 0 24px;
-    font-size: 3.5rem;
-  }
-
-  .content p {
-    margin-bottom: 24px;
-    font-size: 1.15rem;
-  }
-
-  .coupon {
-    display: inline-block;
-    padding: 16px 24px;
-    border-radius: 999px;
-    background: var(--bg-secondary);
-    font-family: var(--font-sans);
-    color: var(--text-ink);
-    margin: 16px 0 32px;
-  }
-  
-  .coupon strong {
-    color: var(--brand-purple);
-    font-weight: 700;
-  }
-
-  .visuals {
-    position: relative;
-    height: 100%;
-    min-height: 700px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .bg-shape {
-    position: absolute;
-    border-radius: 50%;
-    z-index: 1;
-  }
-
-  .mint-shape {
-    width: 120%;
-    height: 120%;
-    background: var(--accent-mint);
-    right: 10%;
-    top: -10%;
-  }
-
-  .butter-shape {
-    width: 130%;
-    height: 130%;
-    background: var(--accent-butter);
-    left: 10%;
-    bottom: -10%;
-  }
-
-  .main-img {
-    width: 85%;
-    aspect-ratio: 3/4;
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    overflow: hidden;
-    z-index: 2;
-    box-shadow: var(--shadow-lg);
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .mask-img { clip-path: inset(100% 0 0 0); }
-  }
-
-  .main-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .phone-mockups {
-    position: relative;
-  }
-
-  .phone {
-    width: 280px;
-    height: 580px;
-    background: white;
-    border-radius: 40px;
-    padding: 12px;
-    box-shadow: 0 40px 80px rgba(0,0,0,0.1);
-    z-index: 2;
-  }
-
-  .phone img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 28px;
-  }
-
-  .phone-wrapper {
-    position: absolute;
-    transform-origin: center;
-  }
-
-  .phone-1-wrapper {
-    transform: rotate(-4deg) translateX(-40px);
-    z-index: 2;
-  }
-
-  .phone-2-wrapper {
-    transform: rotate(6deg) translateX(80px) translateY(40px);
-    z-index: 3;
-  }
-  
-  .phone-2-wrapper .phone {
-    box-shadow: 0 40px 80px rgba(0,0,0,0.15);
-  }
-
-  @media (max-width: 968px) {
-    .project-grid { grid-template-columns: 1fr; gap: 40px; }
-    .system-grid { display: flex; flex-direction: column; }
-    .content h2 { font-size: 2.5rem; }
-    .visuals { min-height: 450px; }
-    .mint-shape, .butter-shape { width: 100%; height: 100%; border-radius: 24px; }
-    
-    .phone-mockups {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: unset;
-      margin-top: 64px;
-    }
-    .phone {
-      width: 200px;
-      height: 420px;
-    }
-    .phone-wrapper {
-      position: relative;
-    }
-    .phone-1-wrapper { transform: rotate(-4deg); z-index: 2; }
-    .phone-2-wrapper { transform: rotate(6deg) translateY(40px); z-index: 3; margin-left: -80px; }
-  }
+  @media (max-width: 480px) { .project-image, .system-preview { min-height: 340px; } }
 </style>

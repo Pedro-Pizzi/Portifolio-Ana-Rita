@@ -24,9 +24,9 @@
   /* Bordas */
   --radius-sm: 8px;
   --radius-md: 16px;
-  --radius-lg: 32px;
-  --radius-xl: 48px;
-
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  scroll-behavior: smooth;
   /* Sombras */
   --shadow-sm: 0 4px 20px rgba(72, 54, 82, 0.05);
   --shadow-lg: 0 16px 40px rgba(72, 54, 82, 0.1);
@@ -47,10 +47,12 @@ html {
 
 body {
   line-height: 1.6;
-  font-size: 1.1rem;
+  font-size: 1rem;
   overflow-x: hidden;
-  position: relative;
-  /* Cursor events will be handled dynamically, but we add a custom trailing cursor */
+  background:
+    radial-gradient(circle at 92% 8%, rgba(226, 239, 234, 0.82), transparent 31rem),
+    radial-gradient(circle at 6% 58%, rgba(253, 245, 214, 0.68), transparent 28rem),
+    var(--bg-primary);
 }
 
 /* Typography Editorial */
@@ -62,7 +64,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-size: clamp(2.6rem, 5.8vw, 5.5rem);
   letter-spacing: -0.02em;
 }
 
@@ -95,13 +97,12 @@ p {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding-inline: clamp(20px, 4vw, 40px);
 }
 
 section {
-  padding: 120px 0;
+  padding: clamp(72px, 10vw, 120px) 0;
   position: relative;
-  z-index: 2;
 }
 
 @media (max-width: 968px) {
@@ -110,10 +111,8 @@ section {
   }
 }
 
-/* Botões Magnéticos Estilo Pílula */
 .btn-wrapper {
-  display: inline-block;
-  /* For magnetic hover calculations */
+  display: inline-flex;
 }
 
 .btn {
@@ -129,10 +128,7 @@ section {
   letter-spacing: 0.02em;
   position: relative;
   overflow: hidden;
-  z-index: 1;
-  /* Transform transitions handled by GSAP when magnetic, but fallback here */
-  transition: color 0.4s ease, border-color 0.4s ease;
-  will-change: transform;
+  transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
 }
 
 /* Fill effect on hover */
@@ -179,53 +175,19 @@ section {
   background: var(--brand-purple);
 }
 
-/* Lenis Smooth Scroll Recommended CSS */
-html.lenis, html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
+img {
+  display: block;
+  max-width: 100%;
 }
 
-/* Utilities for SplitType Animations */
-.split-line {
-  overflow: hidden;
-}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 
-/* Custom Cursor */
-.custom-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 12px;
-  height: 12px;
-  background-color: var(--brand-gold);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s, height 0.3s, background-color 0.3s;
-  
-}
-
-.custom-cursor.hovering {
-  width: 48px;
-  height: 48px;
-  background-color: white;
-  
-}
-
-@media (max-width: 1024px) {
-  .custom-cursor {
-    display: none !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

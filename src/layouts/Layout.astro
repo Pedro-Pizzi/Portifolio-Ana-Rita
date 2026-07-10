@@ -13,281 +13,91 @@ const { title } = Astro.props;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width" />
+  <meta name="description" content="Portfólio de Ana Rita de Mattos Marques — Pedagoga e especialista em educação inclusiva." />
   <title>{title}</title>
-  <meta name="description" content="Portfólio de Ana Rita de Mattos Marques - Pedagoga e Educação Inclusiva" />
 </head>
 <body>
-
-  <!-- Custom Cursor -->
-  <div class="custom-cursor" id="cursor"></div>
-
-  <!-- Global SVG Backgrounds (Editorial Parallax Style) -->
-  <div class="bg-shapes" id="bg-shapes">
-    <svg class="bg-circle c1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="50" cy="50" r="50" fill="var(--accent-mint)" />
-    </svg>
-    <svg class="bg-circle c2" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="50" cy="50" r="50" fill="var(--brand-gold)" opacity="0.15" />
-    </svg>
-  </div>
-
-  <header class="topbar" id="topbar">
+  <header class="topbar">
     <div class="container topbar-inner">
-      <div class="logo magnetic">
-        <span class="logo-serif">Ana Rita</span> <span class="logo-sans">Pedagoga</span>
+      <div class="logo">
+        <span class="logo-serif">Ana Rita</span>
+        <span class="logo-sans">Pedagoga</span>
       </div>
-      <nav class="links">
-        <a href="#sobre" class="magnetic-text">Trajetória</a>
-        <a href="#galeria" class="magnetic-text">Prática</a>
-        <a href="#formacao" class="magnetic-text">Formação</a>
-        <div class="btn-wrapper magnetic">
-          <a href="#projetos" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.9rem;">Contato</a>
-        </div>
+      <nav class="links" aria-label="Navegação principal">
+        <a href="#sobre" class="nav-link">Trajetória</a>
+        <a href="#galeria" class="nav-link">Prática</a>
+        <a href="#formacao" class="nav-link">Formação</a>
+        <a href="#projetos" class="btn btn-primary nav-cta">Contato</a>
       </nav>
     </div>
   </header>
 
   <slot />
-
-  <script>
-    import Lenis from 'lenis';
-    import { gsap } from 'gsap';
-    import { ScrollTrigger } from 'gsap/ScrollTrigger';
-    
-    gsap.registerPlugin(ScrollTrigger);
-
-    // [P0 HARDEN] MatchMedia para Acessibilidade (prefers-reduced-motion)
-    let mm = gsap.matchMedia();
-
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      // Somente para usuários que aceitam animações
-      
-      // 1. Initialize Lenis (Smooth Scrolling)
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // expo-out
-        smoothWheel: true
-      });
-
-      lenis.on('scroll', ScrollTrigger.update);
-
-      gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-      });
-
-      gsap.ticker.lagSmoothing(0);
-
-      // 2. Custom Cursor Logic
-      const cursor = document.getElementById('cursor');
-      if (cursor && window.innerWidth > 1024) {
-        // Esconde o cursor padrão do SO e arruma o offset
-        document.body.style.cursor = 'none';
-        gsap.set(cursor, { xPercent: -50, yPercent: -50 });
-
-        let xTo = gsap.quickTo(cursor, "x", {duration: 0.1, ease: "power3"});
-        let yTo = gsap.quickTo(cursor, "y", {duration: 0.1, ease: "power3"});
-
-        window.addEventListener('mousemove', (e) => {
-          xTo(e.clientX);
-          yTo(e.clientY);
-        });
-
-        document.querySelectorAll('a, button, .magnetic').forEach(el => {
-          el.style.cursor = 'none';
-          el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-          el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
-        });
-      }
-
-      // 3. Magnetic Elements (Buttons and Logo)
-      const magnets = document.querySelectorAll('.magnetic');
-      magnets.forEach((magnet) => {
-        magnet.addEventListener('mousemove', (e) => {
-          const position = magnet.getBoundingClientRect();
-          const x = e.clientX - position.left - position.width / 2;
-          const y = e.clientY - position.top - position.height / 2;
-
-          gsap.to(magnet, {
-            x: x * 0.2, 
-            y: y * 0.2,
-            duration: 0.8,
-            ease: 'power3.out'
-          });
-        });
-
-        magnet.addEventListener('mouseleave', () => {
-          gsap.to(magnet, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.3)' });
-        });
-      });
-
-      // 4. Global Parallax Background
-      const bgShapes = document.querySelectorAll('.bg-circle');
-      bgShapes.forEach((shape, i) => {
-        gsap.to(shape, {
-          yPercent: (i + 1) * -30,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: document.body,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: true
-          }
-        });
-      });
-
-      // 5. Topbar blur effect on scroll
-      const topbar = document.getElementById('topbar');
-      if(topbar) {
-        ScrollTrigger.create({
-          start: 'top -80',
-          onUpdate: (self) => {
-            if(self.direction === 1) {
-              gsap.to(topbar, { yPercent: -100, duration: 0.4, ease: 'power2.inOut', overwrite: 'auto' });
-            } else {
-              gsap.to(topbar, { yPercent: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
-            }
-          }
-        });
-      }
-
-      // Refresh ScrollTrigger when images load and layout shifts
-      window.addEventListener('load', () => {
-        ScrollTrigger.refresh();
-      });
-      
-      const ro = new ResizeObserver(() => {
-        ScrollTrigger.refresh();
-      });
-      ro.observe(document.body);
-
-      // Cleanup on destroy
-      return () => {
-        lenis.destroy();
-      }
-    });
-
-    mm.add("(prefers-reduced-motion: reduce)", () => {
-      // Para usuários que não querem animação, escondemos o cursor customizado via JS
-      const cursor = document.getElementById('cursor');
-      if(cursor) cursor.style.display = 'none';
-      
-      const topbar = document.getElementById('topbar');
-      if(topbar) {
-        // Fallback básico para a barra superior
-        window.addEventListener('scroll', () => {
-          if(window.scrollY > 80) topbar.style.transform = 'translateY(-100%)';
-          else topbar.style.transform = 'translateY(0)';
-        });
-      }
-    });
-
-  </script>
 </body>
 </html>
 
 <style>
-  .bg-shapes {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    z-index: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-
-  .bg-circle {
-    position: absolute;
-    border-radius: 50%;
-  }
-
-  .c1 {
-    width: 120vw;
-    height: 120vw;
-    top: -60vw;
-    right: -40vw;
-    opacity: 0.6;
-    filter: blur(40px);
-  }
-
-  .c2 {
-    width: 80vw;
-    height: 80vw;
-    bottom: -40vw;
-    left: -20vw;
-    filter: blur(60px);
-  }
-
   .topbar {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 24px 0;
-    background: linear-gradient(to bottom, color-mix(in srgb, var(--bg-primary) 100%, transparent) 0%, transparent 100%);
-    transition: transform 0.3s ease;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    padding: 18px 0;
+    background: color-mix(in srgb, var(--bg-primary) 94%, white);
+    border-bottom: 1px solid var(--line-color);
   }
 
-  .topbar-inner {
+  .topbar-inner,
+  .links,
+  .logo {
     display: flex;
-    justify-content: space-between;
     align-items: center;
   }
 
-  .logo {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    color: var(--brand-purple);
-    cursor: pointer;
+  .topbar-inner {
+    justify-content: space-between;
+    gap: 24px;
   }
 
+  .logo { gap: 8px; }
+
   .logo-serif {
+    color: var(--brand-purple);
     font-family: var(--font-serif);
     font-size: 1.5rem;
     font-weight: 700;
   }
 
   .logo-sans {
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    text-transform: uppercase;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
     letter-spacing: 0.1em;
-    opacity: 0.7;
+    text-transform: uppercase;
   }
 
-  .links {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-  }
+  .links { gap: clamp(16px, 2.5vw, 32px); }
 
-  .magnetic-text {
-    text-decoration: none;
+  .nav-link {
     color: var(--text-ink);
-    font-weight: 500;
     font-size: 0.95rem;
-    position: relative;
-  }
-  
-  .magnetic-text::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--brand-gold);
-    transition: width 0.3s ease;
+    font-weight: 500;
+    text-decoration: none;
   }
 
-  .magnetic-text:hover::after {
-    width: 100%;
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    color: var(--brand-purple-light);
+  }
+
+  .nav-cta {
+    padding: 10px 22px;
+    font-size: 0.9rem;
   }
 
   @media (max-width: 768px) {
-    .links a:not(.btn) { display: none; }
-    .c1 { width: 200vw; height: 200vw; top: -100vw; right: -50vw; }
+    .topbar { padding: 14px 0; }
+    .links .nav-link { display: none; }
+    .logo-serif { font-size: 1.25rem; }
+    .logo-sans { font-size: 0.7rem; }
   }
 </style>
