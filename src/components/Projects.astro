@@ -36,9 +36,9 @@
   .coupon strong { color: var(--brand-purple); }
   .system-preview { position: relative; min-height: 560px; display: grid; place-items: center; isolation: isolate; }
   .system-preview::before { content: ''; position: absolute; inset: 8%; z-index: -1; border-radius: 50%; background: var(--accent-mint); }
-  .system-preview img { width: min(48%, 260px); aspect-ratio: 1 / 2; object-fit: cover; border: 10px solid white; border-radius: 26px; box-shadow: 0 8px 20px rgba(43, 34, 48, 0.14); }
-  .phone-back { transform: translateX(22%) rotate(6deg); }
-  .phone-front { transform: translateX(-22%) rotate(-5deg); }
+  .system-preview img { grid-area: 1 / 1; width: min(48%, 260px); aspect-ratio: 1 / 2; object-fit: cover; border: 10px solid white; border-radius: 26px; box-shadow: 0 8px 20px rgba(43, 34, 48, 0.14); }
+  .phone-back { transform: translateX(22%) rotate(6deg); z-index: 1; }
+  .phone-front { transform: translateX(-22%) rotate(-5deg); z-index: 2; }
   @media (max-width: 900px) {
     .project-grid { grid-template-columns: 1fr; }
     .project-grid-reverse .content { order: 1; }
