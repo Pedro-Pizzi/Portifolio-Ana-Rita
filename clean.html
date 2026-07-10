@@ -1,0 +1,311 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ana Rita de Mattos Marques | Pedagoga</title>
+<meta name="description" content="Landing page de apresentaÃ§Ã£o de Ana Rita de Mattos Marques: pedagoga, atuaÃ§Ã£o na ClÃ­nica EvoluÃ§Ã£o, professora auxiliar da rede pÃºblica de Ibitinga, embaixadora Nebula Audio e idealizadora do Sistema A.N.A." />
+<style>
+:root{
+  --bg:#fff7f2;
+  --cream:#fffdf9;
+  --rose:#f7e2df;
+  --rose2:#fcefeb;
+  --lilac:#eadcf4;
+  --lilac2:#f6effb;
+  --mint:#e8f3ee;
+  --butter:#fff1d8;
+  --ink:#2b2230;
+  --muted:#75697a;
+  --purple:#6f2c83;
+  --purple2:#9a68ad;
+  --line:rgba(90,55,100,.14);
+  --shadow:0 26px 70px rgba(76,46,84,.14);
+  --soft-shadow:0 14px 36px rgba(76,46,84,.10);
+  --radius:34px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at 8% 2%, rgba(234,220,244,.95), transparent 380px),
+    radial-gradient(circle at 95% 12%, rgba(247,226,223,.9), transparent 420px),
+    linear-gradient(180deg,#fff7f2 0%,#fffdf9 28%,#faf2fb 100%);
+  line-height:1.55;
+  overflow-x:hidden;
+}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.38;background-image:radial-gradient(rgba(111,44,131,.17) .8px,transparent .8px);background-size:26px 26px;mask-image:linear-gradient(to bottom,black,transparent 78%);}
+a{color:inherit}
+.container{width:min(1120px,calc(100% - 34px));margin:0 auto}
+section{position:relative;padding:82px 0}
+.section-title{margin:0 0 28px}
+.kicker{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);background:rgba(255,255,255,.72);backdrop-filter:blur(18px);border-radius:999px;color:var(--purple);font-weight:900;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;padding:8px 13px;box-shadow:0 8px 24px rgba(76,46,84,.06)}
+.kicker:before{content:"âœ¦";color:#ca9e5e}
+h1,h2,h3{line-height:1.02;margin:0}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(3.25rem,8.3vw,7.25rem);letter-spacing:-.06em;max-width:760px}
+h2{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.2rem,5vw,4.6rem);letter-spacing:-.045em;max-width:850px}
+h3{font-size:1.22rem;letter-spacing:-.025em}
+p{font-size:1.06rem;color:var(--muted);margin:16px 0 0}
+strong{color:#33253a}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:999px;text-decoration:none;font-weight:900;padding:14px 18px;border:1px solid var(--line);background:#fff;color:var(--purple);box-shadow:0 12px 30px rgba(76,46,84,.09);transition:.22s ease;white-space:nowrap}
+.btn:hover{transform:translateY(-3px);box-shadow:0 20px 46px rgba(76,46,84,.15)}
+.btn.primary{background:linear-gradient(135deg,#6f2c83,#a66eb9);color:#fff;border-color:transparent}
+.btn.ghost{background:rgba(255,255,255,.68)}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.glass{background:rgba(255,255,255,.72);border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(18px)}
+.topbar{position:fixed;z-index:50;left:50%;top:14px;transform:translateX(-50%);width:min(660px,calc(100% - 28px));border-radius:999px;padding:9px 10px 9px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:rgba(255,255,255,.76);border:1px solid var(--line);box-shadow:0 14px 38px rgba(76,46,84,.10);backdrop-filter:blur(18px)}
+.topbar b{font-size:.92rem;color:var(--purple)}
+.topbar .mini-links{display:flex;gap:7px}
+.topbar a{font-size:.78rem;padding:8px 11px;border-radius:999px;background:#fff;text-decoration:none;color:var(--purple);font-weight:850;border:1px solid var(--line)}
+.hero{min-height:100svh;display:grid;align-items:center;padding:94px 0 60px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:.96fr 1.04fr;gap:54px;align-items:center}
+.hero-copy .lead{font-size:clamp(1.18rem,2.2vw,1.46rem);max-width:650px;color:#5f5365;margin-top:20px}
+.identity-line{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 0}
+.identity-line span{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 12px;color:#6b5e70;font-weight:800;font-size:.9rem}
+.hero-visual{position:relative;min-height:690px}
+.hero-photo{position:absolute;inset:28px 94px 10px 26px;overflow:hidden;border-radius:42% 58% 48% 52% / 39% 44% 56% 61%;border:10px solid rgba(255,255,255,.88);box-shadow:var(--shadow);background:#fff}
+.hero-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.mini-card{position:absolute;padding:17px 18px;border-radius:25px;background:rgba(255,255,255,.88);border:1px solid var(--line);box-shadow:0 18px 44px rgba(76,46,84,.13);backdrop-filter:blur(18px);max-width:250px}
+.mini-card b{display:block;color:var(--purple);font-size:1rem}
+.mini-card span{display:block;color:var(--muted);font-weight:680;margin-top:4px;font-size:.92rem}
+.m1{right:6px;top:110px}.m2{left:0;bottom:55px}.m3{right:32px;bottom:12px;background:rgba(246,239,251,.9)}
+.shape{position:absolute;border-radius:999px;z-index:-1;filter:blur(.3px)}
+.s1{width:230px;height:230px;background:var(--rose);right:24px;bottom:50px}.s2{width:170px;height:170px;background:var(--mint);left:10px;top:62px}.s3{width:120px;height:120px;background:var(--butter);right:16px;top:30px}
+.chapter{padding:46px;border-radius:46px;background:linear-gradient(145deg,rgba(255,255,255,.82),rgba(255,250,247,.68));border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden;position:relative}
+.chapter:after{content:"";position:absolute;width:210px;height:210px;border-radius:999px;background:rgba(234,220,244,.5);right:-80px;top:-80px}
+.about-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:34px;align-items:center}
+.photo-frame{overflow:hidden;border-radius:36px;background:#fff;border:8px solid rgba(255,255,255,.86);box-shadow:var(--soft-shadow);min-height:420px}
+.photo-frame img{width:100%;height:100%;object-fit:cover;display:block}
+.quote{font-family:Georgia,"Times New Roman",serif;color:var(--purple);font-size:1.45rem;line-height:1.24;margin-top:18px}
+.work-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+.work-card{padding:24px;border-radius:30px;background:#fff;border:1px solid var(--line);box-shadow:0 12px 30px rgba(76,46,84,.07)}
+.work-card .num{font-weight:950;color:var(--purple2);font-size:.9rem;letter-spacing:.14em}
+.work-card h3{margin-top:10px}
+.gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+.tile{position:relative;overflow:hidden;border-radius:32px;background:#fff;border:7px solid rgba(255,255,255,.88);box-shadow:0 16px 40px rgba(76,46,84,.12);min-height:260px}
+.tile img{width:100%;height:100%;object-fit:cover;display:block;transition:.45s ease}
+.tile:hover img{transform:scale(1.035)}
+.tile .cap{position:absolute;left:13px;right:13px;bottom:13px;background:rgba(255,255,255,.86);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.72);border-radius:20px;padding:11px 13px;color:var(--purple);font-weight:900;font-size:.94rem}
+.span3{grid-column:span 3}.span4{grid-column:span 4}.span5{grid-column:span 5}.span6{grid-column:span 6}.span7{grid-column:span 7}.tall{min-height:390px}
+.soft{background:linear-gradient(180deg,rgba(246,239,251,.72),rgba(255,247,242,.72));border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.training-wrap{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:30px}
+.train-card{border-radius:34px;padding:26px;background:#fff;border:1px solid var(--line);box-shadow:var(--soft-shadow)}
+.train-card.done{background:linear-gradient(160deg,#fff,#fff7f2)}
+.train-card.progress{background:linear-gradient(160deg,#fff,#f6effb)}
+.train-card h3{display:flex;align-items:center;gap:10px;color:var(--purple);font-size:1.38rem}
+.train-card h3:before{content:"";width:13px;height:13px;border-radius:999px;background:var(--purple2);box-shadow:0 0 0 7px rgba(154,104,173,.13)}
+.train-card ul{list-style:none;padding:0;margin:20px 0 0;display:grid;gap:10px}
+.train-card li{padding:13px 14px;border-radius:19px;background:rgba(255,255,255,.74);border:1px solid var(--line);color:#433648;font-weight:750}
+.train-card li small{display:block;color:var(--muted);font-weight:650;margin-top:3px}
+.note-box{margin-top:18px;padding:18px 20px;border-radius:26px;background:rgba(255,255,255,.7);border:1px solid var(--line);color:var(--muted)}
+.nebula-grid{display:grid;grid-template-columns:1fr 1fr;gap:38px;align-items:center}
+.nebula-visual{position:relative;min-height:650px}
+.nebula-main{position:absolute;left:8px;top:0;width:70%;height:590px;border-radius:42px;overflow:hidden;border:8px solid #fff;box-shadow:var(--shadow);background:#fff}
+.nebula-mini{position:absolute;right:0;bottom:16px;width:48%;height:360px;border-radius:36px;overflow:hidden;border:8px solid #fff;box-shadow:var(--shadow);background:#fff}
+.nebula-main img,.nebula-mini img{width:100%;height:100%;object-fit:cover;display:block}
+.coupon{display:inline-flex;align-items:center;gap:8px;padding:13px 16px;border-radius:999px;background:#fff;border:1px dashed var(--purple2);font-weight:950;color:var(--purple);margin-top:18px}
+.system-grid{display:grid;grid-template-columns:.94fr 1.06fr;gap:38px;align-items:center}
+.phone-area{position:relative;min-height:660px}
+.phone{position:absolute;width:275px;height:580px;background:#19131d;border-radius:39px;padding:12px;border:1px solid rgba(255,255,255,.35);box-shadow:0 24px 60px rgba(43,34,48,.28)}
+.phone:before{content:"";position:absolute;top:9px;left:50%;transform:translateX(-50%);width:70px;height:7px;background:#2b2230;border-radius:99px;z-index:2}
+.phone img{width:100%;height:100%;object-fit:cover;border-radius:29px;display:block}
+.phone.a{left:8px;top:18px;transform:rotate(-4.5deg)}.phone.b{right:14px;top:78px;transform:rotate(5deg)}
+.logo-line{display:flex;align-items:center;gap:15px;background:#fff;border:1px solid var(--line);box-shadow:var(--soft-shadow);border-radius:28px;padding:16px 18px;margin:22px 0}
+.logo-line img{width:64px;height:64px;border-radius:18px;display:block}
+.final{text-align:center;padding:88px 0 100px;background:radial-gradient(circle at 50% 20%,rgba(234,220,244,.95),transparent 390px)}
+.final h2{margin-left:auto;margin-right:auto}
+.final .btns{justify-content:center}
+.footer{text-align:center;color:var(--muted);padding:24px 0;font-size:.9rem}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}.reveal.on{opacity:1;transform:translateY(0)}
+@media(max-width:940px){
+  .hero-grid,.about-grid,.nebula-grid,.system-grid,.training-wrap{grid-template-columns:1fr}
+  .hero-visual{order:-1;min-height:560px}.hero-photo{inset:18px 46px 38px 30px}.m1{right:10px;top:70px}.m2{bottom:20px}
+  .work-cards{grid-template-columns:1fr}
+  .span3,.span4,.span5,.span6,.span7{grid-column:span 12}
+  .phone-area{min-height:620px}.phone{width:235px;height:510px}.phone.a{left:0}.phone.b{right:0;top:86px}
+  .topbar .mini-links a:not(:first-child){display:none}
+}
+@media(max-width:560px){
+  .container{width:min(100% - 26px,1120px)}section{padding:62px 0}.topbar{top:10px}
+  h1{font-size:3.55rem}h2{font-size:2.45rem}
+  .hero{padding-top:88px}.hero-visual{min-height:500px}.hero-photo{inset:14px 14px 54px 14px;border-width:7px}
+  .mini-card{padding:13px 14px;border-radius:20px;max-width:210px}.m1{display:none}.m2{left:4px;bottom:15px}.m3{right:4px;bottom:64px}
+  .chapter{padding:28px;border-radius:34px}.photo-frame{min-height:340px}
+  .gallery{gap:12px}.tile{min-height:240px;border-width:5px;border-radius:25px}.tall{min-height:320px}
+  .btns{display:grid}.btn{width:100%;padding:14px 16px}
+  .nebula-visual{min-height:560px}.nebula-main{width:76%;height:500px;border-radius:34px}.nebula-mini{width:52%;height:290px;border-radius:30px}
+  .phone-area{min-height:570px}.phone{width:210px;height:470px}.phone.b{top:82px}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <b>Ana Rita</b>
+  <div class="mini-links">
+    <a href="https://www.nebulaaudio.com.br/" target="_blank" rel="noopener">Nebula</a>
+    <a href="https://anasistema.com.br" target="_blank" rel="noopener">Sistema A.N.A.</a>
+    <a href="https://www.google.com/search?client=ms-android-xiaomi-terr1-rso3&hs=s83p&sca_esv=7f84a317695edff8&hl=pt-BR&cs=0&sxsrf=ANbL-n700fVt0O-6EQD_iQTENLbiypt2qA%3A1781304079206&kgmid=%2Fg%2F11z8hh8xzm&q=Ana%20Rita%20Marques%20-%20Psicopedagoga%20e%20Apoio%20Escolar&shem=epsdc%2Crimspwouoe&shndl=30&source=sh%2Fx%2Floc%2Fact%2Fm1%2F4&kgs=65c6d04df3738191&utm_source=epsdc%2Crimspwouoe%2Csh%2Fx%2Floc%2Fact%2Fm1%2F4&sei=_TVRarq2OL-o1sQP2ZmhcA&utm_medium=social&utm_content=link_in_bio&fbclid=PAb21jcAS-FU9leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAaf6AP-kFSs3zyaCnv4RHj1WLeGhVqdZm3w5PQ3FYbjapu8NnhjAmA8FCXtKbA_aem_F7xytpHC6kf0zQGBfqaoMw" target="_blank" rel="noopener">Google</a>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy reveal">
+      <span class="kicker">Landing page de apresentaÃ§Ã£o</span>
+      <h1>Ana Rita de Mattos Marques</h1>
+      <p class="lead"><strong>Pedagoga</strong>. Atuo entre a clÃ­nica e a sala de aula, construindo caminhos para que cada aprendiz seja visto, acolhido e acompanhado em sua individualidade.</p>
+      <div class="identity-line">
+        <span>ClÃ­nica EvoluÃ§Ã£o</span><span>Rede pÃºblica de Ibitinga</span><span>EducaÃ§Ã£o inclusiva</span>
+      </div>
+      <div class="btns">
+        <a class="btn primary" href="https://www.google.com/search?client=ms-android-xiaomi-terr1-rso3&hs=s83p&sca_esv=7f84a317695edff8&hl=pt-BR&cs=0&sxsrf=ANbL-n700fVt0O-6EQD_iQTENLbiypt2qA%3A1781304079206&kgmid=%2Fg%2F11z8hh8xzm&q=Ana%20Rita%20Marques%20-%20Psicopedagoga%20e%20Apoio%20Escolar&shem=epsdc%2Crimspwouoe&shndl=30&source=sh%2Fx%2Floc%2Fact%2Fm1%2F4&kgs=65c6d04df3738191&utm_source=epsdc%2Crimspwouoe%2Csh%2Fx%2Floc%2Fact%2Fm1%2F4&sei=_TVRarq2OL-o1sQP2ZmhcA&utm_medium=social&utm_content=link_in_bio&fbclid=PAb21jcAS-FU9leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAaf6AP-kFSs3zyaCnv4RHj1WLeGhVqdZm3w5PQ3FYbjapu8NnhjAmA8FCXtKbA_aem_F7xytpHC6kf0zQGBfqaoMw" target="_blank" rel="noopener">Ver perfil no Google</a>
+        <a class="btn ghost" href="#sobre">Conhecer minha trajetÃ³ria</a>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="shape s1"></div><div class="shape s2"></div><div class="shape s3"></div>
+      <div class="hero-photo"><img src="" alt="Ana Rita de Mattos Marques"></div>
+      <div class="mini-card m1"><b>Pedagoga</b><span>Aprendizagem, inclusÃ£o e desenvolvimento</span></div>
+      <div class="mini-card m2"><b>ClÃ­nica + escola</b><span>Um olhar construÃ­do na prÃ¡tica</span></div>
+      <div class="mini-card m3"><b>Afeto e ciÃªncia</b><span>EstratÃ©gia com sensibilidade</span></div>
+    </div>
+  </div>
+</header>
+
+<section id="sobre">
+  <div class="container chapter reveal">
+    <div class="about-grid">
+      <div class="photo-frame"><img src="" alt="Ana Rita em momento descontraÃ­do"></div>
+      <div>
+        <span class="kicker">Quem sou eu</span>
+        <h2>EducaÃ§Ã£o, inclusÃ£o e aprendizagem com propÃ³sito.</h2>
+        <p>Sou Ana Rita de Mattos Marques, pedagoga, apaixonada pela educaÃ§Ã£o inclusiva, pelo desenvolvimento infantil e pelos caminhos possÃ­veis da aprendizagem.</p>
+        <p>Minha trajetÃ³ria nasce da prÃ¡tica: do contato diÃ¡rio com crianÃ§as, famÃ­lias, profissionais da educaÃ§Ã£o, desafios reais da sala de aula e atendimentos pedagÃ³gicos que exigem escuta, planejamento e sensibilidade.</p>
+        <p class="quote">Acredito em uma educaÃ§Ã£o que observa antes de cobrar, acolhe antes de rotular e planeja a partir das necessidades reais de cada aprendiz.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-title reveal">
+      <span class="kicker">O que eu faÃ§o</span>
+      <h2>Uma prÃ¡tica que une mediaÃ§Ã£o, adaptaÃ§Ã£o e presenÃ§a.</h2>
+      <p>Meu trabalho envolve acompanhamento pedagÃ³gico, mediaÃ§Ã£o da aprendizagem, adaptaÃ§Ã£o de atividades, uso de recursos concretos e estratÃ©gias individualizadas.</p>
+    </div>
+    <div class="work-cards reveal">
+      <div class="work-card"><span class="num">01</span><h3>ClÃ­nica EvoluÃ§Ã£o</h3><p>AtuaÃ§Ã£o com prÃ¡ticas voltadas Ã  aprendizagem, atenÃ§Ã£o, alfabetizaÃ§Ã£o, desenvolvimento e fortalecimento de habilidades pedagÃ³gicas.</p></div>
+      <div class="work-card"><span class="num">02</span><h3>Rede pÃºblica de Ibitinga</h3><p>Professora auxiliar, acompanhando a rotina escolar e contribuindo com estratÃ©gias para tornar a inclusÃ£o mais possÃ­vel no dia a dia.</p></div>
+      <div class="work-card"><span class="num">03</span><h3>IntervenÃ§Ã£o com intenÃ§Ã£o</h3><p>Jogos, materiais manipulÃ¡veis, recursos visuais e propostas lÃºdicas para favorecer participaÃ§Ã£o, autonomia, atenÃ§Ã£o e aprendizagem.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="soft">
+  <div class="container">
+    <div class="section-title reveal">
+      <span class="kicker">Meu trabalho na prÃ¡tica</span>
+      <h2>Registros reais de uma rotina feita de cuidado e estratÃ©gia.</h2>
+    </div>
+    <div class="gallery reveal">
+      <div class="tile span7 tall"><img src="" alt="Atividade com lego na clÃ­nica"><div class="cap">ClÃ­nica: ludicidade, construÃ§Ã£o e aprendizagem</div></div>
+      <div class="tile span5 tall"><img src="" alt="Atividade com nÃºmeros em sala"><div class="cap">Sala de aula: mediaÃ§Ã£o com recursos concretos</div></div>
+      <div class="tile span4"><img src="" alt="Atividade com letras"><div class="cap">AlfabetizaÃ§Ã£o com materiais manipulÃ¡veis</div></div>
+      <div class="tile span4"><img src="" alt="CrianÃ§a manipulando nÃºmeros"><div class="cap">AdaptaÃ§Ã£o e participaÃ§Ã£o</div></div>
+      <div class="tile span4"><img src="" alt="Jogo de madeira"><div class="cap">AtenÃ§Ã£o, percepÃ§Ã£o e planejamento</div></div>
+      <div class="tile span6"><img src="" alt="Palitos coloridos"><div class="cap">Recursos simples com intenÃ§Ã£o pedagÃ³gica</div></div>
+      <div class="tile span6"><img src="" alt="Ana Rita"><div class="cap">Uma trajetÃ³ria construÃ­da entre estudo e prÃ¡tica</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-title reveal">
+      <span class="kicker">FormaÃ§Ã£o e estudos</span>
+      <h2>FormaÃ§Ã£o contÃ­nua, mas organizada com clareza.</h2>
+      <p>Minha formaÃ§Ã£o une educaÃ§Ã£o, inclusÃ£o, aprendizagem e neurodesenvolvimento. Abaixo, separei o que jÃ¡ foi concluÃ­do do que estÃ¡ em andamento.</p>
+    </div>
+    <div class="training-wrap reveal">
+      <div class="train-card done">
+        <h3>FormaÃ§Ãµes concluÃ­das</h3>
+        <ul>
+          <li>Pedagogia <small>FAIBI Ibitinga</small></li>
+          <li>Psicopedagogia: atuaÃ§Ã£o em contextos educativos <small>PUC Minas Gerais â€” concluÃ­da, aguardando emissÃ£o do certificado</small></li>
+          <li>Psicologia Escolar</li>
+          <li>Dificuldades e Transtornos de Aprendizagem: diagnÃ³stico e intervenÃ§Ã£o</li>
+          <li>Leitura, Escrita e ProduÃ§Ã£o de Texto</li>
+          <li>GestÃ£o e OrganizaÃ§Ã£o da Escola com ÃŠnfase em CoordenaÃ§Ã£o e OrientaÃ§Ã£o Escolar</li>
+        </ul>
+      </div>
+      <div class="train-card progress">
+        <h3>Em andamento</h3>
+        <ul>
+          <li>PÃ³s-graduaÃ§Ã£o em AnÃ¡lise do Comportamento Aplicada ao Transtorno do Espectro Autista â€” TEA</li>
+          <li>PÃ³s-graduaÃ§Ã£o em NeurociÃªncias e Autismo</li>
+        </ul>
+        <div class="note-box"><strong>Cursos, congressos e formaÃ§Ãµes complementares:</strong> ABA, TEA na escola, alfabetizaÃ§Ã£o de crianÃ§as tÃ­picas e atÃ­picas, Congresso Espectro, Congresso TEA RP e simpÃ³sios sobre autismo, inclusÃ£o e neurodesenvolvimento.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="nebula" id="nebula">
+  <div class="container nebula-grid">
+    <div class="nebula-visual reveal">
+      <div class="nebula-main"><img src="" alt="Ana Rita segurando Nebula Audio"></div>
+      <div class="nebula-mini"><img src="" alt="Nebula Audio"></div>
+    </div>
+    <div class="chapter reveal">
+      <span class="kicker">Embaixadora Nebula Audio</span>
+      <h2>Conforto sensorial tambÃ©m Ã© cuidado.</h2>
+      <p>Sou <strong>Embaixadora Nebula Audio</strong>. Essa parceria tem um significado especial para mim, porque tambÃ©m conversa com a minha prÃ³pria vivÃªncia.</p>
+      <p>Sou <strong>TDAH e TPS</strong>, e sei, na prÃ¡tica, como ambientes com muitos estÃ­mulos podem impactar a atenÃ§Ã£o, o conforto, a regulaÃ§Ã£o e o bem-estar.</p>
+      <p>Por isso, compartilho a Nebula nÃ£o apenas como parceria, mas como um recurso que faz sentido dentro da minha realidade e do meu olhar para a inclusÃ£o.</p>
+      <div class="coupon">Cupom: diariodeumaproinclusiva</div>
+      <div class="btns"><a class="btn primary" href="https://www.nebulaaudio.com.br/" target="_blank" rel="noopener">Acessar Nebula Audio</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="sistema">
+  <div class="container system-grid">
+    <div class="chapter reveal">
+      <span class="kicker">Projeto idealizado por mim</span>
+      <div class="logo-line"><img src="" alt="Logo Sistema A.N.A."><div><h3>Sistema A.N.A.</h3><p style="margin-top:3px">AnÃ¡lise do Neurodesenvolvimento e Aprendizagem</p></div></div>
+      <h2>Uma ferramenta criada a partir da rotina educacional.</h2>
+      <p>TambÃ©m sou idealizadora do <strong>Sistema A.N.A.</strong>, uma plataforma criada a partir da minha vivÃªncia na educaÃ§Ã£o e da necessidade de organizar melhor registros, relatÃ³rios, planejamentos, PEI, grÃ¡ficos e acompanhamentos dos aprendizes.</p>
+      <p>O sistema representa uma parte importante da minha caminhada: transformar dificuldades reais da rotina educacional em ferramentas prÃ¡ticas para outros profissionais.</p>
+      <div class="btns"><a class="btn primary" href="https://anasistema.com.br" target="_blank" rel="noopener">Conhecer o Sistema A.N.A.</a></div>
+    </div>
+    <div class="phone-area reveal">
+      <div class="phone a"><img src="" alt="Tela de login do Sistema A.N.A."></div>
+      <div class="phone b"><img src="" alt="Tela inicial do Sistema A.N.A."></div>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="container reveal">
+    <span class="kicker">Obrigada por conhecer minha trajetÃ³ria</span>
+    <h2>Sala de aula, clÃ­nica, estudos, inclusÃ£o e projetos com propÃ³sito.</h2>
+    <p>Essa Ã© uma parte do meu trabalho: uma caminhada construÃ­da com afeto, ciÃªncia, observaÃ§Ã£o e prÃ¡tica real.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://www.google.com/search?client=ms-android-xiaomi-terr1-rso3&hs=s83p&sca_esv=7f84a317695edff8&hl=pt-BR&cs=0&sxsrf=ANbL-n700fVt0O-6EQD_iQTENLbiypt2qA%3A1781304079206&kgmid=%2Fg%2F11z8hh8xzm&q=Ana%20Rita%20Marques%20-%20Psicopedagoga%20e%20Apoio%20Escolar&shem=epsdc%2Crimspwouoe&shndl=30&source=sh%2Fx%2Floc%2Fact%2Fm1%2F4&kgs=65c6d04df3738191&utm_source=epsdc%2Crimspwouoe%2Csh%2Fx%2Floc%2Fact%2Fm1%2F4&sei=_TVRarq2OL-o1sQP2ZmhcA&utm_medium=social&utm_content=link_in_bio&fbclid=PAb21jcAS-FU9leHRuA2FlbQIxMQBzcnRjBmFwcF9pZA81NjcwNjczNDMzNTI0MjcAAaf6AP-kFSs3zyaCnv4RHj1WLeGhVqdZm3w5PQ3FYbjapu8NnhjAmA8FCXtKbA_aem_F7xytpHC6kf0zQGBfqaoMw" target="_blank" rel="noopener">Ver perfil no Google</a>
+      <a class="btn" href="https://www.nebulaaudio.com.br/" target="_blank" rel="noopener">Nebula Audio</a>
+      <a class="btn" href="https://anasistema.com.br" target="_blank" rel="noopener">Sistema A.N.A.</a>
+    </div>
+  </div>
+</section>
+<footer class="footer">Ana Rita de Mattos Marques â€¢ Pedagoga</footer>
+<script>
+const io=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')})},{threshold:.13});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
+

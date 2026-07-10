@@ -1,0 +1,256 @@
+---
+// Projects.astro
+---
+
+<section id="projetos" class="container">
+  
+  <!-- Nebula Section -->
+  <div class="project-grid nebula-grid">
+    <div class="visuals">
+      <div class="bg-shape mint-shape"></div>
+      <div class="main-img mask-img">
+        <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&q=80&w=600" alt="Nebula Audio" class="parallax-img" loading="lazy" decoding="async" />
+      </div>
+    </div>
+    
+    <div class="content chapter fade-group">
+      <!-- [P1 QUIETER] Kicker removido, usando hierarquia natural -->
+      <h2>Conforto sensorial <br/><span class="italic-serif">também é cuidado.</span></h2>
+      <p><strong>Embaixadora Nebula Audio:</strong> Essa parceria tem um significado especial para mim, porque também conversa com a minha própria vivência (TDAH e TPS). Sei na prática como ambientes com muitos estímulos impactam a atenção e o bem-estar.</p>
+      
+      <div class="coupon">Cupom: <strong>diariodeumaproinclusiva</strong></div>
+      
+      <div class="btn-wrapper magnetic">
+        <a class="btn btn-primary" href="https://www.nebulaaudio.com.br/" target="_blank" rel="noopener">Acessar Nebula Audio</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sistema ANA Section -->
+  <div class="project-grid system-grid" style="margin-top: 160px;">
+    <div class="content chapter fade-group">
+      <h2>Sistema A.N.A.</h2>
+      <p><strong>Projeto Idealizado:</strong> Uma plataforma criada a partir da minha vivência na educação e da necessidade de organizar melhor registros, relatórios, planejamentos, PEI, gráficos e acompanhamentos dos aprendizes.</p>
+      <p>Transformando dificuldades reais da rotina educacional em ferramentas práticas para profissionais.</p>
+      
+      <div class="btn-wrapper magnetic" style="margin-top:24px;">
+        <a class="btn btn-primary" href="https://anasistema.com.br" target="_blank" rel="noopener">Conhecer o Sistema</a>
+      </div>
+    </div>
+
+    <div class="visuals phone-mockups">
+      <div class="bg-shape butter-shape"></div>
+      
+      <div class="phone phone-1 float-1">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400" alt="Sistema ANA App" loading="lazy" decoding="async" />
+      </div>
+      <div class="phone phone-2 float-2">
+        <img src="https://images.unsplash.com/photo-1607252656733-fd7458bc97dc?auto=format&fit=crop&q=80&w=400" alt="Sistema ANA Dashboard" loading="lazy" decoding="async" />
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    let mm = gsap.matchMedia();
+    
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Floating Animation for Phones
+      gsap.to('.float-1', {
+        y: -20,
+        rotation: -6,
+        duration: 3,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1
+      });
+
+      gsap.to('.float-2', {
+        y: 20,
+        rotation: 8,
+        duration: 4,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1
+      });
+
+      // Mask Reveals
+      const masks = document.querySelectorAll('.mask-img');
+      masks.forEach(mask => {
+        gsap.fromTo(mask,
+          { clipPath: 'inset(100% 0 0 0)' },
+          { 
+            clipPath: 'inset(0% 0 0 0)', 
+            duration: 1.5, 
+            ease: 'expo.inOut',
+            scrollTrigger: { trigger: mask, start: 'top 85%' }
+          }
+        );
+      });
+
+      // Content Fades
+      const fadeGroups = document.querySelectorAll('.fade-group');
+      fadeGroups.forEach(group => {
+        gsap.fromTo(group.children,
+          { y: 30, opacity: 0 },
+          {
+            y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: 'power2.out',
+            scrollTrigger: { trigger: group, start: 'top 85%' }
+          }
+        );
+      });
+
+      // Shape Parallax
+      gsap.to('.mint-shape', {
+        yPercent: 40,
+        scrollTrigger: { trigger: '.nebula-grid', scrub: true }
+      });
+      
+      gsap.to('.butter-shape', {
+        yPercent: -40,
+        scrollTrigger: { trigger: '.system-grid', scrub: true }
+      });
+    });
+  });
+</script>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .system-grid {
+    grid-template-columns: 1.1fr 1fr;
+  }
+
+  .chapter {
+    padding: 0;
+  }
+
+  .content h2 {
+    margin: 16px 0 24px;
+    font-size: 3.5rem;
+  }
+
+  .content p {
+    margin-bottom: 24px;
+    font-size: 1.15rem;
+  }
+
+  .coupon {
+    display: inline-block;
+    padding: 16px 24px;
+    border-radius: 999px;
+    background: var(--bg-secondary);
+    font-family: var(--font-sans);
+    color: var(--text-ink);
+    margin: 16px 0 32px;
+  }
+  
+  .coupon strong {
+    color: var(--brand-purple);
+    font-weight: 700;
+  }
+
+  .visuals {
+    position: relative;
+    height: 100%;
+    min-height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .bg-shape {
+    position: absolute;
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  .mint-shape {
+    width: 120%;
+    height: 120%;
+    background: var(--accent-mint);
+    right: 10%;
+    top: -10%;
+  }
+
+  .butter-shape {
+    width: 130%;
+    height: 130%;
+    background: var(--accent-butter);
+    left: 10%;
+    bottom: -10%;
+  }
+
+  .main-img {
+    width: 85%;
+    aspect-ratio: 3/4;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    overflow: hidden;
+    z-index: 2;
+    box-shadow: var(--shadow-lg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .mask-img { clip-path: inset(100% 0 0 0); }
+  }
+
+  .main-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .phone-mockups {
+    position: relative;
+  }
+
+  .phone {
+    width: 280px;
+    height: 580px;
+    background: white;
+    border-radius: 40px;
+    padding: 12px;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.1);
+    position: absolute;
+    z-index: 2;
+  }
+
+  .phone img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 28px;
+  }
+
+  .phone-1 {
+    transform: rotate(-4deg) translateX(-40px);
+    z-index: 2;
+  }
+
+  .phone-2 {
+    transform: rotate(6deg) translateX(80px) translateY(40px);
+    z-index: 3;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.15);
+  }
+
+  @media (max-width: 968px) {
+    .project-grid { grid-template-columns: 1fr; gap: 40px; }
+    .system-grid { display: flex; flex-direction: column; }
+    .content h2 { font-size: 2.5rem; }
+    .visuals { min-height: 450px; }
+    .mint-shape, .butter-shape { width: 100%; height: 100%; border-radius: 24px; }
+    .phone-1 { transform: rotate(-4deg) translateX(-20px); }
+    .phone-2 { transform: rotate(6deg) translateX(40px) translateY(30px); }
+  }
+</style>

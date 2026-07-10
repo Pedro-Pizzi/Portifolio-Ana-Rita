@@ -1,0 +1,174 @@
+---
+// Gallery.astro
+---
+
+<section id="galeria" class="container">
+  <div class="section-title gallery-title">
+    <h2>Registros reais de uma rotina feita de <br/><span class="italic-serif">cuidado e estratégia.</span></h2>
+  </div>
+
+  <div class="gallery" id="gallery-grid">
+    <div class="tile tall span-7 gallery-item">
+      <div class="img-inner"><img src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&q=80&w=800" alt="Atividade com lego na clínica" loading="lazy" decoding="async" /></div>
+      <div class="overlay">
+        <span class="cap">Clínica: ludicidade, construção e aprendizagem</span>
+      </div>
+    </div>
+    
+    <div class="tile tall span-5 gallery-item">
+      <div class="img-inner"><img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&q=80&w=600" alt="Atividade com números em sala" loading="lazy" decoding="async" /></div>
+      <div class="overlay">
+        <span class="cap">Sala de aula: mediação com recursos concretos</span>
+      </div>
+    </div>
+    
+    <div class="tile span-4 gallery-item">
+      <div class="img-inner"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=500" alt="Atividade com letras" loading="lazy" decoding="async" /></div>
+      <div class="overlay">
+        <span class="cap">Alfabetização com materiais manipuláveis</span>
+      </div>
+    </div>
+    
+    <div class="tile span-4 gallery-item">
+      <div class="img-inner"><img src="https://images.unsplash.com/photo-1532053150531-fa9cb73b3e15?auto=format&fit=crop&q=80&w=500" alt="Criança manipulando números" loading="lazy" decoding="async" /></div>
+      <div class="overlay">
+        <span class="cap">Adaptação e participação</span>
+      </div>
+    </div>
+    
+    <div class="tile span-4 gallery-item">
+      <div class="img-inner"><img src="https://images.unsplash.com/photo-1611077544766-3d778fb86b36?auto=format&fit=crop&q=80&w=500" alt="Jogo de madeira" loading="lazy" decoding="async" /></div>
+      <div class="overlay">
+        <span class="cap">Atenção, percepção e planejamento</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    let mm = gsap.matchMedia();
+    
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Reveal Title
+      gsap.fromTo('.gallery-title',
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: '.gallery-title', start: 'top 85%' } }
+      );
+
+      // Staggered Mask Reveal for Images
+      const items = document.querySelectorAll('.gallery-item');
+      items.forEach((item) => {
+        const img = item.querySelector('img');
+
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 90%',
+          }
+        })
+        .fromTo(item, 
+          { clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)' },
+          { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', duration: 1.2, ease: 'expo.out' }
+        )
+        .fromTo(img,
+          { scale: 1.4 },
+          { scale: 1, duration: 1.6, ease: 'power2.out' },
+          "-=1.2"
+        );
+      });
+
+      // Parallax effect
+      gsap.to('.gallery-item img', {
+        yPercent: 15,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#gallery-grid',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .section-title {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 64px;
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px;
+  }
+
+  .tile {
+    position: relative;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    min-height: 300px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .tile { clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%); }
+  }
+
+  .img-inner {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .tile img {
+    width: 100%;
+    height: 120%;
+    object-fit: cover;
+    margin-top: -10%;
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    /* [P2 POLISH] Usando color-mix para herdar a cor da marca com transparência em vez de RGBA chumbado */
+    background: linear-gradient(to top, color-mix(in srgb, var(--brand-purple) 80%, transparent) 0%, transparent 60%);
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+  }
+
+  .tile:hover .overlay {
+    opacity: 1;
+  }
+
+  .cap {
+    font-weight: 500;
+    font-size: 1.05rem;
+    color: white;
+    font-family: var(--font-serif);
+    line-height: 1.2;
+  }
+
+  .span-7 { grid-column: span 7; }
+  .span-5 { grid-column: span 5; }
+  .span-4 { grid-column: span 4; }
+  
+  .tall { min-height: 450px; }
+
+  @media (max-width: 968px) {
+    .span-7, .span-5, .span-4 { grid-column: span 12; }
+    .tall { min-height: 300px; }
+    .overlay { opacity: 1; background: linear-gradient(to top, color-mix(in srgb, var(--brand-purple) 90%, transparent) 0%, transparent 80%); }
+  }
+</style>

@@ -1,0 +1,213 @@
+---
+// About.astro
+---
+
+<section id="sobre" class="container">
+  <div class="chapter about-chapter">
+    <div class="about-grid">
+      <div class="photo-wrapper mask-reveal-about">
+        <div class="photo-frame">
+          <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600&h=800" alt="Ana Rita em momento descontraído" class="portrait" loading="lazy" decoding="async" />
+        </div>
+        <svg class="deco-wave" viewBox="0 0 100 100" aria-hidden="true">
+          <path d="M 0 50 Q 25 20 50 50 T 100 50 L 100 100 L 0 100 Z" fill="var(--brand-gold)" opacity="0.3"/>
+        </svg>
+      </div>
+      
+      <div class="about-content fade-about">
+        <!-- [P1 QUIETER] Kicker removido para não parecer AI. Texto mais orgânico na tag H2 -->
+        <h2>Educação, inclusão e aprendizagem <span class="italic-serif">com propósito.</span></h2>
+        
+        <p>Sou Ana Rita de Mattos Marques, pedagoga, apaixonada pela educação inclusiva, pelo desenvolvimento infantil e pelos caminhos possíveis da aprendizagem.</p>
+        <p>Minha trajetória nasce da prática: do contato diário com crianças, famílias, profissionais da educação, desafios reais da sala de aula e atendimentos pedagógicos que exigem escuta, planejamento e sensibilidade.</p>
+        
+        <blockquote class="quote">
+          "Acredito em uma educação que observa antes de cobrar, acolhe antes de rotular e planeja a partir das necessidades reais de cada aprendiz."
+        </blockquote>
+      </div>
+    </div>
+  </div>
+
+  <div class="services">
+    <div class="section-title fade-about">
+      <h2>Uma prática que une mediação, adaptação e <span class="italic-serif">presença.</span></h2>
+      <p>Meu trabalho envolve acompanhamento pedagógico, mediação da aprendizagem, adaptação de atividades e estratégias individualizadas.</p>
+    </div>
+
+    <div class="work-cards">
+      <!-- [P1 QUIETER] Remoção da numeração 01/02 genérica. Troca por viés de lista real -->
+      <div class="work-card">
+        <h3>Clínica Evolução</h3>
+        <p>Atuação com práticas voltadas à aprendizagem, atenção, alfabetização, desenvolvimento e fortalecimento de habilidades pedagógicas.</p>
+      </div>
+      
+      <div class="work-card">
+        <h3>Rede Pública</h3>
+        <p>Professora auxiliar, acompanhando a rotina escolar e contribuindo com estratégias para tornar a inclusão mais possível no dia a dia.</p>
+      </div>
+      
+      <div class="work-card">
+        <h3>Intervenção Lúdica</h3>
+        <p>Jogos, materiais manipuláveis, recursos visuais e propostas lúdicas para favorecer participação, autonomia, atenção e aprendizagem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.addEventListener('DOMContentLoaded', () => {
+    let mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Mask reveal for photo
+      gsap.fromTo('.mask-reveal-about', 
+        { clipPath: 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)' },
+        { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', duration: 1.5, ease: 'expo.inOut',
+          scrollTrigger: { trigger: '.about-chapter', start: 'top 80%' }
+        }
+      );
+
+      // Fade content
+      gsap.fromTo('.fade-about',
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1.2, ease: 'power2.out', stagger: 0.2,
+          scrollTrigger: { trigger: '.about-chapter', start: 'top 80%' }
+        }
+      );
+
+      // Stagger Cards
+      gsap.fromTo('.work-card',
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: 'power3.out', stagger: 0.15,
+          scrollTrigger: { trigger: '.work-cards', start: 'top 85%' }
+        }
+      );
+    });
+    
+    // Para prefers-reduced-motion: reduce, não fazemos nada (as coisas já estão visíveis no CSS por padrão, e sem clipPath inicial)
+  });
+</script>
+
+<style>
+  .chapter {
+    padding: 64px 0;
+    margin-bottom: 80px;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .photo-wrapper {
+    position: relative;
+    padding-bottom: 40px;
+  }
+
+  .photo-frame {
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+    aspect-ratio: 3/4;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .portrait {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .deco-wave {
+    position: absolute;
+    bottom: 0;
+    left: -20px;
+    width: calc(100% + 40px);
+    z-index: 1;
+  }
+
+  .about-content h2 {
+    margin: 16px 0 24px;
+  }
+
+  .quote {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    color: var(--brand-purple);
+    font-style: italic;
+    line-height: 1.4;
+    margin-top: 32px;
+    padding-left: 0;
+    border-left: none;
+    position: relative;
+  }
+  
+  .quote::before {
+    content: "“";
+    font-size: 4rem;
+    color: var(--brand-gold);
+    position: absolute;
+    top: -20px;
+    left: -30px;
+    opacity: 0.3;
+  }
+
+  .services {
+    padding-top: 40px;
+  }
+
+  .section-title {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 64px;
+  }
+
+  .section-title h2 {
+    margin: 16px 0 20px;
+  }
+
+  .work-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+  }
+
+  .work-card {
+    background: white;
+    padding: 48px 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease;
+    border-top: 4px solid var(--brand-gold);
+  }
+
+  .work-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .work-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+    font-family: var(--font-sans);
+    color: var(--brand-purple);
+  }
+
+  @media (max-width: 968px) {
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .quote { font-size: 1.3rem; margin-left: 20px; }
+    .quote::before { left: -20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mask-reveal-about {
+      clip-path: none !important;
+    }
+  }
+</style>

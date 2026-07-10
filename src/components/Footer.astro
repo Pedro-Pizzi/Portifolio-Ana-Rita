@@ -1,0 +1,93 @@
+---
+// Footer.astro
+---
+
+<footer class="site-footer">
+  <div class="final-cta container reveal stagger-1">
+    <span class="kicker">Obrigada por conhecer minha trajetória</span>
+    <h2>Sala de aula, clínica, estudos, <br/> <span class="italic-serif">inclusão e projetos com propósito.</span></h2>
+    <p>Essa é uma parte do meu trabalho: uma caminhada construída com afeto, ciência, observação e prática real.</p>
+    
+    <div class="actions">
+      <a class="btn btn-primary" href="https://www.google.com/search?q=Ana+Rita+Marques+-+Psicopedagoga+e+Apoio+Escolar" target="_blank" rel="noopener">Ver Perfil no Google</a>
+      <a class="btn btn-glass" href="https://www.nebulaaudio.com.br/" target="_blank" rel="noopener">Nebula Audio</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>Ana Rita de Mattos Marques • Pedagoga Especialista</p>
+    <p class="credit">Desenvolvido com excelência e cuidado.</p>
+  </div>
+  
+  <div class="bg-arc"></div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    padding-top: 160px;
+    background-color: var(--bg-primary);
+    overflow: hidden;
+  }
+
+  .bg-arc {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) translateY(50%);
+    width: 150vw;
+    height: 150vw;
+    border-radius: 50%;
+    background: var(--bg-secondary);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .final-cta {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 120px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .final-cta h2 {
+    margin: 20px 0 32px;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .final-cta p {
+    margin-bottom: 48px;
+    font-size: 1.25rem;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 1px solid var(--line-color);
+    position: relative;
+    z-index: 2;
+    background: transparent;
+  }
+
+  .footer-bottom p {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .credit {
+    font-size: 0.8rem !important;
+    margin-top: 8px;
+    opacity: 0.6;
+    font-family: var(--font-sans);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+</style>

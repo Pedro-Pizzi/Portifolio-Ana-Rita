@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+:root {
+  /* Paleta Original - Mantida conforme solicitação */
+  --brand-purple: #483652;
+  --brand-purple-light: #5d4668;
+  --brand-gold: #c3a16d;
+  --accent-mint: #e2efea;
+  --accent-butter: #fdf5d6;
+  
+  /* Cores de Fundo (Editorial) */
+  --bg-primary: #fcfcfc;
+  --bg-secondary: #f6f3f0;
+  
+  /* Textos */
+  --text-ink: #2b2230;
+  --text-muted: #5e5264;
+  --line-color: rgba(72, 54, 82, 0.1);
+
+  /* Fontes */
+  --font-sans: 'Inter', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+
+  /* Bordas */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 32px;
+  --radius-xl: 48px;
+
+  /* Sombras */
+  --shadow-sm: 0 4px 20px rgba(72, 54, 82, 0.05);
+  --shadow-lg: 0 16px 40px rgba(72, 54, 82, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-sans);
+  color: var(--text-ink);
+  background-color: var(--bg-primary);
+  overflow-x: hidden;
+}
+
+body {
+  line-height: 1.6;
+  font-size: 1.1rem;
+  overflow-x: hidden;
+  position: relative;
+  /* Cursor events will be handled dynamically, but we add a custom trailing cursor */
+}
+
+/* Typography Editorial */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  color: var(--brand-purple);
+  line-height: 1.1;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(2rem, 5vw, 4rem);
+}
+
+p {
+  color: var(--text-muted);
+}
+
+.kicker {
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--brand-gold);
+  display: block;
+  margin-bottom: 16px;
+}
+
+.italic-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Base Layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section {
+  padding: 120px 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* Botões Magnéticos Estilo Pílula */
+.btn-wrapper {
+  display: inline-block;
+  /* For magnetic hover calculations */
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 36px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1.05rem;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  /* Transform transitions handled by GSAP when magnetic, but fallback here */
+  transition: color 0.4s ease, border-color 0.4s ease;
+  will-change: transform;
+}
+
+/* Fill effect on hover */
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150%;
+  height: 0;
+  background: var(--brand-purple-light);
+  border-radius: 50%;
+  z-index: -1;
+  transition: height 0.5s cubic-bezier(0.2, 1, 0.2, 1), top 0.5s cubic-bezier(0.2, 1, 0.2, 1);
+}
+
+.btn:hover::after {
+  top: -25%;
+  height: 150%;
+}
+
+.btn-primary {
+  background: var(--brand-purple);
+  color: white;
+  border: 1px solid var(--brand-purple);
+}
+
+.btn-primary::after {
+  background: var(--brand-gold);
+}
+
+.btn-glass {
+  background: transparent;
+  color: var(--brand-purple);
+  border: 1px solid var(--brand-purple);
+}
+
+.btn-glass:hover {
+  color: white;
+}
+
+.btn-glass::after {
+  background: var(--brand-purple);
+}
+
+/* Lenis Smooth Scroll Recommended CSS */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Utilities for SplitType Animations */
+.split-line {
+  overflow: hidden;
+}
+
+/* Custom Cursor */
+.custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background-color: var(--brand-gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, background-color 0.3s;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor.hovering {
+  width: 48px;
+  height: 48px;
+  background-color: white;
+  mix-blend-mode: difference;
+}
+
+@media (max-width: 1024px) {
+  .custom-cursor {
+    display: none !important;
+  }
+}
