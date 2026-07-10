@@ -2,31 +2,52 @@
   <div class="hero-grid">
     <div class="hero-content">
       <h1 class="hero-title reveal-up">
-        <span>O caminho</span>
-        <span>da aprendizagem</span>
-        <span class="italic-serif">com propósito.</span>
+        <span>Inclusão no</span>
+        <span>aprender, brincar</span>
+        <span class="italic-serif">e no viver 🧠</span>
       </h1>
-      <p class="reveal-up stagger-1">Sou Ana Rita Marques, pedagoga especialista em neurodesenvolvimento e inclusão. Minha missão é traduzir a complexidade da aprendizagem em práticas reais que acolhem e desenvolvem.</p>
+      <p class="reveal-up stagger-1">Sou Ana Rita Marques, criadora de conteúdo digital e pedagoga inclusiva. Minha missão é construir rotinas e estratégias reais para cada criança ✨, focando em materiais concretos e regulação sensorial.</p>
 
       <div class="actions reveal-up stagger-2">
-        <a class="btn btn-primary interactive" href="#sobre">Conhecer Trajetória</a>
-        <a class="btn btn-glass interactive" href="#projetos">Projetos</a>
+        <a class="btn btn-primary interactive" href="#sobre">Minha Trajetória</a>
+        <a class="btn btn-glass interactive" href="#projetos">Meus Links e Projetos 👇🏽</a>
       </div>
     </div>
 
     <div class="hero-visual reveal-up stagger-3">
-      <svg class="ring-dashed" viewBox="0 0 200 200" aria-hidden="true">
-        <circle cx="100" cy="100" r="95" fill="none" stroke="var(--brand-gold)" stroke-width="1" stroke-dasharray="4 6" />
-      </svg>
-      <svg class="ring-solid" viewBox="0 0 200 200" aria-hidden="true">
-        <circle class="circle-draw-solid" cx="100" cy="100" r="85" fill="none" stroke="var(--brand-purple)" stroke-width="2" />
+      <svg class="morphing-blob" viewBox="0 0 200 200" aria-hidden="true" preserveAspectRatio="none">
+        <path fill="var(--brand-purple-light)" opacity="0.15">
+          <animate 
+            attributeName="d" 
+            dur="12s" 
+            repeatCount="indefinite"
+            values="
+              M 100, 10 C 150, 10 190, 50 190, 100 C 190, 150 150, 190 100, 190 C 50, 190 10, 150 10, 100 C 10, 50 50, 10 100, 10 Z;
+              M 100, 20 C 160, 10 180, 60 180, 100 C 180, 140 140, 180 100, 180 C 60, 180 20, 140 20, 100 C 20, 60 40, 10 100, 20 Z;
+              M 100, 10 C 150, 20 190, 40 190, 100 C 190, 160 160, 190 100, 190 C 40, 190 10, 160 10, 100 C 10, 40 50, 20 100, 10 Z;
+              M 100, 10 C 150, 10 190, 50 190, 100 C 190, 150 150, 190 100, 190 C 50, 190 10, 150 10, 100 C 10, 50 50, 10 100, 10 Z
+            "
+          />
+        </path>
+        <path fill="none" stroke="var(--brand-gold)" stroke-width="0.8" stroke-dasharray="4 8">
+          <animate 
+            attributeName="d" 
+            dur="18s" 
+            repeatCount="indefinite"
+            values="
+              M 100, 5 C 160, 5 195, 40 195, 100 C 195, 160 160, 195 100, 195 C 40, 195 5, 160 5, 100 C 5, 40 40, 5 100, 5 Z;
+              M 100, 15 C 150, 0 200, 50 190, 100 C 180, 150 150, 200 100, 190 C 50, 180 0, 150 10, 100 C 20, 50 50, 30 100, 15 Z;
+              M 100, 5 C 160, 5 195, 40 195, 100 C 195, 160 160, 195 100, 195 C 40, 195 5, 160 5, 100 C 5, 40 40, 5 100, 5 Z
+            "
+          />
+        </path>
       </svg>
 
       <div class="portrait-wrapper">
-        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800&h=1000" alt="Ana Rita Marques — Pedagoga" width="800" height="1000" fetchpriority="high" />
+        <img src="/images/ig_2.jpg" alt="Ana Rita Marques — Inclusão e Aprendizagem" width="800" height="1000" fetchpriority="high" />
       </div>
 
-      <div class="badge interactive">
+      <div class="badge glass-panel interactive">
         <span class="badge-num">10+</span>
         <span class="badge-text">Anos de<br />prática</span>
       </div>
@@ -72,6 +93,8 @@
     aspect-ratio: 1;
     display: grid;
     place-items: center;
+    transform: perspective(1000px) rotateX(calc(var(--mouse-y, 0) * -4deg)) rotateY(calc(var(--mouse-x, 0) * 4deg));
+    transition: transform 0.5s cubic-bezier(0.2, 1, 0.2, 1);
   }
 
   .portrait-wrapper {
@@ -89,41 +112,21 @@
     object-fit: cover;
   }
 
-  .ring-dashed,
-  .ring-solid {
+  .morphing-blob {
     position: absolute;
     inset: 50% auto auto 50%;
     pointer-events: none;
-    transform: translate(-50%, -50%);
-  }
-
-  .ring-dashed { 
-    width: 100%; height: 100%; z-index: 1; 
-    animation: rotateSlowly 60s linear infinite;
-  }
-  .ring-solid { 
-    width: 108%; height: 108%; z-index: 3; 
-    animation: rotateSlowlyReverse 80s linear infinite;
-  }
-
-  .circle-draw-solid {
-    stroke-dasharray: 600;
-    stroke-dashoffset: 600;
-    animation: drawCircle 2s cubic-bezier(0.2, 1, 0.2, 1) 0.5s forwards;
+    transform: translate(-50%, -50%) scale(1.2);
+    width: 120%;
+    height: 120%;
+    z-index: 1;
+    filter: url(#ambient-blur);
+    animation: rotateSlowly 40s linear infinite;
   }
   
-  @keyframes drawCircle {
-    to { stroke-dashoffset: 0; }
-  }
-
   @keyframes rotateSlowly {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-  }
-
-  @keyframes rotateSlowlyReverse {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(-360deg); }
+    from { transform: translate(-50%, -50%) scale(1.2) rotate(0deg); }
+    to { transform: translate(-50%, -50%) scale(1.2) rotate(360deg); }
   }
 
   .badge {
@@ -135,10 +138,8 @@
     align-items: center;
     gap: 14px;
     padding: 18px 22px;
-    background: var(--bg-primary);
-    border: 1px solid var(--line-color);
     border-radius: var(--radius-sm);
-    transition: transform 0.3s cubic-bezier(0.2, 1, 0.2, 1), box-shadow 0.3s cubic-bezier(0.2, 1, 0.2, 1);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .badge:hover {

@@ -34,34 +34,81 @@ const { title } = Astro.props;
 
   <slot />
 
+  <!-- Background SVG Blobs -->
+  <svg class="ambient-glow" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="none">
+    <defs>
+      <filter id="ambient-blur" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="60" />
+      </filter>
+      <!-- Liquid Hover Filter -->
+      <filter id="liquid">
+        <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="warp" />
+        <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="30" in="SourceGraphic" in2="warp" />
+      </filter>
+    </defs>
+    
+    <g filter="url(#ambient-blur)">
+      <circle cx="10vw" cy="20vh" r="30vw" fill="var(--accent-mint)" opacity="0.6">
+        <animate attributeName="cx" values="10vw; 80vw; 10vw" dur="40s" repeatCount="indefinite" />
+        <animate attributeName="cy" values="20vh; 60vh; 20vh" dur="50s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="80vw" cy="70vh" r="25vw" fill="var(--accent-butter)" opacity="0.5">
+        <animate attributeName="cx" values="80vw; 20vw; 80vw" dur="45s" repeatCount="indefinite" />
+        <animate attributeName="cy" values="70vh; 10vh; 70vh" dur="35s" repeatCount="indefinite" />
+      </circle>
+    </g>
+  </svg>
+
   <!-- Cursor Customizado HTML -->
+  <div class="custom-cursor-follower" id="custom-cursor-follower" aria-hidden="true"></div>
   <div class="custom-cursor" id="custom-cursor" aria-hidden="true"></div>
+
+  <!-- Cinematic Noise Overlay -->
+  <div class="noise-overlay"></div>
 
   <script>
     // Cursor script (Vanilla JS & requestAnimationFrame for max performance)
-    const cursor = document.getElementById('custom-cursor');
+    const dot = document.getElementById('custom-cursor');
+    const follower = document.getElementById('custom-cursor-follower');
     
     // Check for reduced motion and touch devices to completely disable custom cursor logic
     const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
-    if (cursor && !isReducedMotion && !isTouch) {
-      let mouseX = 0;
-      let mouseY = 0;
-      let cursorX = 0;
-      let cursorY = 0;
+    if (dot && follower && !isReducedMotion && !isTouch) {
+      let mouseX = window.innerWidth / 2;
+      let mouseY = window.innerHeight / 2;
+      let cursorX = mouseX;
+      let cursorY = mouseY;
+      let followerX = mouseX;
+      let followerY = mouseY;
 
       window.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
+        
+        // Expose normalized mouse coordinates to CSS for 3D parallax
+        const normX = (e.clientX / window.innerWidth) * 2 - 1; // -1 to 1
+        const normY = (e.clientY / window.innerHeight) * 2 - 1;
+        document.documentElement.style.setProperty('--mouse-x', normX);
+        document.documentElement.style.setProperty('--mouse-y', normY);
+        
+        // Expose pixel coordinates for glass spotlight
+        document.documentElement.style.setProperty('--mouse-x-px', `${e.clientX}px`);
+        document.documentElement.style.setProperty('--mouse-y-px', `${e.clientY}px`);
       }, { passive: true });
 
       const loop = () => {
-        // LERPing cursor position for smooth feeling without heavy libraries
-        cursorX += (mouseX - cursorX) * 0.15;
-        cursorY += (mouseY - cursorY) * 0.15;
+        // Fast snap for dot
+        cursorX += (mouseX - cursorX) * 0.8;
+        cursorY += (mouseY - cursorY) * 0.8;
         
-        cursor.style.transform = `translate3d(${cursorX - 6}px, ${cursorY - 6}px, 0)`;
+        // Smooth LERP for follower
+        followerX += (mouseX - followerX) * 0.15;
+        followerY += (mouseY - followerY) * 0.15;
+        
+        dot.style.transform = `translate3d(${cursorX - 4}px, ${cursorY - 4}px, 0)`;
+        follower.style.transform = `translate3d(${followerX - 16}px, ${followerY - 16}px, 0)`;
         
         requestAnimationFrame(loop);
       };
@@ -71,8 +118,32 @@ const { title } = Astro.props;
       // Magnetic/Hover effect on links and buttons
       const interactiveElements = document.querySelectorAll('a, button, .interactive');
       interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+        el.addEventListener('mouseenter', () => {
+          follower.classList.add('hovering');
+          dot.style.opacity = '0';
+        });
+        el.addEventListener('mouseleave', () => {
+          follower.classList.remove('hovering');
+          dot.style.opacity = '1';
+          el.style.transform = '';
+        });
+        
+        // Magnetic effect if it's a button
+        if(el.classList.contains('btn') || el.classList.contains('interactive')) {
+          el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const elCenterX = rect.left + rect.width / 2;
+            const elCenterY = rect.top + rect.height / 2;
+            const distX = e.clientX - elCenterX;
+            const distY = e.clientY - elCenterY;
+            
+            // Pull the button towards mouse
+            el.style.transform = `translate3d(${distX * 0.2}px, ${distY * 0.2}px, 0)`;
+            // Snap the follower to the button
+            mouseX = elCenterX + distX * 0.1;
+            mouseY = elCenterY + distY * 0.1;
+          });
+        }
       });
     }
 
