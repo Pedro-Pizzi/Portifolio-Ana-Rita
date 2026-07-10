@@ -1,26 +1,26 @@
 <section id="galeria" class="container">
-  <div class="section-title">
+  <div class="section-title reveal-up">
     <h2>Registros reais de uma rotina feita de<br /><span class="italic-serif">cuidado e estratégia.</span></h2>
   </div>
 
   <div class="gallery">
-    <figure class="tile tall span-7">
+    <figure class="tile tall span-7 reveal-up stagger-1 interactive">
       <img src="https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&q=80&w=900&h=700" alt="Atividade com Lego na clínica" width="900" height="700" loading="lazy" decoding="async" />
       <figcaption>Clínica: ludicidade, construção e aprendizagem</figcaption>
     </figure>
-    <figure class="tile tall span-5">
+    <figure class="tile tall span-5 reveal-up stagger-2 interactive">
       <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&q=80&w=700&h=700" alt="Atividade com números em sala" width="700" height="700" loading="lazy" decoding="async" />
       <figcaption>Sala de aula: mediação com recursos concretos</figcaption>
     </figure>
-    <figure class="tile span-4">
+    <figure class="tile span-4 reveal-up stagger-1 interactive">
       <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=500&h=420" alt="Atividade com letras" width="500" height="420" loading="lazy" decoding="async" />
       <figcaption>Alfabetização com materiais manipuláveis</figcaption>
     </figure>
-    <figure class="tile span-4">
+    <figure class="tile span-4 reveal-up stagger-2 interactive">
       <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&q=80&w=500&h=420" alt="Criança manipulando números" width="500" height="420" loading="lazy" decoding="async" />
       <figcaption>Adaptação e participação</figcaption>
     </figure>
-    <figure class="tile span-4">
+    <figure class="tile span-4 reveal-up stagger-3 interactive">
       <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&q=80&w=500&h=420" alt="Jogo de madeira" width="500" height="420" loading="lazy" decoding="async" />
       <figcaption>Atenção, percepção e planejamento</figcaption>
     </figure>
@@ -33,6 +33,10 @@
   .tile { position: relative; min-height: 280px; overflow: hidden; border-radius: var(--radius-md); background: var(--bg-secondary); }
   .tile img { width: 100%; height: 100%; object-fit: cover; }
   .tall { min-height: 440px; }
+  
+  .tile img { transition: transform 0.6s cubic-bezier(0.2, 1, 0.2, 1); }
+  .tile:hover img { transform: scale(1.05); }
+  
   figcaption { position: absolute; inset: auto 0 0; padding: 36px 22px 20px; color: white; font-family: var(--font-serif); font-size: 1.05rem; line-height: 1.25; background: linear-gradient(to top, rgba(43, 34, 48, 0.78), transparent); }
   .span-7 { grid-column: span 7; }
   .span-5 { grid-column: span 5; }
