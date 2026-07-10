@@ -150,10 +150,15 @@ const { title } = Astro.props;
         });
       }
 
-      // Refresh ScrollTrigger after a slight delay to ensure all DOM elements are calculated properly
-      setTimeout(() => {
+      // Refresh ScrollTrigger when images load and layout shifts
+      window.addEventListener('load', () => {
         ScrollTrigger.refresh();
-      }, 500);
+      });
+      
+      const ro = new ResizeObserver(() => {
+        ScrollTrigger.refresh();
+      });
+      ro.observe(document.body);
 
       // Cleanup on destroy
       return () => {
