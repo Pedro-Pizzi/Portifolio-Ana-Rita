@@ -42,7 +42,7 @@ html {
   font-family: var(--font-sans);
   color: var(--text-ink);
   background-color: var(--bg-primary);
-  overflow-x: hidden;
+  
 }
 
 body {
@@ -208,14 +208,14 @@ html.lenis, html.lenis body {
   z-index: 9999;
   transform: translate(-50%, -50%);
   transition: width 0.3s, height 0.3s, background-color 0.3s;
-  mix-blend-mode: difference;
+  
 }
 
 .custom-cursor.hovering {
   width: 48px;
   height: 48px;
   background-color: white;
-  mix-blend-mode: difference;
+  
 }
 
 @media (max-width: 1024px) {
