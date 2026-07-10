@@ -41,11 +41,15 @@
     <div class="visuals phone-mockups">
       <div class="bg-shape butter-shape"></div>
       
-      <div class="phone phone-1 float-1">
-        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400" alt="Sistema ANA App" loading="lazy" decoding="async" />
+      <div class="phone-wrapper phone-1-wrapper">
+        <div class="phone float-1">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400" alt="Sistema ANA App" loading="lazy" decoding="async" />
+        </div>
       </div>
-      <div class="phone phone-2 float-2">
-        <img src="https://images.unsplash.com/photo-1607252656733-fd7458bc97dc?auto=format&fit=crop&q=80&w=400" alt="Sistema ANA Dashboard" loading="lazy" decoding="async" />
+      <div class="phone-wrapper phone-2-wrapper">
+        <div class="phone float-2">
+          <img src="https://images.unsplash.com/photo-1607252656733-fd7458bc97dc?auto=format&fit=crop&q=80&w=400" alt="Sistema ANA Dashboard" loading="lazy" decoding="async" />
+        </div>
       </div>
     </div>
   </div>
@@ -222,7 +226,6 @@
     border-radius: 40px;
     padding: 12px;
     box-shadow: 0 40px 80px rgba(0,0,0,0.1);
-    position: absolute;
     z-index: 2;
   }
 
@@ -233,14 +236,21 @@
     border-radius: 28px;
   }
 
-  .phone-1 {
+  .phone-wrapper {
+    position: absolute;
+  }
+
+  .phone-1-wrapper {
     transform: rotate(-4deg) translateX(-40px);
     z-index: 2;
   }
 
-  .phone-2 {
+  .phone-2-wrapper {
     transform: rotate(6deg) translateX(80px) translateY(40px);
     z-index: 3;
+  }
+  
+  .phone-2-wrapper .phone {
     box-shadow: 0 40px 80px rgba(0,0,0,0.15);
   }
 
@@ -250,7 +260,7 @@
     .content h2 { font-size: 2.5rem; }
     .visuals { min-height: 450px; }
     .mint-shape, .butter-shape { width: 100%; height: 100%; border-radius: 24px; }
-    .phone-1 { transform: rotate(-4deg) translateX(-20px); }
-    .phone-2 { transform: rotate(6deg) translateX(40px) translateY(30px); }
+    .phone-1-wrapper { transform: rotate(-4deg) translateX(-20px); }
+    .phone-2-wrapper { transform: rotate(6deg) translateX(40px) translateY(30px); }
   }
 </style>

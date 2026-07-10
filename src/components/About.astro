@@ -9,7 +9,7 @@
         <div class="photo-frame">
           <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=600&h=800" alt="Ana Rita em momento descontraído" class="portrait" loading="lazy" decoding="async" />
         </div>
-        <svg class="deco-wave" viewBox="0 0 100 100" aria-hidden="true">
+        <svg class="deco-wave" viewBox="0 0 100 100" aria-hidden="true" preserveAspectRatio="none">
           <path d="M 0 50 Q 25 20 50 50 T 100 50 L 100 100 L 0 100 Z" fill="var(--brand-gold)" opacity="0.3"/>
         </svg>
       </div>
@@ -129,6 +129,7 @@
     bottom: 0;
     left: -20px;
     width: calc(100% + 40px);
+    height: 120px; /* Fix: explicitly set height so it doesn't take 1:1 ratio */
     z-index: 1;
   }
 

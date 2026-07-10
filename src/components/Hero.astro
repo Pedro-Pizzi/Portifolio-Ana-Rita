@@ -116,7 +116,7 @@
   /* Manual Split Text */
   .line-wrap {
     display: block;
-    overflow: visible; /* Prevents cutting off wrapped text */
+    overflow: hidden; /* Fix: changed to hidden to properly mask the text reveal animation */
     padding-bottom: 8px; 
   }
 
@@ -183,7 +183,7 @@
   .badge {
     position: absolute;
     bottom: 5%;
-    right: -10%; /* Move badge away from buttons to avoid overlap */
+    right: 0%; /* Fix: avoid horizontal overflow from -10% */
     background: var(--bg-primary);
     padding: 24px 32px;
     border-radius: var(--radius-sm);
