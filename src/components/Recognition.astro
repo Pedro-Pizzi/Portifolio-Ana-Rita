@@ -1,0 +1,118 @@
+---
+const situations = [
+  'A criança dá conta em casa, mas na escola trava.',
+  'Você planejou a atividade com carinho e ela terminou em choro.',
+  'A escola diz que inclui, mas a rotina do dia continua a mesma.',
+  'Você faz tudo por amor — e ainda assim sente que pode estar atrapalhando.',
+  'O relatório do semestre vira mais uma madrugada de trabalho dobrado.',
+];
+---
+
+<section class="reco on-light band" aria-labelledby="reco-title">
+  <div class="shell reco-inner">
+    <header class="reco-head">
+      <h2 id="reco-title" data-reveal>
+        Talvez você já tenha <br />
+        <span class="em-violet">tentado de tudo.</span>
+      </h2>
+    </header>
+
+    <div class="reco-body">
+      <ul class="situations">
+        {situations.map((s, i) => (
+          <li data-reveal data-delay={String(Math.min(i + 1, 5))}>
+            <span class="dot" aria-hidden="true"></span>
+            <span class="situation-text">{s}</span>
+          </li>
+        ))}
+      </ul>
+
+      <p class="reco-close prose" data-reveal data-delay="3">
+        Nada disso é falta de esforço. Quase sempre é falta de uma estratégia
+        desenhada para <span class="mark">aquela</span> criança, com material
+        concreto, previsibilidade e leitura do que o corpo dela está pedindo.
+        É exatamente esse desenho que eu faço.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reco-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .reco-head h2 {
+    font-size: var(--step-4);
+    position: sticky;
+    top: 8rem;
+  }
+
+  .situations {
+    display: grid;
+    gap: clamp(1.1rem, 2.4vw, 1.7rem);
+  }
+
+  .situations li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: baseline;
+    gap: clamp(0.9rem, 2vw, 1.4rem);
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 480;
+    line-height: 1.28;
+    letter-spacing: -0.008em;
+    color: var(--on-light);
+    text-wrap: pretty;
+  }
+
+  /* Escada: cada linha entra um pouco mais, como uma fala que avança. */
+  .situations li:nth-child(2) { padding-left: clamp(0px, 2vw, 28px); }
+  .situations li:nth-child(3) { padding-left: clamp(0px, 4vw, 56px); }
+  .situations li:nth-child(4) { padding-left: clamp(0px, 2vw, 28px); }
+  .situations li:nth-child(5) { padding-left: 0; }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ember);
+    transform: translateY(-0.35em);
+  }
+
+  .situations li:nth-child(even) .dot {
+    background: var(--violet-500);
+  }
+
+  .reco-close {
+    margin-top: clamp(2.25rem, 5vw, 3.5rem);
+    padding-top: clamp(1.5rem, 3vw, 2.25rem);
+    border-top: 1px solid var(--rule-light);
+    font-size: var(--step-1);
+    line-height: 1.55;
+    color: var(--on-light-soft);
+    max-width: 58ch;
+  }
+
+  @media (max-width: 900px) {
+    .reco-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .reco-head h2 {
+      position: static;
+    }
+
+    .situations li {
+      font-size: var(--step-1);
+    }
+
+    .situations li:nth-child(n) {
+      padding-left: 0;
+    }
+  }
+</style>

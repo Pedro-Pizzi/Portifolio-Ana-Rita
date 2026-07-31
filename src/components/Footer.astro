@@ -1,93 +1,157 @@
 ---
-// Footer.astro
+import { site, links, nav } from '../data/site';
+
+const year = new Date().getFullYear();
+
+const elsewhere = [
+  { label: 'Instagram', href: links.instagram },
+  { label: 'Todos os links', href: links.linktree },
+  { label: 'Perfil no Google', href: links.google },
+  { label: 'Sistema A.N.A.', href: links.ana },
+  { label: 'Nebula Audio', href: links.nebula },
+];
 ---
 
-<footer class="site-footer">
-  <div class="final-cta container reveal stagger-1">
-    <span class="kicker">Obrigada por conhecer minha trajetória</span>
-    <h2>Sala de aula, clínica, estudos, <br/> <span class="italic-serif">inclusão e projetos com propósito.</span></h2>
-    <p>Essa é uma parte do meu trabalho: uma caminhada construída com afeto, ciência, observação e prática real.</p>
-    
-    <div class="actions">
-      <a class="btn btn-primary" href="https://www.google.com/search?q=Ana+Rita+Marques+-+Psicopedagoga+e+Apoio+Escolar" target="_blank" rel="noopener">Ver Perfil no Google</a>
-      <a class="btn btn-glass" href="https://www.nebulaaudio.com.br/" target="_blank" rel="noopener">Nebula Audio</a>
+<footer class="site-footer on-dark">
+  <div class="shell">
+    <p class="closing" data-reveal>
+      Sala de aula, clínica, estudo e projeto. <br />
+      <span class="em">Inclusão com ciência e acolhimento.</span>
+    </p>
+
+    <div class="footer-grid">
+      <div class="footer-id">
+        <p class="footer-name">{site.fullName}</p>
+        <p class="footer-role">Pedagoga &middot; Psicopedagoga &middot; {site.handle}</p>
+      </div>
+
+      <nav class="footer-col" aria-label="Seções">
+        <p class="footer-col-title" aria-hidden="true">Seções</p>
+        <ul>
+          {nav.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+
+      <nav class="footer-col" aria-label="Links externos">
+        <p class="footer-col-title" aria-hidden="true">Em outros lugares</p>
+        <ul>
+          {elsewhere.map((item) => (
+            <li>
+              <a href={item.href} target="_blank" rel="noopener">{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {year} {site.fullName}</p>
+      <p>Todas as fotos são de atendimentos e materiais reais.</p>
     </div>
   </div>
-
-  <div class="footer-bottom">
-    <p>Ana Rita de Mattos Marques • Pedagoga Especialista</p>
-    <p class="credit">Desenvolvido com excelência e cuidado.</p>
-  </div>
-  
-  <div class="bg-arc"></div>
 </footer>
 
 <style>
   .site-footer {
-    position: relative;
-    padding-top: 160px;
-    background-color: var(--bg-primary);
-    overflow: hidden;
+    background: var(--ink-900);
+    padding-block: var(--sp-2xl) var(--sp-l);
   }
 
-  .bg-arc {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%) translateY(50%);
-    width: 150vw;
-    height: 150vw;
-    border-radius: 50%;
-    background: var(--bg-secondary);
-    z-index: 1;
-    pointer-events: none;
+  .closing {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    font-weight: 520;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--on-dark);
+    text-wrap: balance;
+    margin-bottom: clamp(3rem, 7vw, 5rem);
   }
 
-  .final-cta {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto 120px;
-    position: relative;
-    z-index: 2;
+  .closing .em {
+    color: var(--violet-300);
   }
 
-  .final-cta h2 {
-    margin: 20px 0 32px;
-    font-size: clamp(2.5rem, 5vw, 4rem);
+  .footer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 5vw, 4rem);
+    padding-top: var(--sp-m);
+    border-top: 1px solid var(--rule-dark);
   }
 
-  .final-cta p {
-    margin-bottom: 48px;
-    font-size: 1.25rem;
+  .footer-name {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 560;
+    color: var(--on-dark);
   }
 
-  .actions {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    flex-wrap: wrap;
+  .footer-role {
+    margin-top: 0.35rem;
+    font-size: var(--step--2);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--on-dark-faint);
+  }
+
+  .footer-col-title {
+    font-family: var(--font-text);
+    font-size: var(--step--2);
+    font-weight: 650;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--violet-300);
+    margin-bottom: var(--sp-s);
+  }
+
+  .footer-col ul {
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  .footer-col a {
+    /* alvo de toque >= 24px (WCAG 2.2 — 2.5.8) */
+    display: inline-block;
+    padding-block: 0.35rem;
+    color: var(--on-dark-soft);
+    font-size: var(--step--1);
+    text-decoration: none;
+    transition: color 0.3s var(--ease-out-quart);
+  }
+
+  .footer-col a:hover,
+  .footer-col a:focus-visible {
+    color: var(--ember);
   }
 
   .footer-bottom {
-    text-align: center;
-    padding: 40px 24px;
-    border-top: 1px solid var(--line-color);
-    position: relative;
-    z-index: 2;
-    background: transparent;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--sp-2xs) var(--sp-m);
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    padding-top: var(--sp-s);
+    border-top: 1px solid var(--rule-dark);
   }
 
   .footer-bottom p {
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: var(--step--2);
+    letter-spacing: 0.04em;
+    color: var(--on-dark-faint);
   }
 
-  .credit {
-    font-size: 0.8rem !important;
-    margin-top: 8px;
-    opacity: 0.6;
-    font-family: var(--font-sans);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  @media (max-width: 760px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .footer-id {
+      grid-column: span 2;
+    }
   }
 </style>

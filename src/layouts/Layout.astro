@@ -1,237 +1,456 @@
 ---
 import '../styles/global.css';
+import { site, links, nav } from '../data/site';
 
 export interface Props {
   title: string;
+  description: string;
 }
 
-const { title } = Astro.props;
+const { title, description } = Astro.props;
+
+// Só emite URLs absolutas quando o domínio real foi configurado (SITE_URL).
+// Melhor não ter canonical do que ter canonical apontando para o lugar errado.
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : null;
+const ogImage = Astro.site
+  ? new URL('/og-image.webp', Astro.site).href
+  : '/og-image.webp';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.fullName,
+  alternateName: site.name,
+  jobTitle: 'Pedagoga e psicopedagoga',
+  description,
+  knowsAbout: [
+    'Educação inclusiva',
+    'Psicopedagogia',
+    'Transtorno do Espectro Autista',
+    'Desenvolvimento infantil',
+    'Funções executivas',
+    'Regulação sensorial',
+  ],
+  ...(canonical ? { url: canonical } : {}),
+  sameAs: [links.instagram, links.linktree],
+  alumniOf: [
+    { '@type': 'CollegeOrUniversity', name: 'FAIBI — Faculdade de Filosofia, Ciências e Letras de Ibitinga' },
+    { '@type': 'CollegeOrUniversity', name: 'PUC Minas' },
+  ],
+};
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width" />
-  <meta name="description" content="Portfólio de Ana Rita de Mattos Marques — Pedagoga e especialista em educação inclusiva." />
-  <title>{title}</title>
-</head>
-<body>
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <div class="logo">
-        <span class="logo-serif">Ana Rita</span>
-        <span class="logo-sans">Pedagoga</span>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.fullName} />
+    <meta name="theme-color" content="#221a29" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {canonical && <link rel="canonical" href={canonical} />}
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={site.fullName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={`${site.name}, pedagoga e psicopedagoga`} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400..650;1,400..500&family=Petrona:ital,wght@0,400..700;1,400..600&display=swap"
+    />
+
+    <script is:inline set:html={JSON.stringify(jsonLd)} type="application/ld+json" />
+
+    {/* Arma o motion antes da primeira pintura, para não haver flash de conteúdo.
+        Se a aba já nasce oculta, nem arma: transição em aba oculta congela e o
+        conteúdo ficaria invisível. */}
+    <script is:inline>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !document.hidden) {
+        document.documentElement.classList.add('js');
+      }
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="topbar" id="topbar" data-topbar>
+      <div class="shell topbar-inner">
+        <a class="brand" href="#topo" aria-label={`${site.name} — início`}>
+          <span class="brand-name">Ana Rita</span>
+          <span class="brand-role">Pedagoga &middot; Psicopedagoga</span>
+        </a>
+
+        <nav class="nav-desktop" aria-label="Navegação principal">
+          {nav.map((item) => (
+            <a class="nav-link" href={item.href}>{item.label}</a>
+          ))}
+          <a class="btn btn-primary nav-cta" href="#contato">Falar comigo</a>
+        </nav>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="menu-mobile"
+          data-menu-open
+        >
+          <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
+          <span class="visually-hidden">Abrir menu</span>
+        </button>
       </div>
-      <nav class="links" aria-label="Navegação principal">
-        <a href="#sobre" class="nav-link">Trajetória</a>
-        <a href="#galeria" class="nav-link">Prática</a>
-        <a href="#formacao" class="nav-link">Formação</a>
-        <a href="#projetos" class="btn btn-primary nav-cta">Contato</a>
+    </header>
+
+    <div class="menu" id="menu-mobile" hidden data-menu>
+      <div class="menu-head shell">
+        <span class="brand-name">Ana Rita</span>
+        <button class="nav-toggle nav-toggle-close" type="button" data-menu-close>
+          <span class="nav-toggle-bars is-x" aria-hidden="true"><i></i><i></i></span>
+          <span class="visually-hidden">Fechar menu</span>
+        </button>
+      </div>
+      <nav class="menu-list shell" aria-label="Navegação principal (celular)">
+        {nav.map((item, i) => (
+          <a class="menu-link" href={item.href} style={`--i:${i}`}>{item.label}</a>
+        ))}
+        <a class="menu-link" href="#contato" style={`--i:${nav.length}`}>Contato</a>
       </nav>
+      <div class="menu-foot shell">
+        <a href={links.instagram} target="_blank" rel="noopener">{site.handle}</a>
+      </div>
     </div>
-  </header>
 
-  <slot />
+    <slot />
 
-  <!-- Background SVG Blobs -->
-  <svg class="ambient-glow" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="none">
-    <defs>
-      <filter id="ambient-blur" x="-50%" y="-50%" width="200%" height="200%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="60" />
-      </filter>
-      <!-- Liquid Hover Filter -->
-      <filter id="liquid">
-        <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="warp" />
-        <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="30" in="SourceGraphic" in2="warp" />
-      </filter>
-    </defs>
-    
-    <g filter="url(#ambient-blur)">
-      <circle cx="10vw" cy="20vh" r="30vw" fill="var(--accent-mint)" opacity="0.6">
-        <animate attributeName="cx" values="10vw; 80vw; 10vw" dur="40s" repeatCount="indefinite" />
-        <animate attributeName="cy" values="20vh; 60vh; 20vh" dur="50s" repeatCount="indefinite" />
-      </circle>
-      <circle cx="80vw" cy="70vh" r="25vw" fill="var(--accent-butter)" opacity="0.5">
-        <animate attributeName="cx" values="80vw; 20vw; 80vw" dur="45s" repeatCount="indefinite" />
-        <animate attributeName="cy" values="70vh; 10vh; 70vh" dur="35s" repeatCount="indefinite" />
-      </circle>
-    </g>
-  </svg>
+    <script>
+      // ---------------------------------------------------------------- menu
+      const menu = document.querySelector<HTMLElement>('[data-menu]');
+      const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+      const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
 
-  <!-- Cursor Customizado HTML -->
-  <div class="custom-cursor-follower" id="custom-cursor-follower" aria-hidden="true"></div>
-  <div class="custom-cursor" id="custom-cursor" aria-hidden="true"></div>
+      if (menu && openBtn && closeBtn) {
+        const setMenu = (open: boolean) => {
+          menu.toggleAttribute('hidden', !open);
+          // deixa o browser aplicar `hidden` antes de animar a entrada
+          requestAnimationFrame(() => menu.classList.toggle('is-open', open));
+          openBtn.setAttribute('aria-expanded', String(open));
+          document.body.style.overflow = open ? 'hidden' : '';
+          if (open) closeBtn.focus();
+          else openBtn.focus();
+        };
 
-  <!-- Cinematic Noise Overlay -->
-  <div class="noise-overlay"></div>
+        openBtn.addEventListener('click', () => setMenu(true));
+        closeBtn.addEventListener('click', () => setMenu(false));
+        menu.addEventListener('click', (e) => {
+          if ((e.target as HTMLElement).closest('a')) setMenu(false);
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && !menu.hasAttribute('hidden')) setMenu(false);
+        });
+      }
 
-  <script>
-    // Cursor script (Vanilla JS & requestAnimationFrame for max performance)
-    const dot = document.getElementById('custom-cursor');
-    const follower = document.getElementById('custom-cursor-follower');
-    
-    // Check for reduced motion and touch devices to completely disable custom cursor logic
-    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const isTouch = window.matchMedia('(pointer: coarse)').matches;
+      // ------------------------------------------------------- topbar sólida
+      const topbar = document.querySelector<HTMLElement>('[data-topbar]');
+      if (topbar) {
+        const sentinel = document.createElement('div');
+        sentinel.setAttribute('aria-hidden', 'true');
+        sentinel.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:80px;pointer-events:none';
+        document.body.prepend(sentinel);
+        new IntersectionObserver(
+          ([entry]) => topbar.classList.toggle('is-stuck', !entry.isIntersecting),
+          { threshold: 0 },
+        ).observe(sentinel);
+      }
 
-    if (dot && follower && !isReducedMotion && !isTouch) {
-      let mouseX = window.innerWidth / 2;
-      let mouseY = window.innerHeight / 2;
-      let cursorX = mouseX;
-      let cursorY = mouseY;
-      let followerX = mouseX;
-      let followerY = mouseY;
+      // ------------------------------------------------------------- reveals
+      const root = document.documentElement;
+      const revealables = document.querySelectorAll<HTMLElement>('[data-reveal]');
 
-      window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        
-        // Expose normalized mouse coordinates to CSS for 3D parallax
-        const normX = (e.clientX / window.innerWidth) * 2 - 1; // -1 to 1
-        const normY = (e.clientY / window.innerHeight) * 2 - 1;
-        document.documentElement.style.setProperty('--mouse-x', normX);
-        document.documentElement.style.setProperty('--mouse-y', normY);
-        
-        // Expose pixel coordinates for glass spotlight
-        document.documentElement.style.setProperty('--mouse-x-px', `${e.clientX}px`);
-        document.documentElement.style.setProperty('--mouse-y-px', `${e.clientY}px`);
-      }, { passive: true });
-
-      const loop = () => {
-        // Fast snap for dot
-        cursorX += (mouseX - cursorX) * 0.8;
-        cursorY += (mouseY - cursorY) * 0.8;
-        
-        // Smooth LERP for follower
-        followerX += (mouseX - followerX) * 0.15;
-        followerY += (mouseY - followerY) * 0.15;
-        
-        dot.style.transform = `translate3d(${cursorX - 4}px, ${cursorY - 4}px, 0)`;
-        follower.style.transform = `translate3d(${followerX - 16}px, ${followerY - 16}px, 0)`;
-        
-        requestAnimationFrame(loop);
+      // Desarma o sistema inteiro: sem a classe `js` as regras de reveal não
+      // casam, então a opacidade volta a 1 sem depender de transição alguma.
+      // É a única saída segura quando a transição está congelada.
+      const disableMotion = () => {
+        root.classList.remove('js');
+        revealables.forEach((el) => el.classList.add('is-in'));
       };
-      
-      requestAnimationFrame(loop);
 
-      // Magnetic/Hover effect on links and buttons
-      const interactiveElements = document.querySelectorAll('a, button, .interactive');
-      interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-          follower.classList.add('hovering');
-          dot.style.opacity = '0';
+      if (!root.classList.contains('js') || !('IntersectionObserver' in window)) {
+        disableMotion();
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add('is-in');
+              io.unobserve(entry.target);
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.05 },
+        );
+        revealables.forEach((el) => io.observe(el));
+
+        // Aba oculta e impressão congelam transições: cai para estático.
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) disableMotion();
         });
-        el.addEventListener('mouseleave', () => {
-          follower.classList.remove('hovering');
-          dot.style.opacity = '1';
-          el.style.transform = '';
-        });
-        
-        // Magnetic effect if it's a button
-        if(el.classList.contains('btn') || el.classList.contains('interactive')) {
-          el.addEventListener('mousemove', (e) => {
-            const rect = el.getBoundingClientRect();
-            const elCenterX = rect.left + rect.width / 2;
-            const elCenterY = rect.top + rect.height / 2;
-            const distX = e.clientX - elCenterX;
-            const distY = e.clientY - elCenterY;
-            
-            // Pull the button towards mouse
-            el.style.transform = `translate3d(${distX * 0.2}px, ${distY * 0.2}px, 0)`;
-            // Snap the follower to the button
-            mouseX = elCenterX + distX * 0.1;
-            mouseY = elCenterY + distY * 0.1;
-          });
+        window.addEventListener('beforeprint', disableMotion);
+
+        // Rede de segurança: se depois de 2s algo foi marcado como visível mas
+        // continua transparente (render headless, compositor parado), ou se o
+        // observer nunca disparou, a página passa a aparecer inteira.
+        setTimeout(() => {
+          const list = Array.from(revealables);
+          const anyRevealed = list.some((el) => el.classList.contains('is-in'));
+          const stuck = list.some(
+            (el) =>
+              el.classList.contains('is-in') &&
+              parseFloat(getComputedStyle(el).opacity) < 0.99,
+          );
+          if (!anyRevealed || stuck || document.hidden) disableMotion();
+        }, 2000);
+      }
+    </script>
+
+    <style>
+      /* ------------------------------------------------------------ topbar */
+      .topbar {
+        position: fixed;
+        inset: 0 0 auto;
+        z-index: var(--z-nav);
+        padding-block: clamp(0.9rem, 1.6vw, 1.35rem);
+        transition:
+          background-color 0.45s var(--ease-out-quart),
+          border-color 0.45s var(--ease-out-quart),
+          padding 0.45s var(--ease-out-quart);
+        border-bottom: 1px solid transparent;
+      }
+
+      .topbar.is-stuck {
+        background: oklch(0.155 0.042 312 / 0.82);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border-bottom-color: var(--rule-dark);
+        padding-block: 0.7rem;
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--sp-s);
+      }
+
+      .brand {
+        display: grid;
+        gap: 2px;
+        text-decoration: none;
+        color: var(--on-dark);
+      }
+
+      .brand-name {
+        font-family: var(--font-display);
+        font-size: clamp(1.15rem, 2vw, 1.4rem);
+        font-weight: 620;
+        letter-spacing: -0.015em;
+        line-height: 1;
+      }
+
+      .brand-role {
+        font-size: 0.66rem;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--violet-300);
+      }
+
+      .nav-desktop {
+        display: flex;
+        align-items: center;
+        gap: clamp(1rem, 2.2vw, 2.1rem);
+      }
+
+      .nav-link {
+        position: relative;
+        color: var(--on-dark-soft);
+        font-size: var(--step--1);
+        font-weight: 500;
+        text-decoration: none;
+        padding-block: 4px;
+        transition: color 0.3s var(--ease-out-quart);
+      }
+
+      .nav-link::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 1px;
+        width: 100%;
+        background: var(--ember);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.4s var(--ease-out-quart);
+      }
+
+      .nav-link:hover,
+      .nav-link:focus-visible {
+        color: var(--on-dark);
+      }
+
+      .nav-link:hover::after,
+      .nav-link:focus-visible::after {
+        transform: scaleX(1);
+        transform-origin: left;
+      }
+
+      .nav-cta {
+        padding: 0.7em 1.25em;
+      }
+
+      /* ------------------------------------------------------- botão menu */
+      .nav-toggle {
+        display: none;
+        background: none;
+        border: 1px solid var(--rule-dark);
+        border-radius: var(--r-s);
+        padding: 0.7rem;
+        cursor: pointer;
+        color: var(--on-dark);
+      }
+
+      .nav-toggle-bars {
+        display: grid;
+        gap: 5px;
+        width: 20px;
+      }
+
+      .nav-toggle-bars i {
+        display: block;
+        height: 1.5px;
+        background: currentColor;
+        border-radius: 2px;
+        transition: transform 0.35s var(--ease-out-quart);
+      }
+
+      .nav-toggle-bars i:last-child {
+        width: 65%;
+        margin-left: auto;
+      }
+
+      .nav-toggle:hover .nav-toggle-bars i:last-child {
+        width: 100%;
+      }
+
+      .nav-toggle-bars.is-x i {
+        height: 1.5px;
+      }
+
+      .nav-toggle-bars.is-x i:first-child {
+        transform: translateY(3.25px) rotate(45deg);
+      }
+
+      .nav-toggle-bars.is-x i:last-child {
+        width: 100%;
+        transform: translateY(-3.25px) rotate(-45deg);
+      }
+
+      /* ------------------------------------------------------- menu mobile */
+      .menu {
+        position: fixed;
+        inset: 0;
+        z-index: var(--z-menu);
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        background: var(--ink-900);
+        opacity: 0;
+        transition: opacity 0.35s var(--ease-out-quart);
+      }
+
+      .menu[hidden] {
+        display: none;
+      }
+
+      .menu.is-open {
+        opacity: 1;
+      }
+
+      .menu-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-block: clamp(0.9rem, 1.6vw, 1.35rem);
+        color: var(--on-dark);
+        border-bottom: 1px solid var(--rule-dark);
+      }
+
+      .menu-list {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: var(--sp-xs);
+      }
+
+      .menu-link {
+        font-family: var(--font-display);
+        font-size: clamp(2rem, 9vw, 3rem);
+        font-weight: 560;
+        letter-spacing: -0.02em;
+        color: var(--on-dark);
+        text-decoration: none;
+        opacity: 0;
+        transform: translateY(18px);
+      }
+
+      .menu.is-open .menu-link {
+        opacity: 1;
+        transform: none;
+        transition:
+          opacity 0.5s var(--ease-out-expo) calc(90ms + var(--i) * 55ms),
+          transform 0.6s var(--ease-out-expo) calc(90ms + var(--i) * 55ms);
+      }
+
+      .menu-link:hover {
+        color: var(--violet-300);
+      }
+
+      .menu-foot {
+        padding-block: var(--sp-m);
+        border-top: 1px solid var(--rule-dark);
+        font-size: var(--step--1);
+        letter-spacing: 0.04em;
+      }
+
+      .menu-foot a {
+        color: var(--violet-300);
+        text-decoration: none;
+      }
+
+      @media (max-width: 860px) {
+        .nav-desktop {
+          display: none;
         }
-      });
-    }
 
-    // Intersection Observer for Reveal Animations
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.15
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target); // Animate only once
+        .nav-toggle {
+          display: block;
         }
-      });
-    }, observerOptions);
+      }
 
-    document.querySelectorAll('.reveal-up').forEach(el => {
-      observer.observe(el);
-    });
-  </script>
-</body>
+      @media (prefers-reduced-motion: reduce) {
+        .menu-link {
+          opacity: 1;
+          transform: none;
+        }
+      }
+    </style>
+  </body>
 </html>
-
-<style>
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    padding: 18px 0;
-    background: color-mix(in srgb, var(--bg-primary) 94%, white);
-    border-bottom: 1px solid var(--line-color);
-  }
-
-  .topbar-inner,
-  .links,
-  .logo {
-    display: flex;
-    align-items: center;
-  }
-
-  .topbar-inner {
-    justify-content: space-between;
-    gap: 24px;
-  }
-
-  .logo { gap: 8px; }
-
-  .logo-serif {
-    color: var(--brand-purple);
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-
-  .logo-sans {
-    color: var(--text-muted);
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .links { gap: clamp(16px, 2.5vw, 32px); }
-
-  .nav-link {
-    color: var(--text-ink);
-    font-size: 0.95rem;
-    font-weight: 500;
-    text-decoration: none;
-  }
-
-  .nav-link:hover,
-  .nav-link:focus-visible {
-    color: var(--brand-purple-light);
-  }
-
-  .nav-cta {
-    padding: 10px 22px;
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 768px) {
-    .topbar { padding: 14px 0; }
-    .links .nav-link { display: none; }
-    .logo-serif { font-size: 1.25rem; }
-    .logo-sans { font-size: 0.7rem; }
-  }
-</style>

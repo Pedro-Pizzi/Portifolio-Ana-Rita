@@ -1,28 +1,30 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import Recognition from '../components/Recognition.astro';
 import About from '../components/About.astro';
-import Gallery from '../components/Gallery.astro';
+import Practice from '../components/Practice.astro';
+import Ana from '../components/Ana.astro';
+import Nebula from '../components/Nebula.astro';
 import Training from '../components/Training.astro';
-import Projects from '../components/Projects.astro';
+import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 
-// This is the main landing page
+const title = 'Ana Rita Marques — Pedagoga e psicopedagoga inclusiva';
+const description =
+  'Pedagoga e psicopedagoga. Atendimento em clínica e apoio à sala de aula com estratégias reais para cada criança: material concreto, rotina previsível e regulação sensorial.';
 ---
 
-<Layout title="Ana Rita de Mattos Marques | Pedagoga & Professora">
-  <main>
+<Layout title={title} description={description}>
+  <main id="conteudo">
     <Hero />
+    <Recognition />
     <About />
-    <Gallery />
+    <Practice />
+    <Ana />
+    <Nebula />
     <Training />
-    <Projects />
+    <Contact />
   </main>
   <Footer />
 </Layout>
-
-<style>
-  main {
-    width: 100%;
-  }
-</style>

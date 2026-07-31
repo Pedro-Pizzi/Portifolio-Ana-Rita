@@ -1,250 +1,541 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+/* =========================================================================
+   Ana Rita Marques — sistema visual
+   "Inclusão com ciência e acolhimento"
 
+   Estratégia de cor: COMMITTED. O roxo profundo (aubergine) é a superfície,
+   não o detalhe. O claro é o contraponto de leitura. O âmbar é o calor,
+   usado em menos de 10% da página.
+   ========================================================================= */
+
+/* ---------------------------------------------------------------- tokens */
 :root {
-  /* Paleta Original - Mantida conforme solicitação */
-  --brand-purple: #483652;
-  --brand-purple-light: #5d4668;
-  --brand-gold: #c3a16d;
-  --accent-mint: #e2efea;
-  --accent-butter: #fdf5d6;
-  
-  /* Cores de Fundo (Editorial) */
-  --bg-primary: #fcfcfc;
-  --bg-secondary: #f6f3f0;
-  
-  /* Textos */
-  --text-ink: #2b2230;
-  --text-muted: #5e5264;
-  --line-color: rgba(72, 54, 82, 0.1);
+  /* Fundo profundo — aubergine. A superfície da marca. */
+  --ink-900: oklch(0.155 0.042 312);
+  --ink-800: oklch(0.213 0.052 310);
+  --ink-700: oklch(0.268 0.058 308);
+  --ink-600: oklch(0.335 0.062 307);
 
-  /* Fontes */
-  --font-sans: 'Inter', sans-serif;
-  --font-serif: 'Playfair Display', serif;
+  /* Violeta de marca (vem dos posts dela) */
+  --violet-700: oklch(0.42 0.135 305);
+  --violet-600: oklch(0.505 0.147 304);
+  --violet-500: oklch(0.585 0.148 303);
+  --violet-300: oklch(0.805 0.078 305);
+  --violet-100: oklch(0.925 0.032 305);
 
-  /* Bordas */
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 20px;
-  --radius-xl: 28px;
+  /* Superfície clara — tingida para o roxo da marca, nunca para o creme */
+  --paper: oklch(0.968 0.005 306);
+  --paper-2: oklch(0.932 0.011 306);
+  --paper-3: oklch(0.878 0.016 306);
+
+  /* Âmbar quente — vem da madeira e dos materiais da clínica dela */
+  --ember: oklch(0.715 0.132 55);
+  --ember-deep: oklch(0.545 0.115 48);
+  /* Versão só para texto miúdo sobre superfície clara: 0.545 não passava
+     no AA a 13px (4,2:1). Esta passa. */
+  --ember-text: oklch(0.475 0.108 45);
+
+  /* Texto */
+  --on-dark: oklch(0.965 0.007 306);
+  --on-dark-soft: oklch(0.825 0.019 306);
+  --on-dark-faint: oklch(0.685 0.026 306);
+  --on-light: oklch(0.235 0.038 310);
+  --on-light-soft: oklch(0.415 0.03 308);
+
+  /* Linhas */
+  --rule-dark: oklch(1 0 0 / 0.14);
+  --rule-light: oklch(0.235 0.038 310 / 0.15);
+
+  /* Tipografia */
+  --font-display: 'Petrona', 'Iowan Old Style', Georgia, serif;
+  --font-text: 'Archivo', 'Segoe UI', system-ui, sans-serif;
+
+  /* Escala modular fluida — razão 1.25 */
+  --step--2: clamp(0.75rem, 0.73rem + 0.1vw, 0.8rem);
+  --step--1: clamp(0.875rem, 0.85rem + 0.12vw, 0.938rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.2rem, 1.13rem + 0.35vw, 1.4rem);
+  --step-2: clamp(1.45rem, 1.32rem + 0.65vw, 1.85rem);
+  --step-3: clamp(1.8rem, 1.56rem + 1.2vw, 2.6rem);
+  --step-4: clamp(2.2rem, 1.8rem + 2vw, 3.5rem);
+  --step-5: clamp(2.7rem, 2.05rem + 3.2vw, 4.6rem);
+  --step-6: clamp(3rem, 2.1rem + 4.4vw, 5.6rem);
+
+  /* Espaço fluido */
+  --sp-3xs: clamp(0.25rem, 0.24rem + 0.05vw, 0.3rem);
+  --sp-2xs: clamp(0.5rem, 0.47rem + 0.15vw, 0.6rem);
+  --sp-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.95rem);
+  --sp-s: clamp(1rem, 0.93rem + 0.35vw, 1.25rem);
+  --sp-m: clamp(1.5rem, 1.36rem + 0.7vw, 2rem);
+  --sp-l: clamp(2.25rem, 2rem + 1.25vw, 3.15rem);
+  --sp-xl: clamp(3.5rem, 3rem + 2.5vw, 5.25rem);
+  --sp-2xl: clamp(5rem, 4rem + 5vw, 9rem);
+  --sp-3xl: clamp(7rem, 5.4rem + 8vw, 13rem);
+
+  /* Raios — suaves, nunca pílula em superfícies grandes */
+  --r-xs: 4px;
+  --r-s: 10px;
+  --r-m: 18px;
+  --r-l: 28px;
+
+  /* Curvas */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Camadas — escala semântica, nunca 9999 */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky: 100;
+  --z-nav: 200;
+  --z-overlay: 300;
+  --z-menu: 400;
+
+  /* Largura de leitura */
+  --measure: 66ch;
+
+  --shell: 1280px;
+  --gutter: clamp(1.25rem, 5vw, 4rem);
+}
+
+/* ------------------------------------------------------------------ base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  /* Sombras */
-  --shadow-sm: 0 4px 20px rgba(72, 54, 82, 0.05);
-  --shadow-lg: 0 16px 40px rgba(72, 54, 82, 0.1);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  /* Sombras */
-  --shadow-sm: 0 4px 20px rgba(72, 54, 82, 0.05);
-  --shadow-lg: 0 16px 40px rgba(72, 54, 82, 0.1);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  font-family: var(--font-sans);
-  color: var(--text-ink);
-  background-color: var(--bg-primary);
-  
+  /* compensa o header fixo ao pular por âncora */
+  scroll-padding-top: 6rem;
 }
 
 body {
+  background: var(--ink-900);
+  color: var(--on-light);
+  font-family: var(--font-text);
+  font-size: var(--step-0);
+  font-synthesis-weight: none;
   line-height: 1.6;
-  font-size: 1rem;
-  overflow-x: hidden;
-  background-color: var(--bg-primary);
+  overflow-x: clip;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Cinematic Noise Overlay */
-.noise-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 9997; /* Below cursor, above everything else */
-  pointer-events: none;
-  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.08"/></svg>');
-  mix-blend-mode: color-burn;
-  opacity: 0.8;
-}
-
-/* Glassmorphism Utilities */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 8px 32px rgba(72, 54, 82, 0.08);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Spotlight that follows mouse for glass elements */
-.glass-panel::before {
-  content: "";
-  position: absolute;
-  top: var(--mouse-y-px, 50%);
-  left: var(--mouse-x-px, 50%);
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.glass-panel:hover::before {
-  opacity: 1;
-}
-
-/* Typography Editorial */
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
-  color: var(--brand-purple);
-  line-height: 1.1;
-  font-weight: 600;
-}
-
-h1 {
-  font-size: clamp(2.6rem, 5.8vw, 5.5rem);
-  letter-spacing: -0.02em;
-}
-
-h2 {
-  font-size: clamp(2rem, 5vw, 4rem);
-}
-
-p {
-  color: var(--text-muted);
-}
-
-.kicker {
-  font-family: var(--font-sans);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--brand-gold);
-  display: block;
-  margin-bottom: 16px;
-}
-
-.italic-serif {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
-}
-
-/* Base Layout */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-inline: clamp(20px, 4vw, 40px);
-}
-
-section {
-  padding: clamp(72px, 10vw, 120px) 0;
-  position: relative;
-}
-
-@media (max-width: 968px) {
-  section {
-    padding: 80px 0;
-  }
-}
-
-.btn-wrapper {
-  display: inline-flex;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px 36px;
-  border-radius: 999px;
-  font-family: var(--font-sans);
-  font-weight: 500;
-  font-size: 1.05rem;
-  text-decoration: none;
-  letter-spacing: 0.02em;
-  position: relative;
-  overflow: hidden;
-  transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
-}
-
-/* Fill effect on hover */
-.btn::after {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 150%;
-  height: 0;
-  background: var(--brand-purple-light);
-  border-radius: 50%;
-  z-index: -1;
-  transition: height 0.5s cubic-bezier(0.2, 1, 0.2, 1), top 0.5s cubic-bezier(0.2, 1, 0.2, 1);
-}
-
-.btn:hover::after {
-  top: -25%;
-  height: 150%;
-}
-
-.liquid-hover img {
-  transition: filter 0.8s ease, transform 0.8s cubic-bezier(0.2, 1, 0.2, 1);
-}
-.liquid-hover:hover img {
-  filter: url(#liquid);
-  transform: scale(1.08);
-}
-
-.btn-primary {
-  background: var(--brand-purple);
-  color: white;
-  border: 1px solid var(--brand-purple);
-}
-
-.btn-primary::after {
-  background: var(--brand-gold);
-}
-
-.btn-glass {
-  background: transparent;
-  color: var(--brand-purple);
-  border: 1px solid var(--brand-purple);
-}
-
-.btn-glass:hover {
-  color: white;
-}
-
-.btn-glass::after {
-  background: var(--brand-purple);
-}
-
-img {
+img,
+picture,
+svg,
+video {
   display: block;
   max-width: 100%;
 }
 
+a {
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+:where(button, input, select, textarea) {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--violet-500);
+  color: oklch(0.99 0 0);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 3px;
+  border-radius: var(--r-xs);
+}
+
+/* --------------------------------------------------------- tipografia */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 620;
+  line-height: 1.04;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--step-6);
+}
+
+h2 {
+  font-size: var(--step-5);
+}
+
+h3 {
+  font-size: var(--step-2);
+  line-height: 1.16;
+  letter-spacing: -0.012em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+.lede {
+  font-size: var(--step-1);
+  line-height: 1.52;
+  max-width: 54ch;
+}
+
+.prose p {
+  max-width: var(--measure);
+}
+
+.prose p + p {
+  margin-top: var(--sp-s);
+}
+
+/* Voz: a serifa em itálico é o gesto de ênfase da marca dela. */
+.em {
+  font-style: italic;
+  font-weight: 480;
+}
+
+/* violet-600 e não 500: em telas estreitas o título encolhe abaixo do
+   limite de "texto grande" e passa a exigir 4,5:1. */
+.em-violet {
+  font-style: italic;
+  font-weight: 480;
+  color: var(--violet-600);
+}
+
+.em-ember {
+  font-style: italic;
+  font-weight: 480;
+  color: var(--ember-deep);
+}
+
+/* Sublinhado desenhado à mão — marca de ênfase, não decoração genérica */
+.mark {
+  position: relative;
+  white-space: nowrap;
+}
+
+.mark::after {
+  content: '';
+  position: absolute;
+  left: -0.06em;
+  right: -0.06em;
+  bottom: 0.02em;
+  height: 0.34em;
+  background: var(--ember);
+  opacity: 0.32;
+  border-radius: 0.18em 0.6em 0.2em 0.5em;
+  z-index: -1;
+}
+
+/* -------------------------------------------------------------- layout */
+.shell {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.shell-narrow {
+  width: 100%;
+  max-width: 920px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.band {
+  padding-block: var(--sp-2xl);
+  position: relative;
+}
+
+.band-tight {
+  padding-block: var(--sp-xl);
+}
+
+.band-tall {
+  padding-block: var(--sp-3xl);
+}
+
+/* Superfícies — a página alterna entre o escuro da marca e o claro de leitura */
+.on-dark {
+  background: var(--ink-900);
+  color: var(--on-dark);
+}
+
+.on-dark-raised {
+  background: var(--ink-800);
+  color: var(--on-dark);
+}
+
+.on-light {
+  background: var(--paper);
+  color: var(--on-light);
+}
+
+.on-light-2 {
+  background: var(--paper-2);
+  color: var(--on-light);
+}
+
+.on-dark h1,
+.on-dark h2,
+.on-dark h3,
+.on-dark-raised h1,
+.on-dark-raised h2,
+.on-dark-raised h3 {
+  color: var(--on-dark);
+}
+
+.on-dark p,
+.on-dark-raised p {
+  color: var(--on-dark-soft);
+}
+
+.on-light h1,
+.on-light h2,
+.on-light h3,
+.on-light-2 h2,
+.on-light-2 h3 {
+  color: var(--on-light);
+}
+
+.on-light p,
+.on-light-2 p {
+  color: var(--on-light-soft);
+}
+
+/* Texto claro sobre fundo escuro pede mais respiro entre linhas */
+.on-dark p,
+.on-dark li,
+.on-dark-raised p,
+.on-dark-raised li {
+  line-height: 1.68;
+}
+
+/* ------------------------------------------------------------- botões */
+.btn {
+  --btn-bg: var(--violet-600);
+  --btn-fg: oklch(0.99 0 0);
+  --btn-line: var(--violet-600);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  padding: 0.95em 1.6em;
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  border: 1px solid var(--btn-line);
+  border-radius: var(--r-s);
+  font-family: var(--font-text);
+  font-size: var(--step--1);
+  font-weight: 560;
+  letter-spacing: 0.005em;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.35s var(--ease-out-quart),
+    border-color 0.35s var(--ease-out-quart),
+    color 0.35s var(--ease-out-quart),
+    transform 0.35s var(--ease-out-quart);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn svg {
+  flex: none;
+  width: 1.15em;
+  height: 1.15em;
+}
+
+.btn-primary:hover {
+  --btn-bg: var(--violet-500);
+  --btn-line: var(--violet-500);
+}
+
+/* Sobre o escuro: contorno claro */
+.btn-ghost-dark {
+  --btn-bg: transparent;
+  --btn-fg: var(--on-dark);
+  --btn-line: oklch(1 0 0 / 0.32);
+}
+
+.btn-ghost-dark:hover {
+  --btn-bg: oklch(1 0 0 / 0.08);
+  --btn-line: oklch(1 0 0 / 0.6);
+}
+
+/* Sobre o claro: contorno escuro */
+.btn-ghost-light {
+  --btn-bg: transparent;
+  --btn-fg: var(--on-light);
+  --btn-line: var(--rule-light);
+}
+
+.btn-ghost-light:hover {
+  --btn-bg: oklch(0.235 0.038 310 / 0.06);
+  --btn-line: var(--on-light);
+}
+
+.btn-ember {
+  --btn-bg: var(--ember);
+  --btn-fg: oklch(0.21 0.05 45);
+  --btn-line: var(--ember);
+}
+
+.btn-ember:hover {
+  --btn-bg: oklch(0.775 0.12 58);
+  --btn-line: oklch(0.775 0.12 58);
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-xs);
+}
+
+/* ---------------------------------------------------------- utilitários */
+.hairline {
+  border: 0;
+  border-top: 1px solid var(--rule-light);
+}
+
+.on-dark .hairline,
+.on-dark-raised .hairline {
+  border-top-color: var(--rule-dark);
+}
+
+/* A frase-espinha da marca. Aparece uma vez, como assinatura — não como
+   etiqueta repetida acima de cada seção. */
+.signature {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75em;
+  font-family: var(--font-text);
+  font-size: var(--step--2);
+  font-weight: 620;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--violet-300);
+}
+
+.signature::before,
+.signature::after {
+  content: '';
+  width: clamp(20px, 4vw, 48px);
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.on-light .signature,
+.on-light-2 .signature {
+  color: var(--violet-700);
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--sp-s);
+  top: var(--sp-s);
+  z-index: var(--z-menu);
+  padding: 0.75em 1.25em;
+  background: var(--paper);
+  color: var(--on-light);
+  border-radius: var(--r-s);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform 0.25s var(--ease-out-quart);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------- imagens */
+.frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-m);
+  background: var(--ink-700);
+}
+
+.frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* -------------------------------------------------------------- motion
+   Regra: o conteúdo é visível por padrão. A animação só é armada quando
+   o JS confirma que consegue desarmá-la (html.js) e o usuário não pediu
+   menos movimento. Sem JS, com JS travado, ou em render headless com
+   fallback por timeout, a página aparece inteira.
+
+   Usa `translate` (propriedade independente) e não `transform`, para não
+   sobrescrever deslocamentos de composição que alguns blocos aplicam via
+   `transform` — as duas propriedades compõem. */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal] {
+    opacity: 0;
+    translate: 0 clamp(14px, 2vw, 26px);
+    transition:
+      opacity 0.85s var(--ease-out-expo),
+      translate 0.95s var(--ease-out-expo);
+  }
+
+  html.js [data-reveal='blur'] {
+    filter: blur(10px);
+    transition:
+      opacity 0.85s var(--ease-out-expo),
+      translate 0.95s var(--ease-out-expo),
+      filter 0.85s var(--ease-out-expo);
+  }
+
+  html.js [data-reveal].is-in {
+    opacity: 1;
+    translate: none;
+    filter: none;
+  }
+}
+
+[data-delay='1'] { transition-delay: 90ms; }
+[data-delay='2'] { transition-delay: 180ms; }
+[data-delay='3'] { transition-delay: 270ms; }
+[data-delay='4'] { transition-delay: 360ms; }
+[data-delay='5'] { transition-delay: 450ms; }
+
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+  html {
+    scroll-behavior: auto;
+  }
 
   *,
   *::before,
@@ -252,84 +543,6 @@ img {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-  
-  .custom-cursor, .custom-cursor-follower {
-    display: none !important;
+    scroll-behavior: auto !important;
   }
 }
-
-/* High Performance Reveal Animations (Cinematic Blur) */
-.reveal-up {
-  opacity: 0;
-  transform: translateY(40px) scale(0.98);
-  filter: blur(12px);
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1), filter 1s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform, filter;
-}
-.reveal-up.is-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: blur(0);
-}
-
-/* Stagger reveals */
-.stagger-1 { transition-delay: 0.1s; }
-.stagger-2 { transition-delay: 0.2s; }
-.stagger-3 { transition-delay: 0.3s; }
-.stagger-4 { transition-delay: 0.4s; }
-
-/* Ambient Glow SVG Background */
-.ambient-glow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -2;
-  pointer-events: none;
-}
-
-/* Custom Cursor */
-.custom-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 8px;
-  height: 8px;
-  background-color: var(--brand-gold);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  will-change: transform;
-  mix-blend-mode: exclusion;
-}
-
-.custom-cursor-follower {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 32px;
-  height: 32px;
-  border: 1px solid var(--brand-gold);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  will-change: transform;
-  transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
-}
-
-.custom-cursor-follower.hovering {
-  width: 64px;
-  height: 64px;
-  background-color: rgba(195, 161, 109, 0.1);
-  border-color: rgba(195, 161, 109, 0.3);
-  mix-blend-mode: normal;
-}
-
-@media (pointer: coarse) {
-  .custom-cursor {
-    display: none !important;
-  }
-}
-

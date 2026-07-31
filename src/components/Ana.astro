@@ -1,0 +1,276 @@
+---
+import { Image } from 'astro:assets';
+import anaLogin from '../assets/images/ana-entrar.webp';
+import anaPanel from '../assets/images/ana-painel.webp';
+import anaIcon from '../assets/images/ana-icone.webp';
+import { links } from '../data/site';
+
+// Sequência real do produto (registro → objetivo → entrega), por isso numerada.
+const flow = [
+  {
+    n: '01',
+    title: 'Registro',
+    text: 'A evidência do atendimento, escrita do jeito que o profissional já escreve.',
+  },
+  {
+    n: '02',
+    title: 'Objetivo',
+    text: 'A direção do trabalho, amarrada ao que foi observado — não a um modelo genérico.',
+  },
+  {
+    n: '03',
+    title: 'Plano e relatório',
+    text: 'PEI, devolutiva e PDF prontos para entregar à família e à escola.',
+  },
+];
+
+const pillars = [
+  { title: 'Humano no loop', text: 'A IA sugere, você revisa. Nada sai sem passar por quem atende.' },
+  { title: 'Habilidades BNCC', text: 'Os objetivos conversam com a base que a escola já usa.' },
+  { title: 'LGPD', text: 'Acesso isolado por profissional. Dado de criança não é dado qualquer.' },
+];
+---
+
+<section class="ana on-light band-tall" id="sistema-ana" aria-labelledby="ana-title">
+  <div class="shell ana-top">
+    <div class="ana-intro">
+      <p class="ana-role" data-reveal>Projeto idealizado por mim</p>
+      <h2 id="ana-title" class="ana-title" data-reveal data-delay="1">
+        <Image
+          class="ana-icon"
+          src={anaIcon}
+          alt=""
+          width={56}
+          height={56}
+          loading="lazy"
+          decoding="async"
+        />
+        Sistema A.N.A.
+      </h2>
+      <p class="ana-expand" data-reveal data-delay="1">
+        Análise do Neurodesenvolvimento e Aprendizagem
+      </p>
+      <p class="lede ana-lede" data-reveal data-delay="2">
+        Nasceu do problema que eu vivia todo semestre: o histórico da criança
+        espalhado em caderno, grupo de mensagem e planilha solta. O A.N.A. junta
+        registro, objetivo e relatório num lugar só — para profissionais e
+        equipes de saúde e educação.
+      </p>
+      <div class="btn-row" data-reveal data-delay="3">
+        <a class="btn btn-primary" href={links.ana} target="_blank" rel="noopener">
+          Conhecer o Sistema A.N.A.
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path d="M7 17 17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <figure class="ana-shot" data-reveal="blur" data-delay="2">
+      <div class="screens">
+        <Image
+          class="screen screen-back"
+          src={anaLogin}
+          alt="Tela de entrada do Sistema A.N.A. com o texto continue seu acompanhamento com clareza e as opções de entrar com Google, Microsoft ou e-mail"
+          widths={[320, 520]}
+          sizes="(max-width: 900px) 40vw, 20vw"
+          loading="lazy"
+          decoding="async"
+        />
+        <Image
+          class="screen screen-front"
+          src={anaPanel}
+          alt="Painel do Sistema A.N.A. com as ferramentas rápidas: novo registro, planos de intervenção, criar relatório, documentos salvos, ver gráficos e meus aprendizes"
+          widths={[320, 520]}
+          sizes="(max-width: 900px) 44vw, 22vw"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <figcaption>Telas reais do produto — entrada e painel de ferramentas</figcaption>
+    </figure>
+  </div>
+
+  <div class="shell ana-bottom">
+    <ol class="flow">
+      {flow.map((f, i) => (
+        <li data-reveal data-delay={String(i + 1)}>
+          <span class="flow-n" aria-hidden="true">{f.n}</span>
+          <h3>{f.title}</h3>
+          <p>{f.text}</p>
+        </li>
+      ))}
+    </ol>
+
+    <ul class="pillars">
+      {pillars.map((p, i) => (
+        <li data-reveal data-delay={String(i + 1)}>
+          <h3>{p.title}</h3>
+          <p>{p.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .ana-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .ana-role {
+    font-size: var(--step--2);
+    font-weight: 620;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--violet-700);
+    margin-bottom: var(--sp-s);
+  }
+
+  .ana h2 {
+    font-size: var(--step-5);
+    line-height: 0.98;
+  }
+
+  .ana-expand {
+    margin-top: 0.4rem;
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-style: italic;
+    font-weight: 450;
+    color: var(--violet-700);
+  }
+
+  .ana-lede {
+    margin-top: var(--sp-m);
+  }
+
+  .ana-top .btn-row {
+    margin-top: var(--sp-l);
+  }
+
+  .ana-title {
+    display: flex;
+    align-items: center;
+    gap: 0.45em;
+  }
+
+  .ana-icon {
+    width: clamp(38px, 5vw, 62px);
+    height: auto;
+    border-radius: 24%;
+    flex: none;
+  }
+
+  /* --------------------------------------------------------- telas reais */
+  .ana-shot {
+    display: grid;
+    gap: var(--sp-s);
+  }
+
+  .screens {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+  }
+
+  .screen {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    border: 1px solid var(--rule-light);
+    background: white;
+    box-shadow: 0 30px 60px -30px oklch(0.235 0.038 310 / 0.5);
+  }
+
+  .screen-back {
+    margin-top: clamp(1rem, 3vw, 2.5rem);
+  }
+
+  .ana-shot figcaption {
+    font-size: var(--step--2);
+    color: var(--on-light-soft);
+  }
+
+  /* ------------------------------------------------------------- fluxo */
+  .ana-bottom {
+    margin-top: clamp(4rem, 9vw, 7rem);
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    counter-reset: none;
+    padding-top: var(--sp-m);
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .flow li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      'n title'
+      'n text';
+    column-gap: var(--sp-s);
+    align-items: baseline;
+  }
+
+  .flow-n {
+    grid-area: n;
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 600;
+    color: var(--violet-600);
+    line-height: 1;
+  }
+
+  .flow h3 {
+    grid-area: title;
+    font-size: var(--step-1);
+    margin-bottom: 0.35rem;
+  }
+
+  .flow p {
+    grid-area: text;
+    font-size: var(--step--1);
+    max-width: 34ch;
+  }
+
+  /* ------------------------------------------------------------- pilares */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .pillars li {
+    padding-top: var(--sp-s);
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .pillars h3 {
+    font-family: var(--font-text);
+    font-size: var(--step--1);
+    font-weight: 650;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.4rem;
+  }
+
+  .pillars p {
+    font-size: var(--step--1);
+    max-width: 34ch;
+  }
+
+  @media (max-width: 900px) {
+    .ana-top {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,255 @@
+---
+import { Image } from 'astro:assets';
+import handLetters from '../assets/images/maos-letras.webp';
+import blocks from '../assets/images/blocos-construcao.webp';
+import numbers from '../assets/images/numeros-madeira.webp';
+import oddEven from '../assets/images/par-ou-impar.webp';
+
+const arenas = [
+  {
+    key: 'clinica',
+    title: 'Clínica Evolução',
+    kind: 'Atendimento individual',
+    text: 'Aprendizagem, atenção e alfabetização em sessões desenhadas caso a caso. Cada objetivo vira uma proposta concreta — e cada sessão vira registro, não memória.',
+  },
+  {
+    key: 'escola',
+    title: 'Rede pública',
+    kind: 'Professora auxiliar',
+    text: 'Dentro da rotina escolar real: adaptação de atividade, mediação da aprendizagem e ajustes de ambiente que cabem no tempo que o professor tem.',
+  },
+  {
+    key: 'ludico',
+    title: 'Intervenção lúdica',
+    kind: 'Material concreto',
+    text: 'Jogos, manipuláveis e recursos visuais para trabalhar controle inibitório, tolerância à frustração e autonomia sem transformar tudo em folha de exercício.',
+  },
+];
+
+const shots = [
+  {
+    img: handLetters,
+    alt: 'Mão de Ana Rita apoiada sobre dezenas de letras magnéticas coloridas espalhadas na mesa de madeira',
+    caption: 'Letras móveis — do som para a letra, antes do lápis',
+    span: 'a',
+  },
+  {
+    img: blocks,
+    alt: 'Construção de blocos coloridos sobre placa verde, com dinossauro de madeira, palmeira e cerca montados na mesa da clínica',
+    caption: 'Construção livre — planejamento e tolerância à frustração',
+    span: 'b',
+  },
+  {
+    img: numbers,
+    alt: 'Fichas redondas de madeira com números coloridos espalhadas na mesa, com as mãos de uma criança ao fundo',
+    caption: 'Fichas numéricas — contagem com o corpo junto',
+    span: 'c',
+  },
+  {
+    img: oddEven,
+    alt: 'Atividade impressa "Par ou ímpar" ao lado de um quadro numérico de 1 a 100 com os pares destacados em amarelo',
+    caption: 'Par ou ímpar — regra visível, não decorada',
+    span: 'd',
+  },
+];
+---
+
+<section class="practice on-dark band-tall" id="pratica" aria-labelledby="practice-title">
+  <div class="shell">
+    <header class="practice-head">
+      <h2 id="practice-title" data-reveal>
+        Três frentes, <br />
+        <span class="em">a mesma lógica.</span>
+      </h2>
+      <p class="lede" data-reveal data-delay="1">
+        Mediação, adaptação e presença. O que muda é o contexto — clínica,
+        escola ou casa. O que não muda é partir do que aquela criança já
+        consegue fazer.
+      </p>
+    </header>
+
+    <div class="arenas">
+      {arenas.map((a, i) => (
+        <article class={`arena arena-${a.key}`} data-reveal data-delay={String(i + 1)}>
+          <p class="arena-kind">{a.kind}</p>
+          <h3>{a.title}</h3>
+          <p class="arena-text">{a.text}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="mosaic">
+      {shots.map((s, i) => (
+        <figure class={`shot shot-${s.span}`} data-reveal="blur" data-delay={String(i + 1)}>
+          <div class="frame">
+            <Image
+              src={s.img}
+              alt={s.alt}
+              widths={[420, 640, 900]}
+              sizes="(max-width: 700px) 92vw, 46vw"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <figcaption>{s.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .practice-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: end;
+    margin-bottom: clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .practice-head h2 {
+    font-size: var(--step-5);
+  }
+
+  .practice-head .lede {
+    color: var(--on-dark-soft);
+    padding-bottom: 0.4rem;
+  }
+
+  /* ---------------------------------------------------------- as frentes
+     Não são cards: são blocos de larguras e alturas diferentes, presos por
+     uma quina superior colorida. */
+  .arenas {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(1.75rem, 4vw, 3.25rem) clamp(1.5rem, 3vw, 2.75rem);
+  }
+
+  .arena {
+    padding-top: var(--sp-s);
+    border-top: 2px solid var(--arena-line, var(--violet-500));
+  }
+
+  .arena-clinica {
+    grid-column: span 5;
+    --arena-line: var(--violet-500);
+    /* a quina pode ser mais escura que o rótulo; texto miúdo precisa de AA */
+    --arena-label: var(--violet-300);
+  }
+
+  .arena-escola {
+    grid-column: span 4;
+    --arena-line: var(--ember);
+    --arena-label: var(--ember);
+    transform: translateY(clamp(0px, 2.5vw, 34px));
+  }
+
+  .arena-ludico {
+    grid-column: span 3;
+    --arena-line: oklch(0.755 0.075 155);
+    --arena-label: oklch(0.755 0.075 155);
+    transform: translateY(clamp(0px, 5vw, 68px));
+  }
+
+  .arena-kind {
+    font-size: var(--step--2);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--arena-label);
+    margin-bottom: 0.6rem;
+  }
+
+  .arena h3 {
+    font-size: var(--step-3);
+    margin-bottom: var(--sp-xs);
+  }
+
+  .arena-text {
+    font-size: var(--step--1);
+    max-width: 38ch;
+  }
+
+  /* -------------------------------------------------------------- mosaico */
+  .mosaic {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.75rem);
+    margin-top: clamp(5rem, 11vw, 9rem);
+    /* sem stretch: cada peça tem a altura do próprio conteúdo */
+    align-items: start;
+  }
+
+  .shot {
+    display: grid;
+    gap: 0.7rem;
+    align-content: start;
+  }
+
+  .shot .frame {
+    border-radius: var(--r-m);
+  }
+
+  .shot figcaption {
+    font-size: var(--step--2);
+    line-height: 1.5;
+    color: var(--on-dark-faint);
+  }
+
+  /* Duas fileiras com larguras alternadas (7+5, depois 5+7). Cada foto é
+     paisagem 3:2, então nenhuma sofre recorte forçado. */
+  .shot .frame {
+    aspect-ratio: 3 / 2;
+  }
+
+  .shot-a { grid-column: 1 / span 7; grid-row: 1; }
+  .shot-b { grid-column: 8 / span 5; grid-row: 1; }
+  .shot-c { grid-column: 1 / span 5; grid-row: 2; }
+  .shot-d { grid-column: 6 / span 7; grid-row: 2; }
+
+  /* a fileira de baixo entra um pouco mais alta, quebrando o alinhamento */
+  .shot-c,
+  .shot-d {
+    margin-top: clamp(0.5rem, 1.5vw, 1.5rem);
+  }
+
+  .shot-d {
+    margin-top: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  @media (max-width: 1000px) {
+    .practice-head {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+
+    .arena-clinica,
+    .arena-escola,
+    .arena-ludico {
+      grid-column: span 12;
+      transform: none;
+    }
+
+    .arena-text {
+      max-width: var(--measure);
+    }
+
+    .shot-a { grid-column: 1 / span 6; grid-row: 1; }
+    .shot-b { grid-column: 7 / span 6; grid-row: 1; }
+    .shot-c { grid-column: 1 / span 6; grid-row: 2; }
+    .shot-d { grid-column: 7 / span 6; grid-row: 2; }
+  }
+
+  @media (max-width: 700px) {
+    .shot-a,
+    .shot-b,
+    .shot-c,
+    .shot-d {
+      grid-column: 1 / span 12;
+      grid-row: auto;
+      margin-top: 0;
+    }
+  }
+</style>

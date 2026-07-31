@@ -1,0 +1,195 @@
+---
+import { Image } from 'astro:assets';
+import nebulaHand from '../assets/images/nebula-mao.webp';
+import { links } from '../data/site';
+
+const coupon = 'diariodeumaproinclusiva';
+---
+
+<section class="nebula on-light-2 band" aria-labelledby="nebula-title">
+  <div class="shell nebula-inner">
+    <figure class="nebula-post" data-reveal="blur">
+      <Image
+        src={nebulaHand}
+        alt="Ana Rita sorrindo enquanto segura o estojo dos protetores auditivos Nebula Audio, com a televisão ligada ao fundo"
+        widths={[420, 640, 900]}
+        sizes="(max-width: 900px) 92vw, 42vw"
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption>Ambiente barulhento em casa — o mesmo princípio da sala de aula</figcaption>
+    </figure>
+
+    <div class="nebula-copy" data-reveal data-delay="1">
+      <p class="nebula-role">Embaixadora</p>
+      <h2 id="nebula-title">
+        Reduzir o ruído <br />
+        <span class="em-ember">é cuidado, não fuga.</span>
+      </h2>
+
+      <p class="prose">
+        Protetor auditivo não serve para parar de ouvir. Serve para tirar o
+        excesso e permitir que a pessoa continue presente — na sala de aula, na
+        festa de aniversário, no evento cheio. Uso com as crianças que atendo e
+        uso comigo.
+      </p>
+
+      <div class="coupon">
+        <div class="coupon-label">Cupom de desconto</div>
+        <button class="coupon-code" type="button" data-copy={coupon}>
+          <code>{coupon}</code>
+          <span class="coupon-state" data-copy-state aria-live="polite">Copiar</span>
+        </button>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn btn-ghost-light" href={links.nebula} target="_blank" rel="noopener">
+          Ver a Nebula Audio
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path d="M7 17 17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+    const state = btn.querySelector<HTMLElement>('[data-copy-state]');
+    btn.addEventListener('click', async () => {
+      const value = btn.dataset.copy ?? '';
+      try {
+        await navigator.clipboard.writeText(value);
+        if (state) state.textContent = 'Copiado';
+      } catch {
+        // Sem permissão de clipboard: seleciona para o usuário copiar à mão.
+        const code = btn.querySelector('code');
+        if (code) {
+          const range = document.createRange();
+          range.selectNodeContents(code);
+          const sel = window.getSelection();
+          sel?.removeAllRanges();
+          sel?.addRange(range);
+        }
+        if (state) state.textContent = 'Selecionado';
+      }
+      btn.classList.add('is-copied');
+      setTimeout(() => {
+        btn.classList.remove('is-copied');
+        if (state) state.textContent = 'Copiar';
+      }, 2200);
+    });
+  });
+</script>
+
+<style>
+  .nebula-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .nebula-post {
+    display: grid;
+    gap: var(--sp-xs);
+  }
+
+  .nebula-post img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--r-m);
+    box-shadow: 0 26px 55px -30px oklch(0.235 0.038 310 / 0.5);
+  }
+
+  .nebula-post figcaption {
+    font-size: var(--step--2);
+    color: var(--on-light-soft);
+  }
+
+  .nebula-role {
+    font-size: var(--step--2);
+    font-weight: 620;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ember-text);
+    margin-bottom: var(--sp-s);
+  }
+
+  .nebula h2 {
+    font-size: var(--step-4);
+    margin-bottom: var(--sp-m);
+  }
+
+  /* ------------------------------------------------------------- cupom */
+  .coupon {
+    margin-top: var(--sp-l);
+  }
+
+  .coupon-label {
+    font-size: var(--step--2);
+    font-weight: 620;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--on-light-soft);
+    margin-bottom: 0.55rem;
+  }
+
+  .coupon-code {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-s);
+    padding: 0.7rem 0.75rem 0.7rem 1rem;
+    background: transparent;
+    border: 1px dashed color-mix(in oklch, var(--ember-deep) 55%, transparent);
+    border-radius: var(--r-s);
+    cursor: pointer;
+    transition:
+      border-color 0.3s var(--ease-out-quart),
+      background-color 0.3s var(--ease-out-quart);
+  }
+
+  .coupon-code:hover {
+    border-color: var(--ember-deep);
+    background: color-mix(in oklch, var(--ember) 12%, transparent);
+  }
+
+  .coupon-code code {
+    font-family: var(--font-text);
+    font-size: var(--step-0);
+    font-weight: 650;
+    letter-spacing: 0.01em;
+    color: var(--on-light);
+  }
+
+  .coupon-state {
+    padding: 0.25rem 0.6rem;
+    border-radius: var(--r-xs);
+    background: color-mix(in oklch, var(--ember) 26%, transparent);
+    color: var(--ember-text);
+    font-size: var(--step--2);
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .coupon-code.is-copied .coupon-state {
+    background: var(--ember);
+    color: oklch(0.21 0.05 45);
+  }
+
+  .nebula .btn-row {
+    margin-top: var(--sp-l);
+  }
+
+  @media (max-width: 900px) {
+    .nebula-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .nebula-post {
+      max-width: 460px;
+    }
+  }
+</style>

@@ -1,48 +1,198 @@
-<section id="formacao" class="container">
-  <div class="section-title reveal-up">
-    <h2>Formação contínua<br /><span class="italic-serif">organizada com clareza.</span></h2>
-    <p>Minha formação une educação, inclusão, aprendizagem e neurodesenvolvimento. Abaixo, separei o que já foi concluído do que está em andamento.</p>
-  </div>
+---
+const done = [
+  { title: 'Pedagogia', org: 'FAIBI — Ibitinga' },
+  { title: 'Psicopedagogia: atuação em contextos educativos', org: 'PUC Minas' },
+  { title: 'Psicologia Escolar', org: null },
+  { title: 'Dificuldades e Transtornos de Aprendizagem', org: null },
+  { title: 'Leitura, Escrita e Produção de Texto', org: null },
+  { title: 'Gestão e Organização da Escola', org: null },
+];
 
-  <div class="training-grid">
-    <article class="train-card solid-mint reveal-up stagger-1 interactive">
-      <h3>Concluídas</h3>
-      <ul>
-        <li>Pedagogia <small>FAIBI Ibitinga</small></li>
-        <li>Psicopedagogia: atuação em contextos educativos <small>PUC Minas Gerais</small></li>
-        <li>Psicologia Escolar</li>
-        <li>Dificuldades e Transtornos de Aprendizagem</li>
-        <li>Leitura, Escrita e Produção de Texto</li>
-        <li>Gestão e Organização da Escola</li>
-      </ul>
-    </article>
+const ongoing = [
+  { title: 'Análise do Comportamento Aplicada ao TEA', org: 'Pós-graduação' },
+  { title: 'Neurociências e Autismo', org: 'Pós-graduação' },
+];
+---
 
-    <article class="train-card solid-butter reveal-up stagger-2 interactive">
-      <h3>Em andamento</h3>
-      <ul>
-        <li>Pós-graduação em Análise do Comportamento Aplicada ao TEA</li>
-        <li>Pós-graduação em Neurociências e Autismo</li>
-      </ul>
-      <div class="note-box">
-        <strong>Cursos complementares</strong>
-        ABA, TEA na escola, alfabetização de crianças típicas e atípicas, Congresso Espectro, simpósios sobre autismo, inclusão e neurodesenvolvimento.
-      </div>
-    </article>
+<section class="training on-dark band-tall" id="formacao" aria-labelledby="training-title">
+  <div class="shell">
+    <header class="training-head">
+      <h2 id="training-title" data-reveal>
+        Formação contínua, <br />
+        <span class="em">sem enfeite.</span>
+      </h2>
+      <p class="lede" data-reveal data-delay="1">
+        Educação, inclusão, aprendizagem e neurodesenvolvimento. O que já
+        terminei e o que ainda estou cursando — separado, para você saber
+        exatamente o que está contratando.
+      </p>
+    </header>
+
+    <div class="training-grid">
+      <section class="column" aria-labelledby="col-done" data-reveal data-delay="1">
+        <h3 id="col-done" class="column-title">Concluídas</h3>
+        <ul>
+          {done.map((item) => (
+            <li>
+              <span class="item-title">{item.title}</span>
+              {item.org && <span class="item-org">{item.org}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="column column-live" aria-labelledby="col-ongoing" data-reveal data-delay="2">
+        <h3 id="col-ongoing" class="column-title">
+          Em andamento
+          <span class="pulse" aria-hidden="true"></span>
+        </h3>
+        <ul>
+          {ongoing.map((item) => (
+            <li>
+              <span class="item-title">{item.title}</span>
+              <span class="item-org">{item.org}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="extras">
+          <h4>Complementares</h4>
+          <p>
+            ABA, TEA na escola, alfabetização de crianças típicas e atípicas,
+            Congresso Espectro e simpósios sobre autismo, inclusão e
+            neurodesenvolvimento.
+          </p>
+        </div>
+      </section>
+    </div>
   </div>
 </section>
 
 <style>
-  .section-title { max-width: 46rem; margin: 0 auto clamp(36px, 6vw, 64px); text-align: center; }
-  .section-title h2 { margin-bottom: 20px; }
-  .training-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 3vw, 32px); }
-  .train-card { padding: clamp(28px, 5vw, 52px); border: 1px solid var(--line-color); border-radius: var(--radius-lg); }
-  .solid-mint { background: color-mix(in srgb, var(--accent-mint) 42%, var(--bg-primary)); }
-  .solid-butter { background: color-mix(in srgb, var(--accent-butter) 50%, var(--bg-primary)); }
-  .train-card h3 { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line-color); font-size: 2rem; }
-  ul { display: grid; gap: 18px; list-style: none; }
-  li { color: var(--text-ink); font-size: 1.05rem; font-weight: 500; }
-  li small { display: block; margin-top: 4px; color: var(--text-muted); font-size: 0.76rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; }
-  .note-box { margin-top: 32px; padding-top: 22px; border-top: 1px solid color-mix(in srgb, var(--brand-gold) 55%, transparent); color: var(--text-muted); font-size: 0.95rem; }
-  .note-box strong { display: block; margin-bottom: 6px; color: var(--brand-purple); font-family: var(--font-serif); font-size: 1.15rem; }
-  @media (max-width: 800px) { .training-grid { grid-template-columns: 1fr; } }
+  .training-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: end;
+    margin-bottom: clamp(3rem, 7vw, 5rem);
+  }
+
+  .training-head h2 {
+    font-size: var(--step-4);
+  }
+
+  .training-head .lede {
+    color: var(--on-dark-soft);
+    padding-bottom: 0.3rem;
+  }
+
+  .training-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .column-title {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding-bottom: var(--sp-xs);
+    margin-bottom: var(--sp-m);
+    border-bottom: 1px solid var(--rule-dark);
+    font-family: var(--font-text);
+    font-size: var(--step--1);
+    font-weight: 650;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--on-dark-faint);
+  }
+
+  .column-live .column-title {
+    color: var(--violet-300);
+    border-bottom-color: color-mix(in oklch, var(--violet-500) 55%, transparent);
+  }
+
+  .pulse {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ember);
+    box-shadow: 0 0 0 0 color-mix(in oklch, var(--ember) 70%, transparent);
+    animation: pulse 2.8s var(--ease-out-quart) infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--ember) 60%, transparent); }
+    60%, 100% { box-shadow: 0 0 0 9px oklch(0.715 0.132 55 / 0); }
+  }
+
+  .column ul {
+    display: grid;
+    gap: var(--sp-s);
+  }
+
+  .column li {
+    display: grid;
+    gap: 3px;
+    padding-bottom: var(--sp-s);
+    border-bottom: 1px solid var(--rule-dark);
+  }
+
+  .column li:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .item-title {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 520;
+    line-height: 1.25;
+    color: var(--on-dark);
+  }
+
+  .item-org {
+    font-size: var(--step--2);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--on-dark-faint);
+  }
+
+  .extras {
+    margin-top: var(--sp-l);
+    padding: var(--sp-m);
+    border-radius: var(--r-m);
+    background: var(--ink-800);
+  }
+
+  .extras h4 {
+    font-family: var(--font-text);
+    font-size: var(--step--2);
+    font-weight: 650;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-bottom: 0.6rem;
+  }
+
+  .extras p {
+    font-size: var(--step--1);
+    color: var(--on-dark-soft);
+  }
+
+  @media (max-width: 900px) {
+    .training-head,
+    .training-grid {
+      grid-template-columns: 1fr;
+      align-items: start;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pulse {
+      animation: none;
+      box-shadow: 0 0 0 4px oklch(0.715 0.132 55 / 0.25);
+    }
+  }
 </style>

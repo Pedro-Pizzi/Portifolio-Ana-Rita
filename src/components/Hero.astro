@@ -1,178 +1,235 @@
-<section id="hero" class="hero-section container">
-  <div class="hero-grid">
-    <div class="hero-content">
-      <h1 class="hero-title reveal-up">
-        <span>Inclusão no</span>
-        <span>aprender, brincar</span>
-        <span class="italic-serif">e no viver 🧠</span>
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/images/retrato-estudio.webp';
+import { site } from '../data/site';
+
+const credentials = [
+  'Pedagogia — FAIBI Ibitinga',
+  'Psicopedagogia — PUC Minas',
+  'Clínica Evolução + rede pública',
+  'Pós em ABA/TEA e Neurociências (em curso)',
+];
+---
+
+<section class="hero on-dark" id="topo" aria-labelledby="hero-title">
+  <div class="hero-glow" aria-hidden="true"></div>
+
+  <div class="shell hero-inner">
+    <div class="hero-copy">
+      <p class="signature" data-reveal>{site.tagline}</p>
+
+      <h1 id="hero-title" data-reveal data-delay="1">
+        Inclusão no aprender, <br />
+        no brincar <br />
+        <span class="em">e no viver.</span>
       </h1>
-      <p class="reveal-up stagger-1">Sou Ana Rita Marques, criadora de conteúdo digital e pedagoga inclusiva. Minha missão é construir rotinas e estratégias reais para cada criança ✨, focando em materiais concretos e regulação sensorial.</p>
 
-      <div class="actions reveal-up stagger-2">
-        <a class="btn btn-primary interactive" href="#sobre">Minha Trajetória</a>
-        <a class="btn btn-glass interactive" href="#projetos">Meus Links e Projetos 👇🏽</a>
+      <p class="lede" data-reveal data-delay="2">
+        Sou Ana Rita Marques, pedagoga e psicopedagoga. Atendo em clínica e acompanho
+        a sala de aula da rede pública construindo estratégias reais para cada
+        criança — material concreto, rotina previsível e regulação sensorial.
+      </p>
+
+      <div class="btn-row hero-actions" data-reveal data-delay="3">
+        <a class="btn btn-primary" href="#contato">
+          Falar comigo
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+        <a class="btn btn-ghost-dark" href="#sistema-ana">Conhecer o Sistema A.N.A.</a>
       </div>
     </div>
 
-    <div class="hero-visual reveal-up stagger-3">
-      <svg class="morphing-blob" viewBox="0 0 200 200" aria-hidden="true" preserveAspectRatio="none">
-        <path fill="var(--brand-purple-light)" opacity="0.15">
-          <animate 
-            attributeName="d" 
-            dur="12s" 
-            repeatCount="indefinite"
-            values="
-              M 100, 10 C 150, 10 190, 50 190, 100 C 190, 150 150, 190 100, 190 C 50, 190 10, 150 10, 100 C 10, 50 50, 10 100, 10 Z;
-              M 100, 20 C 160, 10 180, 60 180, 100 C 180, 140 140, 180 100, 180 C 60, 180 20, 140 20, 100 C 20, 60 40, 10 100, 20 Z;
-              M 100, 10 C 150, 20 190, 40 190, 100 C 190, 160 160, 190 100, 190 C 40, 190 10, 160 10, 100 C 10, 40 50, 20 100, 10 Z;
-              M 100, 10 C 150, 10 190, 50 190, 100 C 190, 150 150, 190 100, 190 C 50, 190 10, 150 10, 100 C 10, 50 50, 10 100, 10 Z
-            "
-          />
-        </path>
-        <path fill="none" stroke="var(--brand-gold)" stroke-width="0.8" stroke-dasharray="4 8">
-          <animate 
-            attributeName="d" 
-            dur="18s" 
-            repeatCount="indefinite"
-            values="
-              M 100, 5 C 160, 5 195, 40 195, 100 C 195, 160 160, 195 100, 195 C 40, 195 5, 160 5, 100 C 5, 40 40, 5 100, 5 Z;
-              M 100, 15 C 150, 0 200, 50 190, 100 C 180, 150 150, 200 100, 190 C 50, 180 0, 150 10, 100 C 20, 50 50, 30 100, 15 Z;
-              M 100, 5 C 160, 5 195, 40 195, 100 C 195, 160 160, 195 100, 195 C 40, 195 5, 160 5, 100 C 5, 40 40, 5 100, 5 Z
-            "
-          />
-        </path>
-      </svg>
-
-      <div class="portrait-wrapper">
-        <img src="/images/ig_2.jpg" alt="Ana Rita Marques — Inclusão e Aprendizagem" width="800" height="1000" fetchpriority="high" />
+    <figure class="hero-portrait" data-reveal="blur" data-delay="2">
+      <div class="portrait-frame">
+        <Image
+          src={portrait}
+          alt="Ana Rita Marques sorrindo, de colete cinza com o logo da Clínica Evolução, em frente a um fundo claro"
+          widths={[360, 540, 720, 900]}
+          sizes="(max-width: 960px) 300px, 30vw"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
       </div>
+      <figcaption>
+        <span class="handle">{site.handle}</span>
+        <span class="handle-note">Conteúdo diário sobre inclusão, para famílias e escolas</span>
+      </figcaption>
+    </figure>
+  </div>
 
-      <div class="badge glass-panel interactive">
-        <span class="badge-num">10+</span>
-        <span class="badge-text">Anos de<br />prática</span>
-      </div>
-    </div>
+  <div class="shell">
+    <ul class="credentials" data-reveal data-delay="4">
+      {credentials.map((c) => <li>{c}</li>)}
+    </ul>
   </div>
 </section>
 
 <style>
-  .hero-section {
-    min-height: min(820px, calc(100vh - 76px));
-    display: flex;
-    align-items: center;
-    padding-top: clamp(40px, 7vw, 88px);
-  }
-
-  .hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
-    gap: clamp(32px, 5vw, 72px);
-    align-items: center;
-  }
-
-  .hero-title span {
-    display: block;
-    padding-bottom: 4px;
-  }
-
-  .hero-content p {
-    max-width: 39rem;
-    margin: 28px 0 36px;
-    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
-  }
-
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-
-  .hero-visual {
+  .hero {
     position: relative;
-    width: 100%;
+    padding-top: clamp(7.5rem, 15vh, 11rem);
+    padding-bottom: var(--sp-l);
+    overflow: clip;
+  }
+
+  /* Luz difusa atrás do retrato — estática, sem blob animado */
+  .hero-glow {
+    position: absolute;
+    top: -18%;
+    right: -8%;
+    width: min(60vw, 780px);
     aspect-ratio: 1;
-    display: grid;
-    place-items: center;
-    transform: perspective(1000px) rotateX(calc(var(--mouse-y, 0) * -4deg)) rotateY(calc(var(--mouse-x, 0) * 4deg));
-    transition: transform 0.5s cubic-bezier(0.2, 1, 0.2, 1);
+    background: radial-gradient(
+      circle,
+      oklch(0.505 0.147 304 / 0.42) 0%,
+      oklch(0.505 0.147 304 / 0.12) 42%,
+      transparent 68%
+    );
+    pointer-events: none;
   }
 
-  .portrait-wrapper {
-    width: 76%;
-    aspect-ratio: 4 / 5;
+  .hero-inner {
     position: relative;
-    z-index: 2;
-    overflow: hidden;
-    border-radius: 24px 24px 0 24px;
+    z-index: var(--z-raised);
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+    gap: clamp(2rem, 6vw, 5.5rem);
+    align-items: center;
+    padding-bottom: var(--sp-xl);
   }
 
-  .portrait-wrapper img {
+  .hero-copy .signature {
+    margin-bottom: var(--sp-m);
+  }
+
+  .hero h1 {
+    font-weight: 580;
+  }
+
+  .hero .lede {
+    margin-top: var(--sp-m);
+    color: var(--on-dark-soft);
+  }
+
+  .hero-actions {
+    margin-top: var(--sp-l);
+  }
+
+  /* -------------------------------------------------------------- retrato */
+  .hero-portrait {
+    display: grid;
+    gap: var(--sp-s);
+  }
+
+  .portrait-frame {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    /* arco no topo: gesto de livro/retrato, não card genérico */
+    border-radius: 50vw 50vw var(--r-m) var(--r-m);
+    background: var(--ink-700);
+    box-shadow: 0 40px 80px -30px oklch(0 0 0 / 0.7);
+  }
+
+  .portrait-frame::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid oklch(1 0 0 / 0.16);
+    pointer-events: none;
+  }
+
+  .portrait-frame img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center 22%;
   }
 
-  .morphing-blob {
-    position: absolute;
-    inset: 50% auto auto 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%) scale(1.2);
-    width: 120%;
-    height: 120%;
-    z-index: 1;
-    filter: url(#ambient-blur);
-    animation: rotateSlowly 40s linear infinite;
-  }
-  
-  @keyframes rotateSlowly {
-    from { transform: translate(-50%, -50%) scale(1.2) rotate(0deg); }
-    to { transform: translate(-50%, -50%) scale(1.2) rotate(360deg); }
+  .hero-portrait figcaption {
+    display: grid;
+    gap: 3px;
   }
 
-  .badge {
-    position: absolute;
-    right: 0;
-    bottom: 7%;
-    z-index: 4;
+  .handle {
+    font-family: var(--font-text);
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--violet-300);
+  }
+
+  .handle-note {
+    font-size: var(--step--2);
+    line-height: 1.5;
+    color: var(--on-dark-faint);
+  }
+
+  /* --------------------------------------------------------- credenciais */
+  .credentials {
     display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 18px 22px;
-    border-radius: var(--radius-sm);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .badge:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-sm);
-  }
-
-  .badge-num {
-    color: var(--brand-gold);
-    font-family: var(--font-serif);
-    font-size: clamp(2rem, 3vw, 2.75rem);
-    line-height: 1;
-  }
-
-  .badge-text {
-    color: var(--text-ink);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    line-height: 1.35;
+    flex-wrap: wrap;
+    gap: var(--sp-2xs) 0;
+    padding-top: var(--sp-m);
+    border-top: 1px solid var(--rule-dark);
+    font-size: var(--step--2);
+    letter-spacing: 0.09em;
     text-transform: uppercase;
+    color: var(--on-dark-faint);
   }
 
-  @media (max-width: 968px) {
-    .hero-section { min-height: auto; padding-top: 56px; }
-    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
-    .hero-title { font-size: clamp(2.5rem, 11vw, 3.25rem); }
-    .hero-content p { max-width: 34rem; }
-    .hero-visual { max-width: 460px; margin-inline: auto; }
+  .credentials li {
+    padding-inline: clamp(0.75rem, 2vw, 1.6rem);
+  }
+
+  .credentials li:first-child {
+    padding-left: 0;
+  }
+
+  .credentials li + li {
+    border-left: 1px solid var(--rule-dark);
+  }
+
+  @media (max-width: 960px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: var(--sp-l);
+    }
+
+    .hero-portrait {
+      order: -1;
+      max-width: 300px;
+    }
+
+    .portrait-frame {
+      aspect-ratio: 1;
+      border-radius: 50vw;
+    }
+
+    .credentials li,
+    .credentials li:first-child {
+      padding-left: 0;
+      padding-right: 0;
+      flex: 1 1 100%;
+      border-left: 0;
+    }
+
+    .credentials li + li {
+      border-left: 0;
+      border-top: 1px solid var(--rule-dark);
+      padding-top: var(--sp-2xs);
+      margin-top: var(--sp-2xs);
+    }
   }
 
   @media (max-width: 480px) {
-    .actions .btn { width: 100%; }
-    .badge { right: 4%; bottom: 3%; padding: 14px 16px; }
+    .hero-actions .btn {
+      flex: 1 1 100%;
+      justify-content: center;
+    }
   }
 </style>
