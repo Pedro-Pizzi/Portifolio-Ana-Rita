@@ -18,13 +18,12 @@ const ongoing = [
   <div class="shell">
     <header class="training-head">
       <h2 id="training-title" data-reveal>
-        Formação contínua, <br />
-        <span class="em">sem enfeite.</span>
+        Estudo que acompanha <br />
+        <span class="em">a prática.</span>
       </h2>
       <p class="lede" data-reveal data-delay="1">
-        Educação, inclusão, aprendizagem e neurodesenvolvimento. O que já
-        terminei e o que ainda estou cursando — separado, para você saber
-        exatamente o que está contratando.
+        Educação, inclusão, aprendizagem e neurodesenvolvimento.
+        Uma formação que continua a cada nova pergunta que a prática traz.
       </p>
     </header>
 
@@ -117,14 +116,9 @@ const ongoing = [
     height: 7px;
     border-radius: 50%;
     background: var(--ember);
-    box-shadow: 0 0 0 0 color-mix(in oklch, var(--ember) 70%, transparent);
-    animation: pulse 2.8s var(--ease-out-quart) infinite;
+    box-shadow: 0 0 0 4px oklch(0.715 0.132 55 / 0.15);
   }
 
-  @keyframes pulse {
-    0% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--ember) 60%, transparent); }
-    60%, 100% { box-shadow: 0 0 0 9px oklch(0.715 0.132 55 / 0); }
-  }
 
   .column ul {
     display: grid;

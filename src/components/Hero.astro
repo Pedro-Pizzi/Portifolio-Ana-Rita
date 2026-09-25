@@ -1,235 +1,147 @@
 ---
 import { Image } from 'astro:assets';
 import portrait from '../assets/images/retrato-estudio.webp';
-import { site } from '../data/site';
+import letters from '../assets/images/mesa-letras.webp';
+import { site, links } from '../data/site';
 
 const credentials = [
-  'Pedagogia — FAIBI Ibitinga',
-  'Psicopedagogia — PUC Minas',
-  'Clínica Evolução + rede pública',
-  'Pós em ABA/TEA e Neurociências (em curso)',
+  { title: 'Pedagogia', detail: 'FAIBI · Ibitinga' },
+  { title: 'Psicopedagogia', detail: 'PUC Minas' },
+  { title: 'Da clínica à escola', detail: 'Clínica Evolução · Rede pública' },
 ];
 ---
 
 <section class="hero on-dark" id="topo" aria-labelledby="hero-title">
   <div class="hero-glow" aria-hidden="true"></div>
-
   <div class="shell hero-inner">
     <div class="hero-copy">
-      <p class="signature" data-reveal>{site.tagline}</p>
-
-      <h1 id="hero-title" data-reveal data-delay="1">
-        Inclusão no aprender, <br />
-        no brincar <br />
-        <span class="em">e no viver.</span>
-      </h1>
-
-      <p class="lede" data-reveal data-delay="2">
-        Sou Ana Rita Marques, pedagoga e psicopedagoga. Atendo em clínica e acompanho
-        a sala de aula da rede pública construindo estratégias reais para cada
-        criança — material concreto, rotina previsível e regulação sensorial.
+      <p class="hero-eyebrow"><span aria-hidden="true"></span>{site.tagline}</p>
+      <h1 id="hero-title">Aprender.<br />Brincar.<br /><span class="hero-em">Pertencer.</span></h1>
+      <p class="hero-intro">Cada criança, um caminho possível.</p>
+      <p class="hero-description">
+        Sou <strong>Ana Rita Marques</strong>, pedagoga e psicopedagoga.
+        Na clínica e na escola, transformo ciência e acolhimento em
+        estratégias para cada criança aprender do seu jeito.
       </p>
-
-      <div class="btn-row hero-actions" data-reveal data-delay="3">
-        <a class="btn btn-primary" href="#contato">
-          Falar comigo
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-            <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
+      <div class="hero-actions">
+        <a class="btn btn-ember" href="#contato">
+          Vamos conversar
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round" /></svg>
         </a>
-        <a class="btn btn-ghost-dark" href="#sistema-ana">Conhecer o Sistema A.N.A.</a>
+        <a class="hero-link" href="#pratica">Conheça meu trabalho <span aria-hidden="true">↓</span></a>
       </div>
     </div>
 
-    <figure class="hero-portrait" data-reveal="blur" data-delay="2">
-      <div class="portrait-frame">
-        <Image
-          src={portrait}
-          alt="Ana Rita Marques sorrindo, de colete cinza com o logo da Clínica Evolução, em frente a um fundo claro"
-          widths={[360, 540, 720, 900]}
-          sizes="(max-width: 960px) 300px, 30vw"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </div>
-      <figcaption>
-        <span class="handle">{site.handle}</span>
-        <span class="handle-note">Conteúdo diário sobre inclusão, para famílias e escolas</span>
-      </figcaption>
-    </figure>
+    <div class="hero-visual">
+      <div class="portrait-orbit" aria-hidden="true"></div>
+      <span class="portrait-note" aria-hidden="true">Um olhar atento.<br />Muitas possibilidades.</span>
+      <figure class="hero-portrait">
+        <div class="portrait-frame">
+          <Image
+            src={portrait}
+            alt="Ana Rita Marques sorrindo, com o colete da Clínica Evolução"
+            widths={[360, 540, 720, 960]}
+            sizes="(max-width: 600px) 78vw, (max-width: 960px) 52vw, 38vw"
+            loading="eager" fetchpriority="high" decoding="async"
+          />
+        </div>
+        <figcaption>
+          <span class="portrait-name">Ana Rita Marques</span>
+          <span class="portrait-role">Pedagoga & psicopedagoga</span>
+        </figcaption>
+      </figure>
+      <figure class="material-note">
+        <Image src={letters} alt="Letras móveis coloridas sobre uma mesa de atividades" widths={[220, 360]} sizes="(max-width: 600px) 120px, 180px" loading="eager" decoding="async" />
+        <figcaption>O brincar abre caminhos.</figcaption>
+      </figure>
+      <a class="hero-social" href={links.instagram} target="_blank" rel="noopener">
+        {site.handle}<span aria-hidden="true">↗</span>
+      </a>
+    </div>
   </div>
 
   <div class="shell">
-    <ul class="credentials" data-reveal data-delay="4">
-      {credentials.map((c) => <li>{c}</li>)}
-    </ul>
+    <div class="hero-bottom">
+      <ul class="credentials" aria-label="Formação e atuação">
+        {credentials.map((credential) => <li><span>{credential.title}</span><small>{credential.detail}</small></li>)}
+      </ul>
+      <a class="scroll-cue" href="#trajetoria" aria-label="Minha história"><span>Minha história</span><span class="scroll-arrow" aria-hidden="true">↓</span></a>
+    </div>
   </div>
 </section>
 
 <style>
-  .hero {
-    position: relative;
-    padding-top: clamp(7.5rem, 15vh, 11rem);
-    padding-bottom: var(--sp-l);
-    overflow: clip;
-  }
-
-  /* Luz difusa atrás do retrato — estática, sem blob animado */
-  .hero-glow {
-    position: absolute;
-    top: -18%;
-    right: -8%;
-    width: min(60vw, 780px);
-    aspect-ratio: 1;
-    background: radial-gradient(
-      circle,
-      oklch(0.505 0.147 304 / 0.42) 0%,
-      oklch(0.505 0.147 304 / 0.12) 42%,
-      transparent 68%
-    );
-    pointer-events: none;
-  }
-
-  .hero-inner {
-    position: relative;
-    z-index: var(--z-raised);
-    display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
-    gap: clamp(2rem, 6vw, 5.5rem);
-    align-items: center;
-    padding-bottom: var(--sp-xl);
-  }
-
-  .hero-copy .signature {
-    margin-bottom: var(--sp-m);
-  }
-
-  .hero h1 {
-    font-weight: 580;
-  }
-
-  .hero .lede {
-    margin-top: var(--sp-m);
-    color: var(--on-dark-soft);
-  }
-
-  .hero-actions {
-    margin-top: var(--sp-l);
-  }
-
-  /* -------------------------------------------------------------- retrato */
-  .hero-portrait {
-    display: grid;
-    gap: var(--sp-s);
-  }
-
-  .portrait-frame {
-    position: relative;
-    aspect-ratio: 3 / 4;
-    overflow: hidden;
-    /* arco no topo: gesto de livro/retrato, não card genérico */
-    border-radius: 50vw 50vw var(--r-m) var(--r-m);
-    background: var(--ink-700);
-    box-shadow: 0 40px 80px -30px oklch(0 0 0 / 0.7);
-  }
-
-  .portrait-frame::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    border: 1px solid oklch(1 0 0 / 0.16);
-    pointer-events: none;
-  }
-
-  .portrait-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 22%;
-  }
-
-  .hero-portrait figcaption {
-    display: grid;
-    gap: 3px;
-  }
-
-  .handle {
-    font-family: var(--font-text);
-    font-size: var(--step--1);
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    color: var(--violet-300);
-  }
-
-  .handle-note {
-    font-size: var(--step--2);
-    line-height: 1.5;
-    color: var(--on-dark-faint);
-  }
-
-  /* --------------------------------------------------------- credenciais */
-  .credentials {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sp-2xs) 0;
-    padding-top: var(--sp-m);
-    border-top: 1px solid var(--rule-dark);
-    font-size: var(--step--2);
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    color: var(--on-dark-faint);
-  }
-
-  .credentials li {
-    padding-inline: clamp(0.75rem, 2vw, 1.6rem);
-  }
-
-  .credentials li:first-child {
-    padding-left: 0;
-  }
-
-  .credentials li + li {
-    border-left: 1px solid var(--rule-dark);
-  }
-
+  .hero { position: relative; overflow: clip; padding-top: clamp(8rem, 10vw, 9rem); padding-bottom: 1.75rem; }
+  .hero-glow { position: absolute; inset: 0 0 auto auto; width: 70%; height: 90%; background: radial-gradient(ellipse at 70% 40%, oklch(0.39 0.085 309 / .45), transparent 68%); pointer-events: none; }
+  .hero-inner { position: relative; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; gap: clamp(3rem, 6vw, 6rem); padding-bottom: 4rem; }
+  .hero-eyebrow { display: flex; align-items: center; gap: .75rem; font-size: .7rem; font-weight: 550; letter-spacing: .15em; text-transform: uppercase; margin-bottom: 1.75rem; }
+  .hero-eyebrow span { width: 7px; height: 7px; flex: none; background: var(--ember); border-radius: 50%; box-shadow: 0 0 0 5px oklch(0.715 0.132 55 / .1); }
+  .hero h1 { font-size: clamp(4.25rem, 6.7vw, 6.15rem); line-height: .96; font-weight: 520; letter-spacing: -.045em; }
+  .hero-em { display: inline-block; position: relative; color: var(--violet-300); font-style: italic; font-weight: 450; }
+  .hero-em::after { content: ''; position: absolute; height: .1em; border-top: 1px solid var(--ember); border-radius: 50%; bottom: -.05em; left: 2%; width: 100%; transform: rotate(-3deg); }
+  .hero .hero-intro { margin-top: 2rem; font-family: var(--font-display); font-size: clamp(1.35rem, 1.8vw, 1.65rem); line-height: 1.3; color: var(--on-dark); }
+  .hero-description { margin-top: .85rem; max-width: 45ch; font-size: 1rem; line-height: 1.75; }
+  .hero-description strong { color: var(--on-dark); font-weight: 550; }
+  .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 1.75rem; margin-top: 2rem; }
+  .hero-link { display: inline-flex; align-items: center; gap: 1rem; min-height: 44px; font-size: .85rem; text-decoration-thickness: 1px; text-underline-offset: .4em; text-decoration-color: var(--rule-dark); }
+  .hero-link span { font-size: 1.3rem; transition: transform 200ms var(--ease-out-quart); }
+  .hero-visual { position: relative; min-width: 0; padding: 2rem 0 0 1.5rem; }
+  .hero-portrait { position: relative; margin-left: 1.75rem; }
+  .portrait-frame { position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 9rem 1rem 1rem 1rem; background: var(--ink-700); transform: rotate(2deg); box-shadow: 0 28px 70px -35px oklch(.1 .04 312 / .75); }
+  .portrait-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+  .hero-portrait figcaption { position: absolute; bottom: 1.1rem; right: 1rem; display: grid; gap: .15rem; padding: .9rem 1.1rem; background: oklch(.205 .039 312 / .92); color: var(--on-dark); border-radius: .4rem; transform: rotate(2deg); }
+  .portrait-name { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.15; }
+  .portrait-role { font-size: .65rem; letter-spacing: .035em; color: var(--on-dark-soft); }
+  .portrait-orbit { position: absolute; inset: -1rem -.9rem 1rem .5rem; border: 1px solid oklch(.805 .078 305 / .22); border-radius: 50% 48% 46% 50%; transform: rotate(-14deg); pointer-events: none; }
+  .portrait-orbit::after { content: ''; position: absolute; right: 8%; top: 18%; width: .7rem; height: .7rem; background: var(--ember); border-radius: 50%; }
+  .portrait-note { position: absolute; z-index: 1; top: -.9rem; right: .5rem; font-family: var(--font-display); font-style: italic; font-size: 1.2rem; line-height: 1.25; color: var(--violet-300); transform: rotate(6deg); }
+  .material-note { position: absolute; left: -1.75rem; bottom: .9rem; width: clamp(140px, 14vw, 190px); padding: .5rem .5rem .65rem; background: var(--paper); color: var(--on-light); transform: rotate(-9deg); box-shadow: 0 18px 35px -20px oklch(.1 .04 312 / .8); }
+  .material-note img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; }
+  .material-note figcaption { font-family: var(--font-display); font-style: italic; font-size: .85rem; text-align: center; padding-top: .45rem; }
+  .hero-social { display: flex; justify-content: flex-end; align-items: center; gap: 1rem; min-height: 44px; margin-top: 1.2rem; padding-right: .5rem; font-size: .7rem; color: var(--on-dark-soft); text-decoration: none; }
+  .hero-social span { color: var(--ember); font-size: 1rem; }
+  .hero-bottom { display: flex; align-items: center; justify-content: space-between; gap: 2rem; border-top: 1px solid var(--rule-dark); padding-top: 1.6rem; }
+  .credentials { display: flex; flex-wrap: wrap; gap: 1.5rem clamp(2rem, 5vw, 5rem); }
+  .credentials li { display: grid; gap: .15rem; }
+  .credentials li > span { font-size: .8rem; font-weight: 550; }
+  .credentials small { font-size: .68rem; color: var(--on-dark-faint); letter-spacing: .035em; }
+  .scroll-cue { display: flex; align-items: center; gap: .9rem; text-decoration: none; font-size: .75rem; color: var(--on-dark-soft); white-space: nowrap; }
+  .scroll-arrow { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid var(--rule-dark); border-radius: 50%; font-size: 1.2rem; transition: transform 200ms ease-out; }
+  @media (hover: hover) and (pointer: fine) { .hero-link:hover span, .scroll-cue:hover .scroll-arrow { transform: translateY(3px); } .hero-social:hover { color: var(--on-dark); } }
   @media (max-width: 960px) {
-    .hero-inner {
-      grid-template-columns: 1fr;
-      gap: var(--sp-l);
-    }
-
-    .hero-portrait {
-      order: -1;
-      max-width: 300px;
-    }
-
-    .portrait-frame {
-      aspect-ratio: 1;
-      border-radius: 50vw;
-    }
-
-    .credentials li,
-    .credentials li:first-child {
-      padding-left: 0;
-      padding-right: 0;
-      flex: 1 1 100%;
-      border-left: 0;
-    }
-
-    .credentials li + li {
-      border-left: 0;
-      border-top: 1px solid var(--rule-dark);
-      padding-top: var(--sp-2xs);
-      margin-top: var(--sp-2xs);
-    }
+    .hero-inner { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .hero h1 { font-size: clamp(3.5rem, 8.8vw, 5.5rem); }
+    .hero-visual { padding-left: 0; }
+    .hero-portrait { margin-left: 0; }
+    .material-note { width: 135px; left: -1rem; bottom: 1.5rem; }
+    .hero-portrait figcaption { bottom: 1.5rem; right: .4rem; padding: .65rem; }
+    .portrait-name { font-size: 1rem; }
+    .portrait-role { font-size: .55rem; }
+    .portrait-orbit { inset: -1rem -1rem 2rem -1rem; }
+    .hero-actions { gap: .75rem 1.25rem; }
+    .scroll-cue > span:first-child { display: none; }
   }
-
-  @media (max-width: 480px) {
-    .hero-actions .btn {
-      flex: 1 1 100%;
-      justify-content: center;
-    }
+  @media (max-width: 700px) {
+    .hero { padding-top: 7.5rem; }
+    .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; padding-bottom: 2.5rem; }
+    .hero h1 { font-size: clamp(4rem, 15.5vw, 6rem); }
+    .hero-eyebrow { font-size: .6rem; letter-spacing: .1em; margin-bottom: 1.5rem; }
+    .hero-description { max-width: 40ch; font-size: .9rem; line-height: 1.65; }
+    .hero .hero-intro { font-size: 1.25rem; margin-top: 1.5rem; }
+    .hero-actions { gap: 1rem; margin-top: 1.5rem; }
+    .hero-actions .btn { padding-inline: 1.2em; font-size: .8rem; }
+    .hero-link { gap: .5rem; font-size: .75rem; }
+    .hero-visual { width: min(83%, 360px); justify-self: center; padding-top: .75rem; margin-top: 1rem; }
+    .portrait-frame { border-top-left-radius: 6rem; }
+    .portrait-note { top: -2rem; font-size: 1.05rem; }
+    .material-note { left: -1.6rem; width: 135px; bottom: 1.5rem; }
+    .hero-portrait figcaption { bottom: 1rem; right: .5rem; }
+    .portrait-orbit { inset: -.75rem -.7rem 1.5rem -.8rem; }
+    .hero-social { font-size: .65rem; }
+    .hero-bottom { align-items: end; gap: .5rem; }
+    .credentials { gap: 1rem 1.4rem; }
+    .credentials li > span { font-size: .73rem; }
+    .credentials small { font-size: .62rem; }
+    .scroll-cue { align-self: end; }
   }
 </style>

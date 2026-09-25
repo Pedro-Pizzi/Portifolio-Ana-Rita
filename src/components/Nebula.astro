@@ -139,6 +139,8 @@ const coupon = 'diariodeumaproinclusiva';
   .coupon-code {
     display: inline-flex;
     align-items: center;
+    flex-wrap: wrap;
+    max-width: 100%;
     gap: var(--sp-s);
     padding: 0.7rem 0.75rem 0.7rem 1rem;
     background: transparent;
@@ -159,6 +161,7 @@ const coupon = 'diariodeumaproinclusiva';
     font-family: var(--font-text);
     font-size: var(--step-0);
     font-weight: 650;
+    overflow-wrap: anywhere;
     letter-spacing: 0.01em;
     color: var(--on-light);
   }

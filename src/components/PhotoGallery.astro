@@ -1,0 +1,128 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props { shots: { img: ImageMetadata; alt: string; caption: string; span: string }[]; }
+const { shots } = Astro.props;
+---
+<div class="gallery" data-gallery>
+  <div class="gallery-heading">
+    <h3>O cuidado ganha forma <span class="em">nos detalhes.</span></h3>
+    <p>Registros da prática <span aria-hidden="true">↗</span><small>Toque nas fotos para explorar</small></p>
+  </div>
+  <div class="mosaic">
+    {shots.map((shot, i) => (
+      <figure class={`shot shot-${shot.span}`} data-reveal>
+        <a class="photo-link" href={shot.img.src} data-photo data-alt={shot.alt} data-caption={shot.caption} aria-label={`Ampliar foto: ${shot.caption}`}>
+          <Image src={shot.img} alt={shot.alt} widths={[420, 640, 900]} sizes="(max-width: 600px) 90vw, (max-width: 1000px) 44vw, 48vw" loading="lazy" decoding="async" />
+          <span class="photo-expand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 4H4v4m12-4h4v4M4 16v4h4m12-4v4h-4M4 4l5 5m11-5-5 5M4 20l5-5m11 5-5-5" /></svg></span>
+          <span class="photo-number" aria-hidden="true">0{i + 1}</span>
+        </a>
+        <figcaption>{shot.caption}</figcaption>
+      </figure>
+    ))}
+  </div>
+
+  <dialog class="photo-dialog" aria-labelledby="gallery-title" data-gallery-dialog>
+    <div class="viewer">
+      <header class="viewer-header"><p id="gallery-title">Um olhar para a prática</p><button class="viewer-control viewer-close" type="button" data-gallery-close aria-label="Fechar galeria" autofocus><span aria-hidden="true">×</span></button></header>
+      <figure class="viewer-figure">
+        <img data-gallery-image width={shots[0].img.width} height={shots[0].img.height} alt="" />
+        <figcaption data-gallery-caption></figcaption>
+      </figure>
+      <div class="viewer-footer">
+        <p data-gallery-count aria-live="polite" aria-atomic="true"></p>
+        <div class="viewer-controls">
+          <button class="viewer-control" type="button" data-gallery-prev aria-label="Foto anterior"><span aria-hidden="true">←</span></button>
+          <button class="viewer-control" type="button" data-gallery-next aria-label="Próxima foto"><span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((gallery) => {
+    const photos = Array.from(gallery.querySelectorAll<HTMLAnchorElement>('[data-photo]'));
+    const dialog = gallery.querySelector<HTMLDialogElement>('[data-gallery-dialog]');
+    const image = gallery.querySelector<HTMLImageElement>('[data-gallery-image]');
+    const caption = gallery.querySelector<HTMLElement>('[data-gallery-caption]');
+    const count = gallery.querySelector<HTMLElement>('[data-gallery-count]');
+    if (!dialog || !image || !caption || !count || typeof dialog.showModal !== 'function') return;
+    let current = 0;
+    let previousOverflow = '';
+    const showPhoto = (index: number) => {
+      current = (index + photos.length) % photos.length;
+      const photo = photos[current];
+      image.src = photo.href;
+      image.alt = photo.dataset.alt ?? '';
+      caption.textContent = photo.dataset.caption ?? '';
+      count.textContent = `${current + 1} / ${photos.length}`;
+    };
+    photos.forEach((photo, index) => photo.addEventListener('click', (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      showPhoto(index);
+      previousOverflow = document.body.style.overflow;
+      dialog.showModal();
+      document.body.style.overflow = 'hidden';
+    }));
+    gallery.querySelector('[data-gallery-close]')?.addEventListener('click', () => dialog.close());
+    gallery.querySelector('[data-gallery-prev]')?.addEventListener('click', () => showPhoto(current - 1));
+    gallery.querySelector('[data-gallery-next]')?.addEventListener('click', () => showPhoto(current + 1));
+    dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+    dialog.addEventListener('close', () => { document.body.style.overflow = previousOverflow; });
+    dialog.addEventListener('keydown', event => {
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        showPhoto(current + (event.key === 'ArrowLeft' ? -1 : 1));
+      }
+    });
+  });
+</script>
+
+<style>
+  .gallery { margin-top: clamp(3.5rem, 7vw, 6rem); padding-top: 2.5rem; border-top: 1px solid var(--rule-dark); }
+  .gallery-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
+  .gallery-heading h3 { max-width: 21ch; font-size: clamp(1.8rem, 3vw, 2.7rem); font-weight: 500; }
+  .gallery-heading .em { color: var(--violet-300); }
+  .gallery-heading > p { font-size: .8rem; text-align: right; }
+  .gallery-heading p > span { margin-left: 1rem; color: var(--ember); }
+  .gallery-heading small { display: block; color: var(--on-dark-faint); font-size: .7rem; margin-top: .2rem; }
+  .mosaic { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem 2rem; align-items: start; }
+  .shot { min-width: 0; }
+  .shot-b { padding-top: 3.75rem; }
+  .shot-d { padding-top: 3.75rem; }
+  .photo-link { display: block; position: relative; overflow: hidden; border-radius: .65rem; aspect-ratio: 3 / 2; background: var(--ink-700); }
+  .photo-link img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms var(--ease-out-quart); }
+  .photo-expand { position: absolute; bottom: .85rem; right: .85rem; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: var(--paper); color: var(--on-light); transition: transform 200ms ease-out; }
+  .photo-expand svg { width: 19px; height: 19px; }
+  .photo-number { position: absolute; top: .85rem; left: .85rem; padding: .2rem .5rem; border-radius: .2rem; background: oklch(.205 .039 312 / .85); color: var(--on-dark); font-size: .7rem; font-variant-numeric: tabular-nums; }
+  .shot figcaption { max-width: 47ch; margin-top: .8rem; font-size: .78rem; line-height: 1.5; color: var(--on-dark-soft); }
+  .photo-link:focus-visible { outline-offset: 5px; }
+  @media (hover: hover) and (pointer: fine) { .photo-link:hover img { transform: scale(1.035); } .photo-link:hover .photo-expand { transform: rotate(90deg); } }
+  .photo-dialog { position: fixed; inset: 0; width: min(100% - 2rem, 1100px); max-width: none; max-height: calc(100dvh - 2rem); margin: auto; padding: 1.5rem 2rem; border: 1px solid var(--rule-dark); border-radius: 1rem; background: var(--ink-900); color: var(--on-dark); overflow: auto; }
+  .photo-dialog::backdrop { background: oklch(.1 .02 312 / .88); }
+  .photo-dialog[open] { animation: viewer-enter 180ms ease-out; }
+  .viewer-header, .viewer-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .viewer-header { margin-bottom: 1rem; }
+  .viewer-header p { font-family: var(--font-display); font-size: 1.35rem; }
+  .viewer-figure img { width: 100%; height: min(62dvh, 660px); object-fit: contain; }
+  .viewer-figure figcaption { padding-top: 1rem; font-size: .9rem; color: var(--on-dark-soft); }
+  .viewer-footer { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--rule-dark); }
+  .viewer-footer > p { font-size: .8rem; font-variant-numeric: tabular-nums; color: var(--violet-300); }
+  .viewer-controls { display: flex; gap: .6rem; }
+  .viewer-control { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--rule-dark); border-radius: 50%; background: transparent; color: var(--on-dark); font-size: 1.35rem; cursor: pointer; transition: background-color 160ms ease-out, transform 160ms ease-out; }
+  .viewer-control:hover { background: var(--ink-700); }
+  .viewer-control:active { transform: scale(.96); }
+  .viewer-close { font-size: 1.8rem; }
+  @keyframes viewer-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (max-width: 600px) {
+    .gallery-heading { align-items: start; flex-direction: column; gap: 1rem; }
+    .gallery-heading > p { text-align: left; }
+    .mosaic { grid-template-columns: 1fr; gap: 1.75rem; }
+    .shot-b, .shot-d { padding-top: 0; }
+    .photo-dialog { padding: 1rem; }
+    .viewer-figure img { height: min(55dvh, 450px); }
+    .viewer-header p { font-size: 1.1rem; }
+  }
+</style>

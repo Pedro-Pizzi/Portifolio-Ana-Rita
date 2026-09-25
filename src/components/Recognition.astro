@@ -11,6 +11,7 @@ const situations = [
 <section class="reco on-light band" aria-labelledby="reco-title">
   <div class="shell reco-inner">
     <header class="reco-head">
+      <p class="section-kicker" data-reveal>Para famílias e educadores</p>
       <h2 id="reco-title" data-reveal>
         Talvez você já tenha <br />
         <span class="em-violet">tentado de tudo.</span>
@@ -42,13 +43,13 @@ const situations = [
     display: grid;
     grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
     gap: clamp(2rem, 6vw, 5rem);
-    align-items: start;
+    align-items: stretch;
   }
+
+  .reco-head { align-self: start; position: sticky; top: 8rem; }
 
   .reco-head h2 {
     font-size: var(--step-4);
-    position: sticky;
-    top: 8rem;
   }
 
   .situations {
@@ -103,7 +104,7 @@ const situations = [
       grid-template-columns: 1fr;
     }
 
-    .reco-head h2 {
+    .reco-head {
       position: static;
     }
 

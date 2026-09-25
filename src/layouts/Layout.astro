@@ -71,14 +71,6 @@ const jsonLd = {
 
     <script is:inline set:html={JSON.stringify(jsonLd)} type="application/ld+json" />
 
-    {/* Arma o motion antes da primeira pintura, para não haver flash de conteúdo.
-        Se a aba já nasce oculta, nem arma: transição em aba oculta congela e o
-        conteúdo ficaria invisível. */}
-    <script is:inline>
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && !document.hidden) {
-        document.documentElement.classList.add('js');
-      }
-    </script>
   </head>
 
   <body>
@@ -103,122 +95,240 @@ const jsonLd = {
           type="button"
           aria-expanded="false"
           aria-controls="menu-mobile"
+          aria-haspopup="dialog"
           data-menu-open
         >
           <span class="nav-toggle-bars" aria-hidden="true"><i></i><i></i></span>
           <span class="visually-hidden">Abrir menu</span>
         </button>
       </div>
+      <span class="scroll-progress" data-scroll-progress aria-hidden="true"></span>
     </header>
 
-    <div class="menu" id="menu-mobile" hidden data-menu>
+    <dialog class="menu" id="menu-mobile" aria-label="Menu de navegação" data-menu>
       <div class="menu-head shell">
         <span class="brand-name">Ana Rita</span>
-        <button class="nav-toggle nav-toggle-close" type="button" data-menu-close>
+        <button class="nav-toggle nav-toggle-close" type="button" data-menu-close autofocus>
           <span class="nav-toggle-bars is-x" aria-hidden="true"><i></i><i></i></span>
           <span class="visually-hidden">Fechar menu</span>
         </button>
       </div>
       <nav class="menu-list shell" aria-label="Navegação principal (celular)">
-        {nav.map((item, i) => (
-          <a class="menu-link" href={item.href} style={`--i:${i}`}>{item.label}</a>
+        {nav.map((item) => (
+          <a class="menu-link" href={item.href}>{item.label}</a>
         ))}
-        <a class="menu-link" href="#contato" style={`--i:${nav.length}`}>Contato</a>
+        <a class="menu-link" href="#contato">Contato</a>
       </nav>
       <div class="menu-foot shell">
         <a href={links.instagram} target="_blank" rel="noopener">{site.handle}</a>
       </div>
-    </div>
+    </dialog>
 
     <slot />
 
     <script>
-      // ---------------------------------------------------------------- menu
-      const menu = document.querySelector<HTMLElement>('[data-menu]');
-      const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
-      const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const runningAnimations = new Set<Animation>();
 
-      if (menu && openBtn && closeBtn) {
-        const setMenu = (open: boolean) => {
-          menu.toggleAttribute('hidden', !open);
-          // deixa o browser aplicar `hidden` antes de animar a entrada
-          requestAnimationFrame(() => menu.classList.toggle('is-open', open));
-          openBtn.setAttribute('aria-expanded', String(open));
-          document.body.style.overflow = open ? 'hidden' : '';
-          if (open) closeBtn.focus();
-          else openBtn.focus();
-        };
-
-        openBtn.addEventListener('click', () => setMenu(true));
-        closeBtn.addEventListener('click', () => setMenu(false));
-        menu.addEventListener('click', (e) => {
-          if ((e.target as HTMLElement).closest('a')) setMenu(false);
-        });
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && !menu.hasAttribute('hidden')) setMenu(false);
-        });
-      }
-
-      // ------------------------------------------------------- topbar sólida
-      const topbar = document.querySelector<HTMLElement>('[data-topbar]');
-      if (topbar) {
-        const sentinel = document.createElement('div');
-        sentinel.setAttribute('aria-hidden', 'true');
-        sentinel.style.cssText = 'position:absolute;top:0;left:0;width:1px;height:80px;pointer-events:none';
-        document.body.prepend(sentinel);
-        new IntersectionObserver(
-          ([entry]) => topbar.classList.toggle('is-stuck', !entry.isIntersecting),
-          { threshold: 0 },
-        ).observe(sentinel);
-      }
-
-      // ------------------------------------------------------------- reveals
-      const root = document.documentElement;
-      const revealables = document.querySelectorAll<HTMLElement>('[data-reveal]');
-
-      // Desarma o sistema inteiro: sem a classe `js` as regras de reveal não
-      // casam, então a opacidade volta a 1 sem depender de transição alguma.
-      // É a única saída segura quando a transição está congelada.
-      const disableMotion = () => {
-        root.classList.remove('js');
-        revealables.forEach((el) => el.classList.add('is-in'));
+      // O estado natural é sempre visível. A animação não deixa estilos finais.
+      const animateIn = (element: HTMLElement, distance = 18, duration = 520) => {
+        if (reducedMotion.matches || document.hidden || typeof element.animate !== 'function') return;
+        const animation = element.animate(
+          [
+            { opacity: 0.25, translate: '0 ' + distance + 'px' },
+            { opacity: 1, translate: '0 0' },
+          ],
+          { duration, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'none' },
+        );
+        runningAnimations.add(animation);
+        const forget = () => runningAnimations.delete(animation);
+        animation.addEventListener('finish', forget, { once: true });
+        animation.addEventListener('cancel', forget, { once: true });
+      };
+      const finishMotion = () => {
+        runningAnimations.forEach((animation) => animation.cancel());
+        runningAnimations.clear();
       };
 
-      if (!root.classList.contains('js') || !('IntersectionObserver' in window)) {
-        disableMotion();
-      } else {
-        const io = new IntersectionObserver(
-          (entries) => {
+      // O dialog nativo contém o foco e torna o restante da página inerte.
+      const topbar = document.querySelector<HTMLElement>('[data-topbar]');
+      const menu = document.querySelector<HTMLDialogElement>('[data-menu]');
+      const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+      const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+      const desktop = window.matchMedia('(min-width: 861px)');
+
+      if (menu && openBtn && closeBtn && typeof menu.showModal === 'function') {
+        let previousBodyOverflow = '';
+        let previousRootOverflow = '';
+        let scrollLocked = false;
+        let destination: { section: HTMLElement; hash: string } | null = null;
+        let returnFocus: HTMLElement = openBtn;
+
+        const unlockScroll = () => {
+          if (!scrollLocked) return;
+          document.body.style.overflow = previousBodyOverflow;
+          document.documentElement.style.overflow = previousRootOverflow;
+          scrollLocked = false;
+        };
+
+        const focusDestination = (section: HTMLElement) => {
+          const heading = section.querySelector<HTMLElement>('h1, h2, h3') ?? section;
+          const hadTabindex = heading.hasAttribute('tabindex');
+          if (!hadTabindex) heading.setAttribute('tabindex', '-1');
+          heading.focus({ preventScroll: true });
+          if (!hadTabindex) {
+            heading.addEventListener('blur', () => heading.removeAttribute('tabindex'), { once: true });
+          }
+          section.scrollIntoView({ behavior: reducedMotion.matches ? 'instant' : 'smooth', block: 'start' });
+        };
+
+        openBtn.addEventListener('click', () => {
+          if (menu.open || desktop.matches) return;
+          returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : openBtn;
+          menu.showModal();
+          previousBodyOverflow = document.body.style.overflow;
+          previousRootOverflow = document.documentElement.style.overflow;
+          document.body.style.overflow = 'hidden';
+          document.documentElement.style.overflow = 'hidden';
+          scrollLocked = true;
+          openBtn.setAttribute('aria-expanded', 'true');
+          closeBtn.focus({ preventScroll: true });
+          animateIn(menu, 8, 260);
+        });
+
+        // Mantém o ciclo de Tab dentro dos controles, inclusive nas bordas.
+        menu.addEventListener('keydown', (event) => {
+          if (event.key !== 'Tab' || !menu.open) return;
+          const controls = Array.from(menu.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+          )).filter((element) => element.getClientRects().length > 0 && element.tabIndex >= 0);
+          const first = controls[0];
+          const last = controls.at(-1);
+          if (!first || !last) return;
+          const active = document.activeElement;
+          if (event.shiftKey && (active === first || !menu.contains(active))) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && (active === last || !menu.contains(active))) {
+            event.preventDefault();
+            first.focus();
+          }
+        });
+        closeBtn.addEventListener('click', () => menu.close());
+        // Escape usa o fechamento nativo; todos os caminhos passam por close.
+        menu.addEventListener('close', () => {
+          unlockScroll();
+          openBtn.setAttribute('aria-expanded', 'false');
+          if (destination) {
+            const { section, hash } = destination;
+            destination = null;
+            if (window.location.hash !== hash) history.pushState(null, '', hash);
+            focusDestination(section);
+          } else {
+            const target = returnFocus.getClientRects().length
+              ? returnFocus
+              : topbar?.querySelector<HTMLElement>('.brand');
+            target?.focus({ preventScroll: true });
+          }
+        });
+        menu.addEventListener('click', (event) => {
+          const link = (event.target as Element).closest<HTMLAnchorElement>('a');
+          if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+          if (link.hash && link.origin === location.origin && link.pathname === location.pathname) {
+            const section = document.getElementById(decodeURIComponent(link.hash.slice(1)));
+            if (section) {
+              event.preventDefault();
+              destination = { section, hash: link.hash };
+            }
+          }
+          menu.close();
+        });
+        desktop.addEventListener('change', () => {
+          if (desktop.matches && menu.open) menu.close();
+        });
+        window.addEventListener('pagehide', () => {
+          unlockScroll();
+          if (menu.open) menu.close();
+        });
+        topbar?.setAttribute('data-nav-ready', '');
+      }
+
+      // A seção ativa é calculada pela posição atual, em qualquer direção.
+      const navigationLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>(
+        '.nav-desktop a[href^="#"], .menu-list a[href^="#"]',
+      ));
+      const sectionIds = new Set(navigationLinks.map((link) => link.hash.slice(1)));
+      const sections = Array.from(document.querySelectorAll<HTMLElement>('main section[id]'))
+        .filter((section) => sectionIds.has(section.id));
+      const progress = document.querySelector<HTMLElement>('[data-scroll-progress]');
+      let viewportFrame = 0;
+      let currentSection = '';
+
+      const updateViewport = () => {
+        viewportFrame = 0;
+        const pageHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const fraction = pageHeight > 0 ? Math.min(1, Math.max(0, window.scrollY / pageHeight)) : 0;
+        if (progress) progress.style.transform = 'scaleX(' + fraction + ')';
+        topbar?.classList.toggle('is-stuck', window.scrollY > 40);
+
+        const readingLine = (topbar?.getBoundingClientRect().bottom ?? 80) + Math.min(120, window.innerHeight * 0.15);
+        let active = '';
+        for (const section of sections) {
+          if (section.getBoundingClientRect().top <= readingLine) active = section.id;
+        }
+        if (pageHeight > 0 && window.scrollY >= pageHeight - 4) active = sections.at(-1)?.id ?? active;
+        if (active === currentSection) return;
+        currentSection = active;
+        navigationLinks.forEach((link) => {
+          if (link.hash === '#' + active) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      };
+      const scheduleViewport = () => {
+        if (!viewportFrame) viewportFrame = requestAnimationFrame(updateViewport);
+      };
+      window.addEventListener('scroll', scheduleViewport, { passive: true });
+      window.addEventListener('resize', scheduleViewport);
+      window.addEventListener('hashchange', scheduleViewport);
+      if ('IntersectionObserver' in window) {
+        const navigationObserver = new IntersectionObserver(scheduleViewport, { threshold: [0, 0.25, 1] });
+        sections.forEach((section) => navigationObserver.observe(section));
+      }
+      if ('ResizeObserver' in window) new ResizeObserver(scheduleViewport).observe(document.body);
+      updateViewport();
+
+      // Só anima blocos abaixo da dobra inicial; o hero nunca fica oculto.
+      const pendingReveals = new Set(Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'))
+        .filter((element) => !element.closest('#topo') && element.getBoundingClientRect().top >= window.innerHeight));
+      const revealObserver = 'IntersectionObserver' in window
+        ? new IntersectionObserver((entries) => {
             for (const entry of entries) {
               if (!entry.isIntersecting) continue;
-              entry.target.classList.add('is-in');
-              io.unobserve(entry.target);
+              const element = entry.target as HTMLElement;
+              revealObserver?.unobserve(element);
+              pendingReveals.delete(element);
+              animateIn(element);
             }
-          },
-          { rootMargin: '0px 0px -8% 0px', threshold: 0.05 },
-        );
-        revealables.forEach((el) => io.observe(el));
-
-        // Aba oculta e impressão congelam transições: cai para estático.
-        document.addEventListener('visibilitychange', () => {
-          if (document.hidden) disableMotion();
+          }, { threshold: 0.08 })
+        : null;
+      const observeReveals = () => {
+        if (reducedMotion.matches || !revealObserver) return;
+        pendingReveals.forEach((element) => {
+          if (element.getBoundingClientRect().top < window.innerHeight) pendingReveals.delete(element);
+          else revealObserver.observe(element);
         });
-        window.addEventListener('beforeprint', disableMotion);
-
-        // Rede de segurança: se depois de 2s algo foi marcado como visível mas
-        // continua transparente (render headless, compositor parado), ou se o
-        // observer nunca disparou, a página passa a aparecer inteira.
-        setTimeout(() => {
-          const list = Array.from(revealables);
-          const anyRevealed = list.some((el) => el.classList.contains('is-in'));
-          const stuck = list.some(
-            (el) =>
-              el.classList.contains('is-in') &&
-              parseFloat(getComputedStyle(el).opacity) < 0.99,
-          );
-          if (!anyRevealed || stuck || document.hidden) disableMotion();
-        }, 2000);
-      }
+      };
+      reducedMotion.addEventListener('change', () => {
+        if (reducedMotion.matches) {
+          finishMotion();
+          revealObserver?.disconnect();
+        } else observeReveals();
+      });
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) finishMotion();
+      });
+      window.addEventListener('beforeprint', finishMotion);
+      observeReveals();
     </script>
 
     <style>
@@ -230,17 +340,26 @@ const jsonLd = {
         padding-block: clamp(0.9rem, 1.6vw, 1.35rem);
         transition:
           background-color 0.45s var(--ease-out-quart),
-          border-color 0.45s var(--ease-out-quart),
-          padding 0.45s var(--ease-out-quart);
+          border-color 0.45s var(--ease-out-quart);
         border-bottom: 1px solid transparent;
       }
 
       .topbar.is-stuck {
-        background: oklch(0.155 0.042 312 / 0.82);
+        background: oklch(0.205 0.039 312 / 0.92);
         backdrop-filter: blur(14px);
         -webkit-backdrop-filter: blur(14px);
         border-bottom-color: var(--rule-dark);
-        padding-block: 0.7rem;
+      }
+
+      .scroll-progress {
+        position: absolute;
+        inset: auto 0 -1px;
+        height: 2px;
+        background: var(--ember);
+        opacity: 0.8;
+        transform: scaleX(0);
+        transform-origin: left;
+        pointer-events: none;
       }
 
       .topbar-inner {
@@ -303,18 +422,25 @@ const jsonLd = {
       }
 
       .nav-link:hover,
-      .nav-link:focus-visible {
+      .nav-link:focus-visible,
+      .nav-link[aria-current='location'] {
         color: var(--on-dark);
       }
 
       .nav-link:hover::after,
-      .nav-link:focus-visible::after {
+      .nav-link:focus-visible::after,
+      .nav-link[aria-current='location']::after {
         transform: scaleX(1);
         transform-origin: left;
       }
 
       .nav-cta {
         padding: 0.7em 1.25em;
+        white-space: nowrap;
+      }
+
+      .nav-cta[aria-current='location'] {
+        box-shadow: 0 0 0 1px var(--ember);
       }
 
       /* ------------------------------------------------------- botão menu */
@@ -369,19 +495,31 @@ const jsonLd = {
         position: fixed;
         inset: 0;
         z-index: var(--z-menu);
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-        background: var(--ink-900);
-        opacity: 0;
-        transition: opacity 0.35s var(--ease-out-quart);
-      }
-
-      .menu[hidden] {
         display: none;
+        width: 100%;
+        max-width: none;
+        height: 100dvh;
+        max-height: none;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        background: var(--ink-900);
+        color: var(--on-dark);
       }
 
-      .menu.is-open {
-        opacity: 1;
+      .menu[open] {
+        display: grid;
+        grid-template-rows: auto minmax(min-content, 1fr) auto;
+      }
+
+      .menu::backdrop {
+        background: var(--ink-900);
+      }
+
+      .nav-toggle-close {
+        display: block;
       }
 
       .menu-head {
@@ -398,6 +536,7 @@ const jsonLd = {
         flex-direction: column;
         justify-content: center;
         gap: var(--sp-xs);
+        padding-block: var(--sp-l);
       }
 
       .menu-link {
@@ -407,19 +546,10 @@ const jsonLd = {
         letter-spacing: -0.02em;
         color: var(--on-dark);
         text-decoration: none;
-        opacity: 0;
-        transform: translateY(18px);
       }
 
-      .menu.is-open .menu-link {
-        opacity: 1;
-        transform: none;
-        transition:
-          opacity 0.5s var(--ease-out-expo) calc(90ms + var(--i) * 55ms),
-          transform 0.6s var(--ease-out-expo) calc(90ms + var(--i) * 55ms);
-      }
-
-      .menu-link:hover {
+      .menu-link:hover,
+      .menu-link[aria-current='location'] {
         color: var(--violet-300);
       }
 
@@ -436,19 +566,32 @@ const jsonLd = {
       }
 
       @media (max-width: 860px) {
+        /* Os links ficam disponíveis até o menu interativo estar pronto. */
+        .topbar-inner {
+          flex-wrap: wrap;
+        }
+
         .nav-desktop {
+          flex: 1 0 100%;
+          overflow-x: auto;
+          padding-block: 0.4rem;
+          gap: 1.2rem;
+        }
+
+        .nav-link {
+          flex: none;
+        }
+
+        .topbar[data-nav-ready] .topbar-inner {
+          flex-wrap: nowrap;
+        }
+
+        .topbar[data-nav-ready] .nav-desktop {
           display: none;
         }
 
-        .nav-toggle {
+        .topbar[data-nav-ready] .nav-toggle {
           display: block;
-        }
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        .menu-link {
-          opacity: 1;
-          transform: none;
         }
       }
     </style>
