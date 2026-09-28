@@ -1,198 +1,412 @@
 ---
 import { Image } from 'astro:assets';
+import nebulaCase from '../assets/images/nebula-estojo.webp';
 import nebulaHand from '../assets/images/nebula-mao.webp';
 import { links } from '../data/site';
 
 const coupon = 'diariodeumaproinclusiva';
+// Público e situações de uso conferidos na FAQ e na página inicial da marca em 28/09/2026.
+const moments = [
+  { title: 'Estudo e trabalho', text: 'Para os momentos que pedem concentração.' },
+  { title: 'Encontros e eventos', text: 'Para participar com mais conforto sonoro.' },
+  { title: 'Descanso e rotina', text: 'Para diminuir o excesso de barulho ao redor.' },
+];
 ---
 
-<section class="nebula on-light-2 band" aria-labelledby="nebula-title">
-  <div class="shell nebula-inner">
-    <figure class="nebula-post" data-reveal="blur">
-      <Image
-        src={nebulaHand}
-        alt="Ana Rita sorrindo enquanto segura o estojo dos protetores auditivos Nebula Audio, com a televisão ligada ao fundo"
-        widths={[420, 640, 900]}
-        sizes="(max-width: 900px) 92vw, 42vw"
-        loading="lazy"
-        decoding="async"
-      />
-      <figcaption>Ambiente barulhento em casa — o mesmo princípio da sala de aula</figcaption>
-    </figure>
+<section class="nebula on-light-2 band" id="nebula" aria-labelledby="nebula-title">
+  <div class="shell">
+    <header class="nebula-header" data-reveal>
+      <div>
+        <p class="nebula-role">Ana Rita Marques · Embaixadora</p>
+        <h2 id="nebula-title" class="nebula-brand">Nebula <span>Audio</span><span class="brand-dot" aria-hidden="true">.</span></h2>
+      </div>
+      <p class="nebula-signature">Menos ruído.<br /><span class="em-violet">Mais espaço para você.</span></p>
+    </header>
 
-    <div class="nebula-copy" data-reveal data-delay="1">
-      <p class="nebula-role">Embaixadora</p>
-      <h2 id="nebula-title">
-        Reduzir o ruído <br />
-        <span class="em-ember">é cuidado, não fuga.</span>
-      </h2>
-
-      <p class="prose">
-        Protetor auditivo não serve para parar de ouvir. Serve para tirar o
-        excesso e permitir que a pessoa continue presente — na sala de aula, na
-        festa de aniversário, no evento cheio. Uso com as crianças que atendo e
-        uso comigo.
-      </p>
-
-      <div class="coupon">
-        <div class="coupon-label">Cupom de desconto</div>
-        <button class="coupon-code" type="button" data-copy={coupon}>
-          <code>{coupon}</code>
-          <span class="coupon-state" data-copy-state aria-live="polite">Copiar</span>
-        </button>
+    <div class="nebula-inner">
+      <div class="nebula-visual" data-reveal>
+        <figure class="nebula-product">
+          <Image
+            src={nebulaCase}
+            alt="Estojo aberto da Nebula Audio na mão de Ana Rita, com a marca e os protetores auditivos visíveis"
+            widths={[360, 540, 720, 900]}
+            sizes="(max-width: 800px) 90vw, 44vw"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>Protetores auditivos Nebula Audio</figcaption>
+        </figure>
+        <div class="nebula-personal">
+          <Image
+            src={nebulaHand}
+            alt="Ana Rita apresentando o estojo da Nebula Audio em casa"
+            widths={[120, 180]}
+            sizes="80px"
+            loading="lazy"
+            decoding="async"
+          />
+          <p><span>Uma parceria do meu dia a dia.</span>Conforto sensorial também faz parte da minha rotina.</p>
+        </div>
       </div>
 
-      <div class="btn-row">
-        <a class="btn btn-ghost-light" href={links.nebula} target="_blank" rel="noopener">
-          Ver a Nebula Audio
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-            <path d="M7 17 17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round" />
+      <div class="nebula-copy" data-reveal>
+        <p class="nebula-audience">Para adultos e adolescentes <span>12+</span></p>
+        <h3>Seu dia, em um volume <span class="em-violet">mais confortável.</span></h3>
+        <p class="nebula-description">
+          Os protetores auditivos da Nebula Audio ajudam a reduzir a intensidade
+          dos sons. Uma forma de cuidar do conforto sonoro na sua rotina,
+          dos estudos ao trabalho, dos encontros aos momentos de descanso.
+        </p>
+
+        <ul class="nebula-moments" aria-label="Situações de uso">
+          {moments.map((moment) => (
+            <li>
+              <span class="moment-title">{moment.title}</span>
+              <span class="moment-text">{moment.text}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="nebula-actions">
+          <a class="btn btn-primary" href={links.nebula} target="_blank" rel="noopener">
+            Conhecer a Nebula Audio
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M7 17 17 7M9 7h8v8" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a class="nebula-compare" href={links.nebulaCompare} target="_blank" rel="noopener">Comparar modelos <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="nebula-guidance">
+          A marca recomenda o uso a partir dos 12 anos. Escolha o modelo e o
+          encaixe conforme as <a href={links.nebulaFaq} target="_blank" rel="noopener">orientações da Nebula</a>.
+        </p>
+      </div>
+    </div>
+
+    <div class="coupon" data-reveal>
+      <div class="coupon-intro">
+        <p class="coupon-label">Meu cupom na Nebula Audio</p>
+        <p class="coupon-description" id="nebula-coupon-help">Copie o código e use na loja da marca.</p>
+      </div>
+      <div class="coupon-action">
+        <button class="coupon-code" type="button" data-copy={coupon} aria-label={`Copiar cupom ${coupon}`} aria-describedby="nebula-coupon-help">
+          <code>{coupon}</code>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <rect x="8" y="8" width="12" height="13" rx="2" /><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3" />
           </svg>
-        </a>
+        </button>
+        <span class="coupon-state" data-copy-state role="status" aria-live="polite" aria-atomic="true">Toque no código para copiar</span>
       </div>
     </div>
   </div>
 </section>
 
 <script>
-  document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
-    const state = btn.querySelector<HTMLElement>('[data-copy-state]');
-    btn.addEventListener('click', async () => {
-      const value = btn.dataset.copy ?? '';
+  const couponButton = document.querySelector<HTMLButtonElement>('.nebula [data-copy]');
+  const couponState = document.querySelector<HTMLElement>('.nebula [data-copy-state]');
+  if (couponButton && couponState) {
+    let resetTimer: ReturnType<typeof setTimeout>;
+    couponButton.addEventListener('click', async () => {
+      clearTimeout(resetTimer);
       try {
-        await navigator.clipboard.writeText(value);
-        if (state) state.textContent = 'Copiado';
+        await navigator.clipboard.writeText(couponButton.dataset.copy ?? '');
+        couponState.textContent = 'Cupom copiado. Use na loja da Nebula.';
       } catch {
-        // Sem permissão de clipboard: seleciona para o usuário copiar à mão.
-        const code = btn.querySelector('code');
+        const code = couponButton.querySelector('code');
         if (code) {
           const range = document.createRange();
           range.selectNodeContents(code);
-          const sel = window.getSelection();
-          sel?.removeAllRanges();
-          sel?.addRange(range);
+          const selection = window.getSelection();
+          selection?.removeAllRanges();
+          selection?.addRange(range);
         }
-        if (state) state.textContent = 'Selecionado';
+        couponState.textContent = 'Código selecionado. Use a opção copiar do seu dispositivo.';
       }
-      btn.classList.add('is-copied');
-      setTimeout(() => {
-        btn.classList.remove('is-copied');
-        if (state) state.textContent = 'Copiar';
-      }, 2200);
+      resetTimer = setTimeout(() => {
+        couponState.textContent = 'Toque no código para copiar';
+      }, 5000);
     });
-  });
+  }
 </script>
 
 <style>
-  .nebula-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-    gap: clamp(2rem, 6vw, 5rem);
-    align-items: center;
+  .nebula {
+    background: #eae3f1;
   }
 
-  .nebula-post {
-    display: grid;
-    gap: var(--sp-xs);
-  }
-
-  .nebula-post img {
-    width: 100%;
-    height: auto;
-    border-radius: var(--r-m);
-    box-shadow: 0 26px 55px -30px oklch(0.235 0.038 310 / 0.5);
-  }
-
-  .nebula-post figcaption {
-    font-size: var(--step--2);
-    color: var(--on-light-soft);
+  .nebula-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-bottom: clamp(1.75rem, 4vw, 3rem);
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+    border-bottom: 1px solid var(--rule-light);
   }
 
   .nebula-role {
+    margin-bottom: 1rem;
     font-size: var(--step--2);
-    font-weight: 620;
-    letter-spacing: 0.14em;
+    letter-spacing: .11em;
     text-transform: uppercase;
-    color: var(--ember-text);
-    margin-bottom: var(--sp-s);
   }
 
-  .nebula h2 {
-    font-size: var(--step-4);
-    margin-bottom: var(--sp-m);
+  .nebula-brand {
+    font-family: var(--font-text);
+    font-size: clamp(2.5rem, 6.5vw, 5.7rem);
+    font-weight: 400;
+    letter-spacing: -.065em;
+    line-height: 1;
+    white-space: nowrap;
   }
 
-  /* ------------------------------------------------------------- cupom */
+  .nebula-brand > span:first-child {
+    font-weight: 650;
+  }
+
+  .brand-dot {
+    color: var(--violet-600);
+  }
+
+  .nebula-signature {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.7vw, 2.2rem);
+    line-height: 1.2;
+    letter-spacing: -.02em;
+  }
+
+  .nebula-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+
+  .nebula-visual, .nebula-copy {
+    min-width: 0;
+  }
+
+  .nebula-product {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--r-m);
+    background: var(--ink-800);
+  }
+
+  .nebula-product > img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.1;
+    object-fit: cover;
+  }
+
+  .nebula-product figcaption {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 2.5rem 1.25rem 1rem;
+    background: linear-gradient(transparent, oklch(.205 .039 312 / .92));
+    color: var(--on-dark);
+    font-size: var(--step--2);
+    letter-spacing: .035em;
+  }
+
+  .nebula-personal {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+
+  .nebula-personal img {
+    width: 80px;
+    height: 80px;
+    flex: none;
+    object-fit: cover;
+    object-position: center 25%;
+    border-radius: 50%;
+  }
+
+  .nebula-personal p {
+    max-width: 34ch;
+    font-size: var(--step--2);
+    line-height: 1.6;
+  }
+
+  .nebula-personal p > span {
+    display: block;
+    margin-bottom: .25rem;
+    color: var(--on-light);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .nebula-audience {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .65rem;
+    margin-bottom: 1.25rem;
+    font-size: var(--step--2);
+    font-weight: 600;
+  }
+
+  .nebula-audience span {
+    padding: .2rem .45rem;
+    background: var(--violet-700);
+    color: var(--on-dark);
+    border-radius: var(--r-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .nebula-copy h3 {
+    max-width: 20ch;
+    font-size: clamp(2rem, 3.3vw, 3rem);
+    line-height: 1.1;
+  }
+
+  .nebula-description {
+    margin-top: 1.25rem;
+    max-width: 50ch;
+    font-size: var(--step--1);
+    line-height: 1.75;
+  }
+
+  .nebula-moments {
+    display: grid;
+    margin-top: 1.5rem;
+  }
+
+  .nebula-moments li {
+    display: grid;
+    gap: .2rem;
+    padding-block: .8rem;
+    border-top: 1px solid var(--rule-light);
+  }
+
+  .moment-title {
+    color: var(--on-light);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .moment-text {
+    color: var(--on-light-soft);
+    font-size: var(--step--2);
+  }
+
+  .nebula-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .75rem 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .nebula-compare {
+    display: inline-flex;
+    align-items: center;
+    gap: .75rem;
+    min-height: 44px;
+    font-size: var(--step--2);
+    text-underline-offset: .3em;
+    text-decoration-color: var(--rule-light);
+  }
+
+  .nebula-guidance {
+    margin-top: 1rem;
+    font-size: var(--step--2);
+    line-height: 1.65;
+    max-width: 62ch;
+  }
+
+  .nebula-guidance a {
+    text-underline-offset: .2em;
+  }
+
   .coupon {
-    margin-top: var(--sp-l);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem 2rem;
+    margin-top: clamp(2rem, 4vw, 3.5rem);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border: 1px solid var(--rule-light);
+    border-radius: var(--r-m);
+    background: oklch(1 0 0 / .45);
   }
 
   .coupon-label {
-    font-size: var(--step--2);
-    font-weight: 620;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--on-light-soft);
-    margin-bottom: 0.55rem;
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: 1.2;
+  }
+
+  .coupon-description {
+    margin-top: .4rem;
+    font-size: var(--step--1);
+  }
+
+  .coupon-action {
+    width: min(100%, 26rem);
+    flex-shrink: 0;
   }
 
   .coupon-code {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    max-width: 100%;
-    gap: var(--sp-s);
-    padding: 0.7rem 0.75rem 0.7rem 1rem;
-    background: transparent;
-    border: 1px dashed color-mix(in oklch, var(--ember-deep) 55%, transparent);
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    min-height: 52px;
+    padding: .8rem 1rem;
+    border: 1px dashed var(--violet-600);
     border-radius: var(--r-s);
+    background: transparent;
+    color: var(--violet-700);
     cursor: pointer;
-    transition:
-      border-color 0.3s var(--ease-out-quart),
-      background-color 0.3s var(--ease-out-quart);
-  }
-
-  .coupon-code:hover {
-    border-color: var(--ember-deep);
-    background: color-mix(in oklch, var(--ember) 12%, transparent);
+    transition: background-color 180ms ease-out, transform 180ms ease-out;
   }
 
   .coupon-code code {
-    font-family: var(--font-text);
-    font-size: var(--step-0);
-    font-weight: 650;
+    min-width: 0;
     overflow-wrap: anywhere;
-    letter-spacing: 0.01em;
-    color: var(--on-light);
+    text-align: left;
+    font-family: var(--font-text);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .coupon-code svg {
+    flex: none;
+    width: 20px;
+    height: 20px;
+  }
+
+  .coupon-code:active {
+    transform: scale(.98);
   }
 
   .coupon-state {
-    padding: 0.25rem 0.6rem;
-    border-radius: var(--r-xs);
-    background: color-mix(in oklch, var(--ember) 26%, transparent);
-    color: var(--ember-text);
-    font-size: var(--step--2);
-    font-weight: 650;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    display: block;
+    min-height: 2.8em;
+    margin-top: .5rem;
+    font-size: .75rem;
+    line-height: 1.4;
+    color: var(--on-light-soft);
   }
 
-  .coupon-code.is-copied .coupon-state {
-    background: var(--ember);
-    color: oklch(0.21 0.05 45);
+  @media (hover: hover) and (pointer: fine) {
+    .coupon-code:hover { background: var(--violet-100); }
+    .nebula-compare:hover { text-decoration-color: currentColor; }
   }
 
-  .nebula .btn-row {
-    margin-top: var(--sp-l);
-  }
-
-  @media (max-width: 900px) {
-    .nebula-inner {
-      grid-template-columns: 1fr;
-    }
-
-    .nebula-post {
-      max-width: 460px;
-    }
+  @media (max-width: 800px) {
+    .nebula-header { align-items: start; flex-direction: column; gap: 1.5rem; }
+    .nebula-brand { font-size: clamp(2.5rem, 10vw, 4.5rem); }
+    .nebula-inner { grid-template-columns: 1fr; }
+    .nebula-product > img { aspect-ratio: 1.2; }
+    .nebula-copy h3 { max-width: 24ch; }
+    .coupon { flex-direction: column; align-items: stretch; }
+    .coupon-action { width: 100%; }
   }
 </style>

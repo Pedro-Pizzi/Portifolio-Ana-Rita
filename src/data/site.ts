@@ -21,6 +21,8 @@ export const links = {
     'https://www.google.com/search?q=Ana+Rita+Marques+-+Psicopedagoga+e+Apoio+Escolar',
   ana: 'https://anasistema.com.br',
   nebula: 'https://www.nebulaaudio.com.br/',
+  nebulaCompare: 'https://www.nebulaaudio.com.br/pages/compare-a-linha-quiet',
+  nebulaFaq: 'https://www.nebulaaudio.com.br/pages/nebula-audio-perguntas-frequentes-faq',
 } as const;
 
 export const nav = [
